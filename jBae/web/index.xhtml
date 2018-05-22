@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <head>
         <style>
@@ -13,6 +14,29 @@
             .account_bar {
                 text-align: right;
                 margin: 10px;
+                padding: 2px;
+                box-sizing: border-box;
+            }
+            
+            .account_bar_button{
+                float: right;
+                width: 10%;
+                padding: 7px;
+                background: #2196F3;
+                color: white;
+                font-size: 11px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
+            }
+            
+            .account_bar input[type=text] {
+                padding: 9px;
+                font-size: 11px;
+                border: 1px solid grey;
+                float: next;
+                width: 15%;
+                background: #f1f1f1;
             }
             header, footer {
                 padding: 1em;
@@ -21,19 +45,67 @@
                 clear: left;
                 text-align: center;
             }
-            .side_bar {
-                position: fixed;
+            
+            ul.topbar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
+            li.topbar {
                 float: left;
-                width: 10%;
-                margin: 5px;
-                padding: 1em;
+                border-right:1px solid #bbb;
             }
             
-            .side_bar a {
+            li.topbar-right {
+                float: right;
+                border-right:1px solid #bbb;
+            }
+            
+            li.topbar a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
                 text-decoration: none;
-                float: left;
-                padding-right: 50px;
-                padding: 30px;
+            }
+            
+            li.topbar a:hover:not(.active) {
+                background-color: #111;
+            }
+            
+            li.topbar a.active {
+                background-color: #4CAF50;
+            }
+
+            
+            ul.leftbar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 25%;
+                background-color: #f1f1f1;
+                position: fixed;
+                height: 100%;
+                overflow: auto;    list-style-type: none;
+            }
+            
+            li.leftbar a{
+                display: block;
+                color: #000;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+            
+            li.leftbar a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+            
+            li.leftbar a:hover:not(.active) {
+                background-color: #555;
+                color: white;
             }
             
             article {
@@ -45,56 +117,177 @@
             }
             
             .search_bar {
-                float: right;
-                margin-right: 5px;
-                padding: 1em;
+                padding-top: 3px;
+                box-sizing: border-box;
+
             }
-            .search_bar h4 {
+             .search_submit{
                 float: left;
-                margin: 5px;
+                width: 30%;
+                padding: 8px;
+                background: #2196F3;
+                color: white;
+                font-size: 17px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
             }
             
-            .search_bar input {
-                margin-left: 5px;
+            .search_bar input[type=text] {
+                padding: 11px;
+                font-size: 17px;
+                border: 1px solid grey;
                 float: left;
+                width: 60%;
+                background: #f1f1f1;
+            }
+            
+            .search_submit.button:hover {
+                background: #0b7dda;
+            }
+            
+            .results{
+                padding-top: 10px;
+            }
+            
+            .listing{
+                background: #f1f1f1;
+                height: 200px;
+                border-top: 1px solid grey;
+                padding: 10px;
+                box-sizing: border-box
+            }
+            
+            .listing_image{
+                padding: 10px;
+                float: left;
+                height: 175px;
+                width: 175px;
+            }
+            
+            .listing_title{
+                margin-left: 200px;
+                padding-bottom: 10px;
+                font-size: 16px;
+                color: blue;
+            }
+            
+            .listing_price{
+                margin-left: 200px;
+                font-size: 20px;
+                font-weight: bold;
+
+            }
+            
+            .listing_type{
+                margin-left: 200px;
+                font-size: 12px;
+                color: gray;
+            }
+            
+            .listing_details{
+                margin-left: 200px;
+                font-size: 12px;
+                color: gray;
             }
             
         </style>
-        <title>JBae</title>
 
     </head>
-    <div class="container">
-        <div class="account_bar">
-            <p>Login | Register Account</p>
-        </div>
-        <header>JBae</header>
-        
-        <div class="search_bar">
-            <h4>Search: </h4>
-            <h:inputText id="search_bar"/>
-            <h:button id="search_submit" value="Go"/>
-        </div>
-        
-        <div class="side_bar">
-            <a href="#" >Search</a>
-            <a href="#" >Post</a>
-            <a href="#" >Earn</a>
-            <a href="#" >Balance</a>
-            <a href="#" >Account</a>
-        </div>
 
-        <article>
-            <p>Buy Stuff Please</p>
-            <img src="res/img/test_400x400.jpg" height="400" widht="400"/>
-            <img src="res/img/test_400x400.jpg" height="450" widht="400"/>
-            <img src="res/img/test_400x400.jpg" height="500" widht="400"/>
-            <img src="res/img/test_400x400.jpg" height="550" widht="400"/>
-            <img src="res/img/test_400x400.jpg" height="600" widht="400"/>
-            <img src="res/img/test_400x400.jpg" height="650" widht="400"/>
-            <img src="res/img/test_400x400.jpg" height="700" widht="400"/>
-        </article>
+    <body>
+        <ul class="leftbar">
+            <li class="leftbar"><img src="res/img/test_400x400.jpg" height="100%" width="100%"/></li>
+            <li class="leftbar"><a href="#" >Search</a></li>
+            <li class="leftbar"><a href="#" >Post</a></li>
+            <li class="leftbar"><a href="#" >Earn</a></li>
+            <li class="leftbar"><a href="#" >Balance: $9000.01</a></li>
+            <li class="leftbar"><a href="#" >Account</a></li>
+        </ul>
+        <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+            <div class="account_bar">
+                <h:form>
+                    <h:inputText id="Username">
+                        <f:passThroughAttribute name="placeholder" value="Username" />
+                    </h:inputText>
+                    <h:inputText id="Password">
+                        <f:passThroughAttribute name="placeholder" value="Password"/>
+                    </h:inputText>
+
+                    <h:button id="Register" value ="Register" styleClass="account_bar_button"/>
+                    <h:button id="Login" value="Login" styleClass="account_bar_button"/>
+                </h:form>
+            </div>
+            <div class="topNavBar">
+                <ul class="topbar">
+                    <li class="topbar"><a class="active" href="#Home">Home</a></li>
+                    <li class="topbar"><a href="#Cars">Cars</a></li>
+                    <li class="topbar"><a href="#Books">Books</a></li>
+                    <li class="topbar"><a href="#Shoes">Shoes</a></li>
+                    <li class="topbar"><a href="#Videogames">Videogames</a></li>
+                    <li class="topbar-right">
+                        <div class="search_bar">
+                            <h:form>
+                                <h:inputText id="search_bar">
+                                    <f:passThroughAttribute name="placeholder" value="Search"/>
+                                </h:inputText>
+                                <h:commandButton id="search_submit" value="Search" styleClass="search_submit"/>
+                            </h:form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         
+
+            <div class="results">
+                <div class="listing">
+                    <div class="listing_image">
+                        <img src="res/img/test_400x400.jpg" height="100%" width="100%"/>
+                    </div>
+                    <div class="listing_title">
+                        ITEM TITLE
+                    </div>
+                    <div class="listing_price">
+                        $169.99
+                    </div><!--
+                    --><div class="listing_type">
+                        Buy It Now
+                    </div>
+                    <div class="listing_details">
+                        Item Type: Meat Stick Supplements
+                        <p>Genre: Hentai</p> 
+                        
+                        Shipping Included: No
+                    </div>
+                </div>
+                <div class="listing">
+                                        <div class="listing_image">
+                        <img src="res/img/test_400x400.jpg" height="100%" width="100%"/>
+                    </div>
+                    <div class="listing_title">
+                        Justin Bieber's Tears
+                    </div>
+                    <div class="listing_price">
+                        $169.99
+                    </div><!--
+                    --><div class="listing_type">
+                        Auction
+                    </div>
+                    <div class="listing_details">
+                        Item Type: Masochist toys
+                        <p>Genre: Pop Culture</p> 
+                        
+                        Shipping Included: No
+                    </div>
+                </div>
+                <div class="listing">
+                </div>
+                <div class="listing">
+                </div>
+            </div>
+        </div>
+    </body>
         <footer>Copyrighted &copy; Japji and the Databaes</footer>
-    </div>
+        
 </html>
 
