@@ -3,13 +3,13 @@ CREATE TABLE users (
    username VARCHAR(25),
    password VARCHAR(50) NOT NULL,
    -- personal info
-   first_name VARCHAR(25) NOT NULL,
-   last_name VARCHAR(25) NOT NULL,
-   email VARCHAR(50),
+   first_name TEXT NOT NULL,
+   last_name TEXT NOT NULL,
+   email TEXT,
    -- address
    street_number INT CHECK (street_number > 0),
-   street VARCHAR(50),
-   city VARCHAR(50),
+   street TEXT,
+   city TEXT,
    zip_code INT CHECK (zip_code > 0),
    -- site related info
    admin BOOL NOT NULL,
@@ -20,42 +20,42 @@ CREATE TABLE users (
 
 CREATE TABLE items (
    item_id INT CHECK (item_id > 0),
-   description VARCHAR(100),
+   description TEXT,
    -- definitions
    PRIMARY KEY (item_id)
 );
 
 CREATE TABLE autos (
    item_id INT CHECK (item_id > 0),
-   make VARCHAR(25) NOT NULL,
-   model VARCHAR(25) NOT NULL,
-   year DATE NOT NULL,
+   make TEXT NOT NULL,
+   model TEXT NOT NULL,
+   year INT NOT NULL,
    PRIMARY KEY (item_id),
    FOREIGN KEY (item_id) REFERENCES items (item_id)
 );
 
 CREATE TABLE books (
    item_id INT CHECK (item_id > 0),
-   title VARCHAR(25) NOT NULL,
-   author VARCHAR(25) NOT NULL,
-   genre VARCHAR(25) NOT NULL,
+   title TEXT NOT NULL,
+   author TEXT NOT NULL,
+   genre TEXT NOT NULL,
    PRIMARY KEY (item_id),
    FOREIGN KEY (item_id) REFERENCES items (item_id)
 );
 
 CREATE TABLE video_games (
    item_id INT CHECK (item_id > 0),
-   title VARCHAR(25) NOT NULL,
+   title TEXT NOT NULL,
    rating INT CHECK (rating >= 0 AND rating <= 10) NOT NULL,   -- may not work
-   genre VARCHAR(25) NOT NULL,
+   genre TEXT NOT NULL,
    PRIMARY KEY (item_id),
    FOREIGN KEY (item_id) REFERENCES items (item_id)
 );
 
 CREATE TABLE shoes (
    item_id INT CHECK (item_id > 0),
-   brand VARCHAR(25) NOT NULL,
-   model VARCHAR(25) NOT NULL,
+   brand TEXT NOT NULL,
+   model TEXT NOT NULL,
    size INT CHECK (size > 0) NOT NULL,
    PRIMARY KEY (item_id),
    FOREIGN KEY (item_id) REFERENCES items (item_id)
@@ -67,7 +67,7 @@ CREATE TABLE listings (
    seller VARCHAR(25) NOT NULL,
    post_date TIMESTAMP NOT NULL,
    experation_date TIMESTAMP NOT NULL,
-   status VARCHAR(10) NOT NULL,  -- active, closed
+   status TEXT NOT NULL,  -- active, closed
    -- definitions
    PRIMARY KEY (listing_id),
    FOREIGN KEY (item) REFERENCES items (item_id),
@@ -78,27 +78,30 @@ CREATE TABLE buy_it_now_listings (
    -- listing parent class attributes
    listing_id INT CHECK (listing_id > 0),
    -- buy it now specific attributes
-   price NUMERIC(8,2) CHECK (price > 0) NOT NULL,
+   price REAL CHECK (price > 0) NOT NULL,
    -- definitions
    PRIMARY KEY (listing_id),
-   FOREIGN KEY (listing_id) REFERENCES listings (listing_id),
+   FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
 );
 
 CREATE TABLE auction_listings (
    -- listing parent class attributes
    listing_id INT CHECK (listing_id > 0),
    -- auction specific attributes
-   current_bid NUMERIC(8,2) CHECK (price > 0) NOT NULL,
-   reserve NUMERIC(8,2) CHECK (price > 0) NOT NULL,
+   current_bid REAL CHECK (current_bid > 0) NOT NULL,
+   reserve REAL CHECK (reserve > 0) NOT NULL,
    -- definitions
    PRIMARY KEY (listing_id),
-   FOREIGN KEY (listing_id) REFERENCES listings (listing_id),
+   FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
 );
 
 CREATE TABLE sales (
-   listing INT CHECK (listing_id > 0),
+   listing INT CHECK (listing > 0),
+   seller VARCHAR(25) NOT NULL,
    buyer VARCHAR(25) NOT NULL,
    sell_date TIMESTAMP NOT NULL,
-   PRIMARY KEY (listing_id),
-   FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
+   PRIMARY KEY (listing),
+   FOREIGN KEY (listing) REFERENCES listings (listing_id),
+   FOREIGN KEY (seller) REFERENCES users (username),
+   FOREIGN KEY (buyer) REFERENCES users (username)
 );
