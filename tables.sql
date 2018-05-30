@@ -7,10 +7,10 @@ CREATE TABLE users (
    last_name TEXT NOT NULL,
    email TEXT,
    -- address
-   street_number INT CHECK (street_number > 0),
-   street TEXT,
-   city TEXT,
-   zip_code INT CHECK (zip_code > 0),
+   -- street_number INT CHECK (street_number > 0),
+   -- street TEXT,
+   -- city TEXT,
+   -- zip_code INT CHECK (zip_code > 0),
    -- site related info
    admin BOOL NOT NULL,
    wallet INT CHECK (wallet > 0),

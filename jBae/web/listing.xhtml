@@ -1,12 +1,67 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Listing</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+<!--        PLACE HOLDER TEXT WILL MOVE TO OUTPUTTING ACTUAL LISTING ONCE THAT IS IMPLEMENTED-->
+        <h1>WEEABOO ONAHOLE</h1>
+        <img src="res/img/test_400x400.jpg" height="25%" width="25%"/>
+        
+        <h4>Seller: Weeaboo</h4>
+        <h4>Price: $420</h4>
+        <h4>Category: Shoes</h4>
+<!--                AUTOS-->
+        <h:panelGroup layout="block" rendered="false">
+            <h:panelGrid columns="2">
+            Make :
+
+            Model:
+
+            Year:
+
+            </h:panelGrid>
+        </h:panelGroup>
+
+<!--                BOOKS-->
+        <h:panelGroup layout="block" rendered="false">
+            <h:panelGrid columns="2">
+                Title: <br/>
+                Author:<br/>
+                Genre:<br/>
+            </h:panelGrid>
+        </h:panelGroup>
+
+<!--                SHOES-->
+        <h:panelGroup layout="block" rendered="true">
+            <h:panelGrid columns="2">
+            Brand: Converse <br/>
+            Model: High-Tops <br/>
+            Size: 69 <br/>
+            </h:panelGrid>
+        </h:panelGroup>
+
+<!--                VIDEO GAMES-->
+        <h:panelGroup layout="block" rendered="false">
+            <h:panelGrid columns="2">
+            Title:
+            Rating:
+            Genre:
+
+            </h:panelGrid>
+            </h:panelGroup>
+        <h4>Description</h4>
+        <p> 
+        This is the listing of the selected item.<br/>
+        Need a way to transfer the information of the selected listing over to this page.
+        </p>
+        <h5>Date Posted: 11/12/2018</h5>
+        <h:button value="Buy" />
+
+
     </h:body>
 </html>
 

@@ -5,6 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <head>
+        <title>J-Bay</title>
         <style>
             .container {
                 width: 100%;
@@ -16,6 +17,10 @@
                 margin: 10px;
                 padding: 2px;
                 box-sizing: border-box;
+            }
+            
+            .account_bar h3 {
+                float: left;
             }
             
             .account_bar_button{
@@ -146,11 +151,11 @@
                 background: #0b7dda;
             }
             
-            .results{
+            .results {
                 padding-top: 10px;
             }
             
-            .listing{
+            .listing {
                 background: #f1f1f1;
                 height: 200px;
                 border-top: 1px solid grey;
@@ -158,73 +163,101 @@
                 box-sizing: border-box
             }
             
-            .listing_image{
+            .listing_image {
                 padding: 10px;
                 float: left;
                 height: 175px;
                 width: 175px;
             }
             
-            .listing_title{
+            .listing_title {
                 margin-left: 200px;
                 padding-bottom: 10px;
                 font-size: 16px;
                 color: blue;
             }
             
-            .listing_price{
+            .listing_price {
                 margin-left: 200px;
                 font-size: 20px;
                 font-weight: bold;
 
             }
             
-            .listing_type{
+            .listing_type {
                 margin-left: 200px;
                 font-size: 12px;
                 color: gray;
             }
             
-            .listing_details{
+            .listing_details {
                 margin-left: 200px;
                 font-size: 12px;
                 color: gray;
             }
             
+            .listing_buy {
+                float: right;
+                padding-bottom: 20px;
+            }
         </style>
 
     </head>
 
     <body>
         <ul class="leftbar">
-            <li class="leftbar"><img src="res/img/logo.png" height="100%" width="100%"/></li>
-            <li class="leftbar"><a href="#" >Search</a></li>
-            <li class="leftbar"><a href="#" >Post</a></li>
-            <li class="leftbar"><a href="#" >Earn</a></li>
-            <li class="leftbar"><a href="#" >Balance: $9000.01</a></li>
-            <li class="leftbar"><a href="#" >Account</a></li>
+            <li class="leftbar">
+                <h:form>
+                    <h:commandLink action="#{user.earn}">
+                        <h:graphicImage value="res/img/logo.png" height="100%" width="100%" />
+                    </h:commandLink>
+                </h:form>
+
+            </li>
+            <li class="leftbar"><h:link value="Search" outcome="AdvSearch"/></li>
+            <li class="leftbar"><h:link value="Post" outcome="Post"/></li>
+            <li class="leftbar"><h:link value="Earn" /></li>
+            <li class="leftbar"><h:link value ="Balance: #{user.wallet}"/></li>
+            <li class="leftbar"><h:link value="Order History" /></li>
         </ul>
+        
         <div style="margin-left:25%;padding:1px 16px;height:1000px;">
             <div class="account_bar">
+                <h3><h:link value="J-Bay" outcome="Home"/></h3>
                 <h:form>
-                    <h:inputText id="Username">
-                        <f:passThroughAttribute name="placeholder" value="Username" />
+                    <h:inputText 
+                        id="username"
+                        value="#{login.username}"
+                        binding="#{login.loginUI}">
+                        <f:passThroughAttribute 
+                            name="placeholder" 
+                            value="Username" />
                     </h:inputText>
-                    <h:inputText id="Password">
-                        <f:passThroughAttribute name="placeholder" value="Password"/>
+                    <h:inputText 
+                        id="Password"
+                        value="#{login.password}"
+                        validator="#{login.validateAcc}"
+                        validatorMessage="Login/Password incorrect">
+                        <f:passThroughAttribute 
+                            name="placeholder" 
+                            value="Password"/>
                     </h:inputText>
-
+                    <h:message for="Password" style="color:red;margin:8px;"/>
                     <h:button id="Register" value ="Register" outcome="Register" styleClass="account_bar_button"/>
-                    <h:button id="Login" value="Login" styleClass="account_bar_button"/>
+<!--                    login does not do anything PATRICK i need you to make it so
+                    depending if the user is logged in or not it show the logout button or log in button
+                    and the user that is logged in-->
+                    <h:commandButton id="Login" value="Login" styleClass="account_bar_button"/>
                 </h:form>
             </div>
+            
             <div class="topNavBar">
                 <ul class="topbar">
                     <li class="topbar"><a class="active" href="#Home">Home</a></li>
                     <li class="topbar"><a href="#Cars">Cars</a></li>
                     <li class="topbar"><a href="#Books">Books</a></li>
                     <li class="topbar"><a href="#Shoes">Shoes</a></li>
-                    <li class="topbar"><a href="#Videogames">Videogames</a></li>
+                    <li class="topbar"><a href="#Videogames">Video Games</a></li>
                     <li class="topbar-right">
                         <div class="search_bar">
                             <h:form>
@@ -259,6 +292,9 @@
                         
                         Shipping Included: No
                     </div>
+                    <div class="listing_buy">
+                        <h:button value="Purchase" outcome="Listing"/>
+                    </div>
                 </div>
                 <div class="listing">
                                         <div class="listing_image">
@@ -278,6 +314,9 @@
                         <p>Genre: Pop Culture</p> 
                         
                         Shipping Included: No
+                    </div>
+                    <div class="listing_buy">
+                        <h:button value="Purchase" outcome="Listing"/>
                     </div>
                 </div>
                 <div class="listing">

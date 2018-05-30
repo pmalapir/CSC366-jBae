@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -19,32 +19,62 @@ and open the template in the editor.
 
         Username:
         <h:inputText 
-                    value=""
-                    id="Username"
-                    requiredMessage="Username field can not be empty"
-                    required="true">     
+            value="#{user.username}"
+            id="Username"
+            validator="#{user.validateUser}"
+            requiredMessage="Username field can not be empty"
+            required="true">     
         </h:inputText>
         <h:message for="Username" style="color:red;margin:8px;"/>
         
         Password: 
         <h:inputText
-                    value=""
-                    id="Password"
-                    requiredMessage="Password field can not be empty"
-                    required="true">
+            value="#{user.password}"
+            binding="#{user.passwordUI}"
+            id="Password"
+            requiredMessage="Password field can not be empty"
+            required="true">
         </h:inputText>
         <h:message for="Password" style="color:red;margin:8px;"/>
+        
         Re-enter Password:
         <h:inputText
-                    value=""
-                    id="RPassword"
-                    requiredMessage="Re-enter Password field can not be empty"
-                    required="true">
+            id="RPassword"
+            validator="#{user.validatePass}"
+            requiredMessage="Re-enter Password field can not be empty"
+            required="true">
         </h:inputText>
         <h:message for="RPassword" style="color:red;margin:8px;"/>
         
+        Email:
+        <h:inputText
+            value="#{user.email}"
+            id="email"
+            requiredMessage="Email field can not be empty"
+            required="true">
+        </h:inputText>
+        <h:message for="email" style="color:red;margin:8px;"/>
+
+        First Name:
+        <h:inputText
+            value="#{user.firstName}"
+            id="fname"
+            requiredMessage="First Name required"
+            required="true">
+        </h:inputText>
+        <h:message for="fname" style="color:red;margin:8px;"/>
+        
+        Last Name:
+        <h:inputText
+            value="#{user.lastName}"
+            id="lname"
+            requiredMessage="Last Name required"
+            required="true">
+        </h:inputText>
+        <h:message for="lname" style="color:red;margin:8px;"/>
+        
         </h:panelGrid>
-        <h:commandButton value="Create Account"></h:commandButton>
+        <h:commandButton value="Create Account" action="#{user.registerUser}"></h:commandButton>
         </h:form>
     </h:body>
 </html>
