@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">  
+    <link href="/static/css/main.css" rel="stylesheet"> 
+    <link href="/static/fonts/fontawesome-all.css" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="/static/js/socket.io.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/FileSaver.js"></script>
+    <title>Simple Polylines</title>
+                        <style>
+          /* Optional: Makes the sample page fill the window. */
+          html, body {
+            height: 100%;
+            margin: 50px;
+            padding: 0;
+          }
+          th{
+            padding: 4px;
+          }
+          .column {
+          float: left;
+          width: 50%;
+          }
+          .hide{
+           display:none;
+          }
+          .labelX{
+            width: 50%;
+            text-align: left;
+            display:inline-block;
+          }
+          .labelY{
+            width: 50%;
+            text-align: left;
+            display:inline-block;
+          }
+          .labelRadius{
+            width: 50%;
+            text-align: left;
+            display:inline-block;
+          }
+          .labelDegrees{
+            width: 50%;
+            text-align: left;
+            display:inline-block;
+          }
+          .labelLong{
+            width: 50%;
+            text-align: left;
+            display:inline-block;
+          }
+          .labelLat{
+            width: 50%;
+            text-align: left;
+            display:inline-block;          }
+          .labelSubmit{
+            text-align: left;
+            padding-bottom: 10px
+          }
+          .highlight{
+            background-color:cyan;
+          }
+          input[type="text"]{
+            border: 1px solid #cccccc;
+          }
+          .Exp{
+            text-align: left;
+          }
+          .Imp{
+            text-align: left;
+          }
+          .MainCtrl{
+            padding: 4px;
+          }
+          .icon-flipped{
+            transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -ms-transform: scaleX(-1);
+          }
+    </style>
+    <script>
+    $(document).ready(function(){
+        namespace = '/test'; // change to an empty string to use the global namespace
+        // the socket.io documentation recommends sending an explicit package upon connection
+        // this is specially important when using the global namespace
+        var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+        // event handler for server sent data
+        socket.on('connect', function() {
+                  socket.emit('my_event', {data: 'I\'m connected!'});
+          });
+              // the data is displayed in the "Received" section of the page
+        socket.on('my_response', function(msg) {
+            $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+        });
+        $('form#fwd').submit(function(event){
+            socket.emit('fwd');
+            return false;
+        });
+        $('form#rev').submit(function(event){
+            socket.emit('rev');
+            return false;
+        });
+        $('form#rotate_clk').submit(function(event){
+            socket.emit('rotate_clk');
+            return false;
+        });
+        $('form#stop').submit(function(event){
+            socket.emit('stop');
+            return false;
+        });
+        $('form#rotate_ctrclk').submit(function(event){
+            socket.emit('rotate_ctrclk');
+            return false;
+        });                          
+      }); 
+      $(document).on('change', '.div-toggle', function() {
+      var target = $(this).data('target');
+      var show = $("option:selected", this).data('show');
+      $(target).children().addClass('hide');
+      $(show).removeClass('hide');
+      }); 
+      $(document).ready(function(){
+      $('.div-toggle').trigger('change');
+      });
+    </script>
+    <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+      <body>
+        <div class="row">
+          <div class="column">
+            <select class="div-toggle" data-target=".controller">
+            <option value="RouteGen" data-show=".RouteGen">Route Gen</option>
+            <option value="Manual" data-show=".Manual">Manual</option>
+          </select>
+          <div class="MainCtrl">
+              <table class="text-center">
+                <tr>
+                  <th>
+                    <form menthod="POST" action="#" id="ForceStop">
+                      <button type="submit" class="btn btn-success btn-md" style="background:red">Stop</button>
+                    </form>
+                  </th>
+                  <th>
+                    <form menthod="POST" action="#" id="SetHome">
+                      <button type="submit" class="btn btn-success btn-md" style="background:green"> Set Home</button>
+                    </form>
+                  </th>
+                  <th>
+                    <form menthod="POST" action="#" id="GoHome">
+                      <button type="submit" class="btn btn-success btn-md" style="background:green">Go Home</button>
+                    </form>
+                  </th>
+                </tr>
+                <tr>
+                  <th>
+                  </th>
+                  <th>
+                    <form menthod="POST" action="#" id="speedDwn">
+                      <button onclick="speedDwn()" id="speedDwnBtn" type="submit"  class="btn btn-success btn-md" style="background:green">Speed Down</button>
+                    </form>
+                  </th>
+                  <th>
+                    <form menthod="POST" action="#" id="speedUp">
+                      <button onclick="speedUp()" id="speedUpBtn" type="submit" class="btn btn-success btn-md" style="background:green">Speed Up</button>
+                    </form>
+                  <th>
+              </table>
+            </div>
+        </div>
+          <script>
+            var val = 0;
+            var val1 = 0;
+            var val2 = 0;
+            
+            function displayLatitude(){
+              var title = "Latitude: ";
+              var dis = title.concat(val);
+              document.getElementById("displayLatitude").innerHTML = dis;
+              val++;
+              setInterval(displayLatitude, 1000000);
+            }
+            function displayLongitude(){
+              var title = "Longitude: ";
+              var dis = title.concat(val1);
+              document.getElementById("displayLongitude").innerHTML = dis;
+              val1++;
+              setInterval(displayLongitude, 1000000);
+            }
+            function displayHeading(){
+              var title = "Heading: ";
+              var dis = title.concat(val2);
+              document.getElementById("displayHeading").innerHTML = dis;
+              val2++;
+              setInterval(displayHeading, 1000000);
+            }
+          </script>
+          <div class="column">
+            <div class = "Stats">
+              <h2>Stats</h2>
+              <p id="displayLatitude"><script> displayLatitude();</script></p>
+              <p id="displayLongitude"><script> displayLongitude();</script></p>
+              <p id="displayHeading"><script> displayHeading();</script></p>
+              <p id="displaySpeed">Speed: 100%</p>
+            </div>
+          </div> 
+      </div>
+        <div class="controller">
+          <div class="RouteGen">
+            <div class="row">
+              <div class="column">
+                <h2>Route Generator</h2>
+                <div class="form-group">
+                  <div class="labelX">
+                    <label class="control-label">X:</label>
+                    <input id="X_Distance" size="6" placeholder="feet" type="text" value=""></input>
+                  </div>
+                  <div class="labelY">
+                    <label class="control-label">Y:</label>
+                    <input id="Y_Distance" size="6" placeholder="feet" type="text" value=""></input>
+                    <button onclick="addXY()">Add</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="labelRadius">
+                    <label class="control-label"> Radius:</label>
+                    <input id="Radius" size="6" placeholder="feet" id="Radius"  type="text" value""></input>
+                  </div>
+                  <div class="labelDegrees">
+                    <label class="control-label"> Degrees:</label>
+                    <input id="Degrees" size="6" placeholder="integer" type="text" value=""></input>
+                    <button onclick="addLoop()">Add</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="labelLat">
+                    <label class="control-label"> Lat:</label>
+                    <input id="Latitude" size="6" placeholder="coordinate" type="text" value=""></input>
+                  </div>
+                  <div class="labelLong">
+                    <label class="control-label"> Long:</label>
+                    <input id="Longitude" size="6" placeholder="coordinate" type="text" value=""></input>
+                    <button onclick="addGPS()">Add</button>
+                  </div>
+                </div>
+                <div class="labelSubmit">
+                  <button onclick="removeRecent()">Remove</button>
+                  <button onclick="clearList()">Clear</button>
+                </div>
+                <div class="Exp">
+                  <label>Filename: <input type="text" style="font-weight: normal" size="6" class="filename" id="export-filename" placeholder="example"/>.txt</label>
+                  <button onclick="Export()">Export</button>
+                </div>
+                <div class="Imp">
+                  <input class="inputfile" type="file" id="impFile" name="file"></input>
+                  <button onclick="readBlob()">Import</button>
+                </div>
+              </div>
+            <div class="column">
+              <h2>Instructions to be input</h2>
+              <div class="container">
+                <table class="text-center">
+                  <tr>
+                    <th>
+                      <form menthod="POST" action="#" id="Quit">
+                        <button onclick="quit()" id="quitButton" type="submit" class="btn btn-success btn-md" style="background:red">Quit</button>
+                      </form>
+                    </th>
+                    <th>
+                      <form menthod="POST" action="#" id="Load">
+                        <button onclick="load()" id="loadButton" type="submit" class="btn btn-success btn-md" style="background:green">Load</button>
+                      </form>
+                    </th>
+                    <th>
+                      <form menthod="POST" action="#" id="Next">
+                        <button onclick="next()" id="nextButton" type="submit" class="btn btn-success btn-md" style="background:orange">Next</button>
+                      </form>
+                    </th>
+                  </tr>
+                </table>
+                <ul id="instructions" class="instructions" style ="list-style-type:decimal"></u1>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="Manual hide">
+        <div class="column">
+          <h2>Manual Control</h2>
+          <div class="form-horizontal" role="form" name="controls">
+              <table class="text-center">
+                <tr>
+                  <th></th>
+                  <th>
+                    <form menthod="POST" action="#" id="fwd">
+                      <button type="submit" class="btn btn-success btn-md">
+                        <span class="glyphicon glyphicon-arrow-up"></span> 
+                      </button>
+                    </form>
+                  </th>
+                </tr>
+                <tr>
+                  <th>
+                    <form menthod="POST" action="#" id="rotate_ctrclk">
+                      <button type="submit" class="btn btn-success btn-md icon-flipped">
+                        <span class="glyphicon glyphicon-repeat"></span> 
+                      </button>
+                    </form>
+                  </th>
+                  <th>
+                    <form menthod="POST" action="#" id="stop">
+                      <button type="submit" class="btn btn-success btn-md" style="background:red">
+                        <span class="glyphicon glyphicon-minus-sign"></span> 
+                      </button>
+                    </form>
+                  </th>
+                  <th>
+                    <form menthod="POST" action="#" id="rotate_clk">
+                      <button type="submit" class="btn btn-success btn-md">
+                        <span class="glyphicon glyphicon-repeat"></span> 
+                      </button>
+                    </form>
+                  </th>
+                </tr>
+                <tr>
+                  <th></th>
+                  <th>
+                    <form menthod="POST" action="#" id="rev">
+                      <button type="submit" class="btn btn-success btn-md">
+                        <span class="glyphicon glyphicon-arrow-down"></span> 
+                      </button>
+                    </form>
+                  </th>
+                </tr>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div> 
+           </div>
+          </div>
+        <script>
+          var list_count = 0;
+          var exec = 1;
+          var running = 0;
+          var speed = 100;
+          function Export(){
+            if(running==0){
+              var route = document.getElementById("instructions").innerText;
+              var blob = new Blob([route], {type: "text/plain;charset=utf-8"});
+              var text_filename = document.getElementById("export-filename").value;
+              saveAs(blob, text_filename + ".txt");
+              document.getElementById("export-filename").value='';
+            }
+            else{
+              alert("Cannot export instructions while a route is loaded");
+            }
+          }
+          function Import(){
+            console.log(document.getElementById("instructions").childNodes.length);
+          }
+          function addXY(){
+            if(running == 1){
+              alert("Cannot edit instructions while running");
+            }
+            if(list_count > 9){
+              alert("Exceeds max commands, >10");
+              document.getElementById("X_Distance").value='';
+              document.getElementById("Y_Distance").value='';
+            }
+            else{
+              if(document.getElementById("X_Distance").value=='' || document.getElementById("Y_Distance").value==''){
+                alert('An input is invalid');
+              }
+              else{
+                var instr1 = "X: ";
+                var instr2 = ", Y: ";
+                var arg_one = document.getElementById("X_Distance").value;
+                var arg_two = document.getElementById("Y_Distance").value;
+                var delim = "\n";
+                var instr = instr1.concat(arg_one, instr2, arg_two, delim);
+                document.getElementById("X_Distance").value='';
+                document.getElementById("Y_Distance").value='';
+                list_count++;
+                var newnode = document.createElement("LI");
+                newnode.className = "instr" + list_count;
+                newnode.id = "instr" + list_count;
+                var textnode = document.createTextNode(instr);
+                newnode.appendChild(textnode);
+                list = document.getElementById("instructions");
+                list.appendChild(newnode);
+              }
+            }
+          }
+          function addLoop(){
+            if(running == 1){
+              alert("Cannot edit instructions while running");
+            }
+            if(list_count > 9){
+              alert("Exceeds max commands, >10");
+              document.getElementById("Radius").value='';
+              document.getElementById("Degrees").value='';
+            }
+            else{
+              if(document.getElementById("Radius").value=='' || document.getElementById("Degrees").value==''){
+                alert('An input is invalid');
+              }
+              else{
+                var instr1 = "Radius: ";
+                var instr2 = ", Degrees: ";
+                var arg_one = document.getElementById("Radius").value;
+                var arg_two = document.getElementById("Degrees").value;
+                var delim = "\n";
+                var instr = instr1.concat(arg_one, instr2, arg_two, delim);
+                document.getElementById("Radius").value='';
+                document.getElementById("Degrees").value='';
+                list_count++;
+                var newnode = document.createElement("LI");
+                newnode.className = "instr" + list_count;
+                newnode.id = "instr" + list_count;
+                var textnode = document.createTextNode(instr);
+                newnode.appendChild(textnode);
+                list = document.getElementById("instructions");
+                list.appendChild(newnode);
+              }
+            }
+           }
+          function addGPS(){
+            if(running == 1){
+              alert("Cannot edit instructions while running");
+            }
+            if(list_count > 9){
+              alert("Exceeds max commands, >10");
+              document.getElementById("Latitude").value='';
+              document.getElementById("Longitude").value='';
+            }
+            else{
+              if(document.getElementById("Latitude").value=='' || document.getElementById("Longitude").value==''){
+                alert("An input is invalid");
+              }
+              else{
+                var instr1 = "Latitude: ";
+                var instr2 = ", Longitude: ";
+                var arg_one = document.getElementById("Latitude").value;
+                var arg_two = document.getElementById("Longitude").value;
+                var delim = "\n";
+                var instr = instr1.concat(arg_one, instr2, arg_two, delim);
+                document.getElementById("Latitude").value='';
+                document.getElementById("Longitude").value='';
+                list_count++;
+                var newnode = document.createElement("LI");
+                newnode.className = "instr" + list_count;
+                newnode.id = "instr" + list_count;
+                var textnode = document.createTextNode(instr);
+                newnode.appendChild(textnode);
+                list = document.getElementById("instructions");
+                list.appendChild(newnode);
+              }
+            }
+          }
+          function removeRecent(){
+            var list = document.getElementById("instructions");
+            if (list_count > 0 && running == 0){
+              list.removeChild(list.childNodes[list_count]);
+              list_count--;
+            }
+            else if(list_count< 0){
+               alert("Command queue is empty");
+            }
+            else if(running == 1){
+              alert("Cannot clear while running");
+            }
+          }
+          function clearList(){
+            var list = document.getElementById("instructions");
+            if(list_count > 0 && running == 0){
+              while(list_count > 0){
+               //console.log(list.childNodes[3].innerText);
+                list.removeChild(list.childNodes[list_count]);
+                list_count--;
+              }
+            }
+            else if(list_count< 0){
+               alert("Command queue is empty");
+            }
+            else if(running == 1){
+              alert("Cannot clear while running");
+            }
+          }
+          function quit(){
+            running = 0;
+            exec = 1;
+            for (var i = 1; i < list_count + 1; i++){
+              instr = document.getElementById("instr" + i);
+              instr.className = "instr" + i;
+            }
+            document.getElementById("nextButton").style= "background:orange";
+            document.getElementById("speedDwnBtn").style="background:green";
+            document.getElementById("speedUpBtn").style="background:green";
+          }
+          function load(){
+            console.log(list_count);
+            if(list_count > 0){
+              running = 1;
+              exec = 1;
+              for (var i = 1; i < list_count + 1; i++){
+                instr = document.getElementById("instr" + i);
+                instr.className = "instr" + i;
+              }
+              document.getElementById("nextButton").style= "background:green";
+              document.getElementById("speedDwnBtn").style="background:orange";
+              document.getElementById("speedUpBtn").style="background:orange";
+            }  
+            else{
+              alert("Route is empty");
+            }          
+          }
+          function next(){
+            if(running == 0){
+              alert("Load route before running");
+            }
+            else{
+              if(exec > 1){
+                prevInstr = document.getElementById("instr" + (exec - 1));
+                prevInstr.className -= " highlight";
+              }
+              if(exec > list_count){
+                alert("route complete");
+                ready = document.getElementById("nextButton")
+                ready.style = "background:orange";
+                running = 0;
+                exec = 1;
+              }
+              else{
+                instr = document.getElementById("instr" + exec);
+                instr.className += " highlight";
+                exec++;
+              }
+            }
+          }
+          function speedDwn(){
+            var title = "Speed: ";
+            if(running == 1){
+              alert('Cannot change speed while route is loaded');
+            }
+            else{
+              if(speed > 0){
+               speed-=10;
+              }
+              else{
+               alert('Cannot set below 10% speed');
+              }
+              title = title.concat(speed,'%');
+              document.getElementById("displaySpeed").innerHTML=title;
+            }
+          }
+          function speedUp(){
+            var title = "Speed: ";
+            if(running == 1){
+              alert('Cannot change speed while route is loaded');
+            }
+            else{
+              if(speed < 100){
+                speed+=10;
+              }
+              else{
+                alert('Cannot set above 100% speed');
+              }
+              title=title.concat(speed,'%');
+              document.getElementById("displaySpeed").innerHTML=title;
+            }
+          }
+          function readBlob(opt_startByte, opt_stopByte) {
+            var files = document.getElementById('impFile').files;
+            if (!files.length) {
+              alert('Please select a file!');
+              return;
+            }
+            if(running==1){
+              alert("Cannot import while a route is loaded");
+            }
+        
+            var file = files[0];
+            var start = parseInt(opt_startByte) || 0;
+            var stop = parseInt(opt_stopByte) || file.size - 1;
+        
+            var reader = new FileReader();
+        
+            // If we use onloadend, we need to check the readyState.
+            reader.onloadend = function(evt) {
+              if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+                var res = reader.result;
+                var instrArray = [''];
+                for(var i = 0; i < res.length; i++){
+                  instrArray[0] = instrArray[0].concat(res[i]);
+                }
+                instrArray = instrArray[0].split('\n');
+                if(instrArray.length>9){
+                  alert("incompatible instruction length")
+                }
+                else{
+                for(i=0; i<instrArray.length; i++){
+                  var newnode = document.createElement("LI");
+                  var textnode = document.createTextNode(instrArray[i]);
+                  list_count++;
+                  newnode.className = "instr" + list_count;
+                  newnode.id = "instr" + list_count;
+                  newnode.appendChild(textnode);
+                  document.getElementById("instructions").appendChild(newnode);
+                }
+                 
+                }
+              }
+            };
+        
+            var blob = file.slice(start, stop + 1);
+            
+            reader.readAsText(blob);
+             
+            //console.log(reader.result);
+          }
+          
+          document.querySelector('.Imp').addEventListener('click', function(evt) {
+            if (evt.target.id == 'import') {
+              var startByte = evt.target.getAttribute('data-startbyte');
+              var endByte = evt.target.getAttribute('data-endbyte');
+              readBlob(startByte, endByte);
+            }
+          }, false);
+    </script>
+                      </body>
+</html>
