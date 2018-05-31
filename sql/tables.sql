@@ -1,3 +1,7 @@
+-- quick clear
+-- change 'buy_now_listing' to 'buy_it_now_listing', I shortened the name later on
+DROP TABLE autos, books, shoes, video_games, sales, buy_now_listings, auction_listings, listings, users, items;
+
 CREATE TABLE users (
    -- credentials
    username VARCHAR(25),
@@ -5,12 +9,7 @@ CREATE TABLE users (
    -- personal info
    first_name TEXT NOT NULL,
    last_name TEXT NOT NULL,
-   email TEXT,
-   -- address
-   -- street_number INT CHECK (street_number > 0),
-   -- street TEXT,
-   -- city TEXT,
-   -- zip_code INT CHECK (zip_code > 0),
+   email TEXT NOT NULL,
    -- site related info
    admin BOOL NOT NULL,
    wallet INT CHECK (wallet > 0),
@@ -20,7 +19,7 @@ CREATE TABLE users (
 
 CREATE TABLE items (
    item_id INT CHECK (item_id > 0),
-   description TEXT,
+   image TEXT,
    -- definitions
    PRIMARY KEY (item_id)
 );
@@ -63,32 +62,30 @@ CREATE TABLE shoes (
 
 CREATE TABLE listings (
    listing_id INT CHECK (listing_id > 0),
+   price REAL CHECK (price > 0) NOT NULL, -- moved price here for simplicity, acts as both (price & current bid)
+   title TEXT NOT NULL,
+   description TEXT,
+   post_date TIMESTAMP NOT NULL,
+   exp_date TIMESTAMP NOT NULL,
+   status TEXT NOT NULL,  -- (active/closed)
    item INT NOT NULL,
    seller VARCHAR(25) NOT NULL,
-   post_date TIMESTAMP NOT NULL,
-   experation_date TIMESTAMP NOT NULL,
-   status TEXT NOT NULL,  -- active, closed
    -- definitions
    PRIMARY KEY (listing_id),
    FOREIGN KEY (item) REFERENCES items (item_id),
    FOREIGN KEY (seller) REFERENCES users (username)
 );
 
-CREATE TABLE buy_it_now_listings (
-   -- listing parent class attributes
+CREATE TABLE buy_now_listings (
    listing_id INT CHECK (listing_id > 0),
-   -- buy it now specific attributes
-   price REAL CHECK (price > 0) NOT NULL,
    -- definitions
    PRIMARY KEY (listing_id),
    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
 );
 
 CREATE TABLE auction_listings (
-   -- listing parent class attributes
    listing_id INT CHECK (listing_id > 0),
    -- auction specific attributes
-   current_bid REAL CHECK (current_bid > 0) NOT NULL,
    reserve REAL CHECK (reserve > 0) NOT NULL,
    -- definitions
    PRIMARY KEY (listing_id),
@@ -97,11 +94,9 @@ CREATE TABLE auction_listings (
 
 CREATE TABLE sales (
    listing INT CHECK (listing > 0),
-   seller VARCHAR(25) NOT NULL,
    buyer VARCHAR(25) NOT NULL,
-   sell_date TIMESTAMP NOT NULL,
+   sale_date TIMESTAMP NOT NULL,
    PRIMARY KEY (listing),
    FOREIGN KEY (listing) REFERENCES listings (listing_id),
-   FOREIGN KEY (seller) REFERENCES users (username),
    FOREIGN KEY (buyer) REFERENCES users (username)
 );
