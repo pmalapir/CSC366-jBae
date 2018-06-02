@@ -180,12 +180,13 @@
             
             .results {
                 padding-top: 10px;
-                height:100%
+                height:90%
             }
             .bg{
                 background: #f1f1f1;
                 height: 95%;
                 border-top: 1px solid grey;
+                border-bottom: 1px solid grey;
                 padding: 10px;
                 box-sizing: border-box
             }
@@ -344,11 +345,17 @@
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Cars'}">
                                 <h:panelGrid columns="2">
                                 Make :
-                                <h:inputText value="Car Make"/>
+                                <h:inputText value="#{car.make}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Honda" />
+                                </h:inputText>
                                 Model:
-                                <h:inputText value="Car Model"/>
+                                <h:inputText value="#{car.model}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Accord" />
+                                </h:inputText>
                                 Year:
-                                <h:inputText value="Car Year"/>
+                                <h:inputText value="#{car.year}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. 2001" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
 
@@ -356,11 +363,17 @@
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Books'}">
                                 <h:panelGrid columns="2">
                                 Title:
-                                <h:inputText value="Title of the Book"/>
+                                <h:inputText value="#{book.title}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. 1984" />
+                                </h:inputText>
                                 Author:
-                                <h:inputText value="Author of the Book"/>
+                                <h:inputText value="#{book.author}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. George Orwell" />
+                                </h:inputText>
                                 Genre:
-                                <h:inputText value="Genre of the Book"/>
+                                <h:inputText value="#{book.genre}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Sci-fi" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
 
@@ -368,11 +381,17 @@
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Shoes'}">
                                 <h:panelGrid columns="2">
                                 Brand
-                                <h:inputText value="Shoe Brand"/>
+                                <h:inputText value="#{shoe.brand}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Nike" />
+                                </h:inputText>
                                 Model:
-                                <h:inputText value="Model of Shoe"/>
+                                <h:inputText value="#{shoe.model}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Air Jordan 1" />
+                                </h:inputText>
                                 Size:
-                                <h:inputText value="Size of the Shoe"/>
+                                <h:inputText value="#{shoe.size}">
+                                    <f:passThroughAttribute name="placeholder" value="eg 8.5" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
 
@@ -380,11 +399,17 @@
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Video Games'}">
                                 <h:panelGrid columns="2">
                                 Title:
-                                <h:inputText value="Game Title"/>
+                                <h:inputText value="#{videogame.title}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. GTA V" />
+                                </h:inputText>
                                 Rating:
-                                <h:inputText value="Game Rating"/>
+                                <h:inputText value="#{videogame.rating}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Mature" />
+                                </h:inputText>
                                 Genre:
-                                <h:inputText value="Genre of the Game"/>
+                                <h:inputText value="#{videogame.genre}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Action" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
                     </h:panelGroup>
@@ -403,7 +428,7 @@
                                 <h:inputText id="binPrice" value="#{buyItNow.price}">
                                     <f:passThroughAttribute name="placeholder" value="$xx.xx" />
                                 </h:inputText> 
-                                Auction Length:
+                                Listing Length:
                                 <h:inputText id="binPistingLength" value="#{buyItNow.listingLength}">
                                     <f:passThroughAttribute name="placeholder" value="# of days" />
                                 </h:inputText>
@@ -437,11 +462,17 @@
                             <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Cars'}">
                                 <h:panelGrid columns="2">
                                 Make :
-                                <h:inputText value="Car Make"/>
+                                <h:inputText value="#{car.make}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Honda" />
+                                </h:inputText>
                                 Model:
-                                <h:inputText value="Car Model"/>
+                                <h:inputText value="#{car.model}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Accord" />
+                                </h:inputText>
                                 Year:
-                                <h:inputText value="Car Year"/>
+                                <h:inputText value="#{car.year}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. 2001" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
 
@@ -449,11 +480,17 @@
                             <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Books'}">
                                 <h:panelGrid columns="2">
                                 Title:
-                                <h:inputText value="Title of the Book"/>
+                                <h:inputText value="#{book.title}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. 1984" />
+                                </h:inputText>
                                 Author:
-                                <h:inputText value="Author of the Book"/>
+                                <h:inputText value="#{book.author}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. George Orwell" />
+                                </h:inputText>
                                 Genre:
-                                <h:inputText value="Genre of the Book"/>
+                                <h:inputText value="#{book.genre}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Sci-fi" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
 
@@ -461,11 +498,17 @@
                             <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Shoes'}">
                                 <h:panelGrid columns="2">
                                 Brand
-                                <h:inputText value="Shoe Brand"/>
+                                <h:inputText value="#{shoe.brand}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Nike" />
+                                </h:inputText>
                                 Model:
-                                <h:inputText value="Model of Shoe"/>
+                                <h:inputText value="#{shoe.model}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Air Jordan 1" />
+                                </h:inputText>
                                 Size:
-                                <h:inputText value="Size of the Shoe"/>
+                                <h:inputText value="#{shoe.size}">
+                                    <f:passThroughAttribute name="placeholder" value="eg 8.5" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
 
@@ -473,31 +516,21 @@
                             <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Video Games'}">
                                 <h:panelGrid columns="2">
                                 Title:
-                                <h:inputText value="Game Title"/>
+                                <h:inputText value="#{videogame.title}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. GTA V" />
+                                </h:inputText>
                                 Rating:
-                                <h:inputText value="Game Rating"/>
+                                <h:inputText value="#{videogame.rating}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Mature" />
+                                </h:inputText>
                                 Genre:
-                                <h:inputText value="Genre of the Game"/>
+                                <h:inputText value="#{videogame.genre}">
+                                    <f:passThroughAttribute name="placeholder" value="eg. Action" />
+                                </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
                 </h:panelGroup>
             </h:form>
-
-
-
-                
-
-
-
-
-
-    <!--                BOOKS-->
-
-                
-
-
-
-                
             </div>
         </div>
     </body>

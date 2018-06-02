@@ -1,4 +1,8 @@
 package Items;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIInput;
+import javax.inject.Named;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,6 +14,10 @@ package Items;
  *
  * @author Patrick
  */
+
+@Named(value = "videogame")
+@ManagedBean
+@SessionScoped
 public class Videogames {
     private int itemID;
     private String title;

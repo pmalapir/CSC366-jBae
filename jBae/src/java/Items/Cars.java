@@ -1,5 +1,10 @@
 package Items;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIInput;
+import javax.inject.Named;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,6 +15,10 @@ package Items;
  *
  * @author Patrick
  */
+
+@Named(value = "car")
+@ManagedBean
+@SessionScoped
 public class Cars {
     private int itemID;
     private String make;
