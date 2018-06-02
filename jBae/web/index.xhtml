@@ -12,15 +12,21 @@
                 border: 1px solid gray;
             }
             
+            .hide{
+                display:none;
+            }
+            
             .account_bar {
                 text-align: right;
                 margin: 10px;
                 padding: 2px;
+                height: 5%;
                 box-sizing: border-box;
             }
             
             .account_bar h3 {
                 float: left;
+                font-size: 24px;
             }
             
             .account_bar_button{
@@ -198,7 +204,6 @@
             
             .listing_buy {
                 float: right;
-                padding-bottom: 20px;
             }
         </style>
 
@@ -223,7 +228,7 @@
         
         <div style="margin-left:25%;padding:1px 16px;height:1000px;">
             <div class="account_bar">
-                <h3><h:link value="J-Bay" outcome="Home"/></h3>
+                <h3><h:link value="J-Bay" outcome="index.xhtml"/></h3>
                 <h:form>
                     <h:inputText 
                         id="username"
@@ -280,6 +285,9 @@
                     <div class="listing_title">
                         ITEM TITLE
                     </div>
+                    <div class="listing_buy">
+                        <h:button value="Purchase" outcome="Listing"/>
+                    </div>
                     <div class="listing_price">
                         $169.99
                     </div><!--
@@ -292,9 +300,7 @@
                         
                         Shipping Included: No
                     </div>
-                    <div class="listing_buy">
-                        <h:button value="Purchase" outcome="Listing"/>
-                    </div>
+
                 </div>
                 <div class="listing">
                                         <div class="listing_image">
@@ -302,6 +308,9 @@
                     </div>
                     <div class="listing_title">
                         Justin Bieber's Tears
+                    </div>
+                    <div class="listing_buy">
+                        <h:button value="Purchase" outcome="Listing"/>
                     </div>
                     <div class="listing_price">
                         $169.99
@@ -312,11 +321,7 @@
                     <div class="listing_details">
                         Item Type: Masochist toys
                         <p>Genre: Pop Culture</p> 
-                        
                         Shipping Included: No
-                    </div>
-                    <div class="listing_buy">
-                        <h:button value="Purchase" outcome="Listing"/>
                     </div>
                 </div>
                 <div class="listing">

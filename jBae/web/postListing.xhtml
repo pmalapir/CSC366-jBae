@@ -1,0 +1,507 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <head>
+        <title>J-Bay</title>
+        <style>
+            .container {
+                width: 100%;
+                border: 1px solid gray;
+            }
+            
+            .hide{
+                display:none;
+            }
+            
+            .account_bar {
+                text-align: right;
+                margin: 10px;
+                padding: 2px;
+                height: 5%;
+                box-sizing: border-box;
+            }
+            
+            .account_bar h3 {
+                float: left;
+                font-size: 24px;
+            }
+            
+            .account_bar_button{
+                float: right;
+                width: 10%;
+                padding: 7px;
+                background: #2196F3;
+                color: white;
+                font-size: 11px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
+            }
+            
+            .account_bar input[type=text] {
+                padding: 9px;
+                font-size: 11px;
+                border: 1px solid grey;
+                float: next;
+                width: 15%;
+                background: #f1f1f1;
+            }
+            header, footer {
+                padding: 1em;
+                color: white;
+                background-color: grey;
+                clear: left;
+                text-align: center;
+            }
+            
+            .button{
+                float: next;
+                width: 10%;
+                padding: 7px;
+                background: #2196F3;
+                color: white;
+                font-size: 11px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
+            }
+            
+            .text {
+                padding: 9px;
+                font-size: 11px;
+                border: 1px solid grey;
+                float: next;
+                width: 15%;
+                background: #f9f9f9;
+            }
+            
+            ul.topbar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
+            li.topbar {
+                float: left;
+                border-right:1px solid #bbb;
+            }
+            
+            li.topbar-right {
+                float: right;
+                border-right:1px solid #bbb;
+            }
+            
+            li.topbar a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            
+            li.topbar a:hover:not(.active) {
+                background-color: #111;
+            }
+            
+            li.topbar a.active {
+                background-color: #4CAF50;
+            }
+
+            
+            ul.leftbar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 25%;
+                background-color: #f1f1f1;
+                position: fixed;
+                height: 100%;
+                overflow: auto;    list-style-type: none;
+            }
+            
+            li.leftbar a{
+                display: block;
+                color: #000;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+            
+            li.leftbar a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+            
+            li.leftbar a:hover:not(.active) {
+                background-color: #555;
+                color: white;
+            }
+            
+            article {
+                width: 80%;
+                float: left;
+                margin-left: 10%;
+                padding: 1em;
+                overflow: hidden;
+            }
+            
+            .search_bar {
+                padding-top: 3px;
+                box-sizing: border-box;
+
+            }
+             .search_submit{
+                float: left;
+                width: 30%;
+                padding: 8px;
+                background: #2196F3;
+                color: white;
+                font-size: 17px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
+            }
+            
+            .search_bar input[type=text] {
+                padding: 11px;
+                font-size: 17px;
+                border: 1px solid grey;
+                float: left;
+                width: 60%;
+                background: #f1f1f1;
+            }
+            
+            .search_submit.button:hover {
+                background: #0b7dda;
+            }
+            
+            .results {
+                padding-top: 10px;
+                height:100%
+            }
+            .bg{
+                background: #f1f1f1;
+                height: 95%;
+                border-top: 1px solid grey;
+                padding: 10px;
+                box-sizing: border-box
+            }
+            .listing {
+                background: #f1f1f1;
+                height: 200px;
+                border-top: 1px solid grey;
+                padding: 10px;
+                box-sizing: border-box
+            }
+            
+            .listing_image {
+                padding: 10px;
+                float: left;
+                height: 175px;
+                width: 175px;
+            }
+            
+            .listing_title {
+                margin-left: 200px;
+                padding-bottom: 10px;
+                font-size: 16px;
+                color: blue;
+            }
+            
+            .listing_price {
+                margin-left: 200px;
+                font-size: 20px;
+                font-weight: bold;
+
+            }
+            
+            .listing_type {
+                margin-left: 200px;
+                font-size: 12px;
+                color: gray;
+            }
+            
+            .listing_details {
+                margin-left: 200px;
+                font-size: 12px;
+                color: gray;
+            }
+            
+            .listing_buy {
+                float: right;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <ul class="leftbar">
+            <li class="leftbar">
+                <h:form>
+                    <h:commandLink action="#{user.earn}">
+                        <h:graphicImage value="res/img/logo.png" height="100%" width="100%" />
+                    </h:commandLink>
+                </h:form>
+
+            </li>
+            <li class="leftbar"><h:link value="Search" outcome="search"/></li>
+            <li class="leftbar"><h:link value="Post" outcome="postListing"/></li>
+            <li class="leftbar"><h:link value="Earn" /></li>
+            <li class="leftbar"><h:link value ="Balance: #{user.wallet}"/></li>
+            <li class="leftbar"><h:link value="Order History" /></li>
+        </ul>
+        
+        <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+            <div class="account_bar">
+                <h3><h:link value="J-Bay" outcome="index.xhtml"/></h3>
+            </div>
+            
+            <div class="topNavBar">
+                <ul class="topbar">
+                    <li class="topbar"><a class="active" href="#Home">Home</a></li>
+                    <li class="topbar"><a href="#Cars">Cars</a></li>
+                    <li class="topbar"><a href="#Books">Books</a></li>
+                    <li class="topbar"><a href="#Shoes">Shoes</a></li>
+                    <li class="topbar"><a href="#Videogames">Video Games</a></li>
+                    <li class="topbar-right">
+                        <div class="search_bar">
+                            <h:form>
+                                <h:inputText id="search_bar">
+                                    <f:passThroughAttribute name="placeholder" value="Search"/>
+                                </h:inputText>
+                                <h:commandButton id="search_submit" value="Search" styleClass="search_submit"/>
+                            </h:form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        
+
+            <div class="results">
+                <h:form class="bg">
+                    <h3>Post a Listing</h3>
+                    
+                    <h:panelGroup layout="block">
+                        Select a listing type 
+                        <h:selectOneMenu id="listing_menu" value="#{listing.type}">
+                            <f:selectItems value="#{listing.listingType}"/>
+                        </h:selectOneMenu>
+                        <h:commandButton value = "Go"></h:commandButton>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{listing.type == 'Auction'}">
+                        <h:panelGroup layout="block">
+                            <h:panelGrid columns="2">
+                                Listing Title:
+                                <h:inputText id="title" value="#{auction.title}">                        
+                                    <f:passThroughAttribute name="placeholder" value="Title" />
+                                </h:inputText>    
+                            </h:panelGrid>
+                        </h:panelGroup>                            
+                        <h:panelGroup layout="block">
+                            <h:panelGrid columns="2">
+                                Starting Bid
+                                <h:inputText id="startingBid" value="#{auction.startingBid}">
+                                    <f:passThroughAttribute name="placeholder" value="$xx.xx" />
+                                </h:inputText> 
+                                Reserve Price:
+                                <h:inputText id="reservePrice" value="#{auction.reserve}">
+                                    <f:passThroughAttribute name="placeholder" value="$xx.xx" />
+                                </h:inputText>
+                                Auction Length:
+                                <h:inputText id="length" value="#{auction.auctionLength}">
+                                    <f:passThroughAttribute name="placeholder" value="# of days" />
+                                </h:inputText>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block">
+                        Listing Image:
+                        <h:inputText 
+                            class="text"
+                            value ="#{auction.imgSrc}"
+                            binding="#{auction.imgUI}">
+                            <f:passThroughAttribute name="placeholder" value="img url" />
+                        </h:inputText>
+                        <h:commandButton class="button" value="load image" action="#{auction.loadImg}"/>
+                        <img src="#{auction.imgSrc}" height="25%" width="25%"/>
+                        </h:panelGroup>
+                        <h:panelGrid columns="2">
+                            Description:
+                            <h:inputTextarea id="description" value="#{auction.description}"
+                                             cols="60" rows="5">
+                                <f:passThroughAttribute name="placeholder" value="Username" />
+                            </h:inputTextarea>       
+                        </h:panelGrid>
+                        Select a category: 
+                        <h:selectOneMenu id="category_menu" value="#{auction.category}">
+                            <f:selectItems value="#{auction.categories}"/>
+                        </h:selectOneMenu>
+                        <h:commandButton value = "Go"></h:commandButton>
+                        
+    <!--                AUTOS-->
+                            <h:panelGroup layout="block" rendered="#{auction.category == 'Cars'}">
+                                <h:panelGrid columns="2">
+                                Make :
+                                <h:inputText value="Car Make"/>
+                                Model:
+                                <h:inputText value="Car Model"/>
+                                Year:
+                                <h:inputText value="Car Year"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+
+    <!--                BOOKS-->
+                            <h:panelGroup layout="block" rendered="#{auction.category == 'Books'}">
+                                <h:panelGrid columns="2">
+                                Title:
+                                <h:inputText value="Title of the Book"/>
+                                Author:
+                                <h:inputText value="Author of the Book"/>
+                                Genre:
+                                <h:inputText value="Genre of the Book"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+
+    <!--                SHOES-->
+                            <h:panelGroup layout="block" rendered="#{auction.category == 'Shoes'}">
+                                <h:panelGrid columns="2">
+                                Brand
+                                <h:inputText value="Shoe Brand"/>
+                                Model:
+                                <h:inputText value="Model of Shoe"/>
+                                Size:
+                                <h:inputText value="Size of the Shoe"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+
+    <!--                VIDEO GAMES-->
+                            <h:panelGroup layout="block" rendered="#{auction.category == 'Video Games'}">
+                                <h:panelGrid columns="2">
+                                Title:
+                                <h:inputText value="Game Title"/>
+                                Rating:
+                                <h:inputText value="Game Rating"/>
+                                Genre:
+                                <h:inputText value="Genre of the Game"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{listing.type == 'Buy It Now'}">
+                        <h:panelGroup layout="block">
+                            <h:panelGrid columns="2">
+                                Listing Title:
+                                <h:inputText id="binTitle" value="#{buyItNow.title}">                        
+                                    <f:passThroughAttribute name="placeholder" value="Title" />
+                                </h:inputText>    
+                            </h:panelGrid>
+                        </h:panelGroup>                            
+                        <h:panelGroup layout="block">
+                            <h:panelGrid columns="2">
+                                Starting Bid
+                                <h:inputText id="binPrice" value="#{buyItNow.price}">
+                                    <f:passThroughAttribute name="placeholder" value="$xx.xx" />
+                                </h:inputText> 
+                                Auction Length:
+                                <h:inputText id="binPistingLength" value="#{buyItNow.listingLength}">
+                                    <f:passThroughAttribute name="placeholder" value="# of days" />
+                                </h:inputText>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block">
+                        Listing Image:
+                        <h:inputText 
+                            class="text"
+                            value ="#{buyItNow.imgSrc}"
+                            binding="#{buyItNow.imgUI}">
+                            <f:passThroughAttribute name="placeholder" value="img url" />
+                        </h:inputText>
+                        <h:commandButton class="button" value="load image" action="#{buyItNow.loadImg}"/>
+                        <img src="#{buyItNow.imgSrc}" height="25%" width="25%"/>
+                        </h:panelGroup>
+                        <h:panelGrid columns="2">
+                            Description:
+                            <h:inputTextarea id="binDescription" value="#{buyItNow.description}"
+                                             cols="60" rows="5">
+                                <f:passThroughAttribute name="placeholder" value="Username" />
+                            </h:inputTextarea>       
+                        </h:panelGrid>
+                        Select a category: 
+                        <h:selectOneMenu id="binCategory_menu" value="#{buyItNow.category}">
+                            <f:selectItems value="#{buyItNow.categories}"/>
+                        </h:selectOneMenu>
+                        <h:commandButton value = "Go"></h:commandButton>
+                        
+    <!--                AUTOS-->
+                            <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Cars'}">
+                                <h:panelGrid columns="2">
+                                Make :
+                                <h:inputText value="Car Make"/>
+                                Model:
+                                <h:inputText value="Car Model"/>
+                                Year:
+                                <h:inputText value="Car Year"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+
+    <!--                BOOKS-->
+                            <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Books'}">
+                                <h:panelGrid columns="2">
+                                Title:
+                                <h:inputText value="Title of the Book"/>
+                                Author:
+                                <h:inputText value="Author of the Book"/>
+                                Genre:
+                                <h:inputText value="Genre of the Book"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+
+    <!--                SHOES-->
+                            <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Shoes'}">
+                                <h:panelGrid columns="2">
+                                Brand
+                                <h:inputText value="Shoe Brand"/>
+                                Model:
+                                <h:inputText value="Model of Shoe"/>
+                                Size:
+                                <h:inputText value="Size of the Shoe"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+
+    <!--                VIDEO GAMES-->
+                            <h:panelGroup layout="block" rendered="#{buyItNow.category == 'Video Games'}">
+                                <h:panelGrid columns="2">
+                                Title:
+                                <h:inputText value="Game Title"/>
+                                Rating:
+                                <h:inputText value="Game Rating"/>
+                                Genre:
+                                <h:inputText value="Genre of the Game"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                </h:panelGroup>
+            </h:form>
+
+
+
+                
+
+
+
+
+
+    <!--                BOOKS-->
+
+                
+
+
+
+                
+            </div>
+        </div>
+    </body>
+        <footer>Copyrighted &copy; Japji and the Databaes</footer>
+        
+</html>
+

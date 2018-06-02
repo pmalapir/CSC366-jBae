@@ -22,12 +22,16 @@ import javax.inject.Named;
 
 public class Listing {
     private int listingID;
+    private String title;
     private String seller;
     private String postDate;
     private String expirationDate;
     private String category;
+    private String type;
     private String imgSrc;
+    private String description;
     private String[] categories = {"Books", "Cars", "Shoes", "Video Games"};
+    private String[] listingType = {"Auction","Buy It Now"};
 
     private UIInput imgUI;
 
@@ -55,6 +59,23 @@ public class Listing {
         this.categories = categories;
     }
     
+    public String[] getListingType() {
+        return listingType;
+    }
+    
+    public void setListingType(String[] listingType) {
+        this.listingType = listingType;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
     public String getCategory() {
         return category;
     }
@@ -68,6 +89,13 @@ public class Listing {
     }
     public void setListingID(int listingID){
         this.listingID = listingID;
+    }
+    
+    public String getTitle(){
+        return title;
+    }
+    public void setTitle(String title){
+        this.title = title;
     }
     
     public String getSeller(){
@@ -90,6 +118,14 @@ public class Listing {
     
     public void setExpirationDate(String expirationDate){
         this.expirationDate = expirationDate;
+    }
+    
+    public String getDescription(){
+        return description;
+    }
+    
+    public void setDescription(String description){
+        this.description = description;
     }
     
     public void loadImg() {
