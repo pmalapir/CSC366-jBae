@@ -1,5 +1,4 @@
 package Items;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
@@ -16,14 +15,14 @@ import javax.inject.Named;
  * @author Patrick
  */
 
-@Named(value = "shoe")
+@Named(value = "videogame")
 @ManagedBean
 @SessionScoped
-public class Shoes {
+public class Videogame {
     private int itemID;
-    private String brand;
-    private String model;
-    private int size;
+    private String title;
+    private int rating;
+    private String genre;
     
     public int getItemID(){
         return itemID;
@@ -32,24 +31,25 @@ public class Shoes {
         this.itemID = itemID;
     }
     
-    public String getBrand(){
-        return brand;
+    public String getTitle(){
+        return title;
     }
-    public void setBrand(String brand){
-        this.brand = brand;
-    }
-    
-    public String getModel(){
-        return model;
-    }
-    public void setModel(String model){
-        this.model = model;
+    public void setTitle(String title){
+        this.title = title;
     }
     
-    public int getSize(){
-        return size;
+    public int getRating(){
+        return rating;
     }
-    public void setSize(int size){
-        this.size = size;
+    public void setRating(int rating){
+        this.rating = rating;
     }
+    
+    public String getGenre(){
+        return genre;
+    }
+    public void setGenre(String genre){
+        this.genre = genre;
+    }
+    
 }

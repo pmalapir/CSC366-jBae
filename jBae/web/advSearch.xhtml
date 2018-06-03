@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <head>
         <title>J-Bay</title>
@@ -149,6 +150,17 @@
                 box-sizing: border-box;
 
             }
+            .adv_search_submit{
+                float: next;
+                width: 15%;
+                padding: 8px;
+                background: #2196F3;
+                color: white;
+                font-size: 17px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
+            }
              .search_submit{
                 float: left;
                 width: 30%;
@@ -253,8 +265,8 @@
                 </h:form>
 
             </li>
-            <li class="leftbar"><h:link value="Search" outcome="advSearch"/></li>
-            <li class="leftbar"><h:link value="Post" outcome="postListing"/></li>
+            <li class="leftbar"><h:link value="Search" outcome="advSearch.xhtml"/></li>
+            <li class="leftbar"><h:link value="Post" outcome="postListing.xhtml"/></li>
             <li class="leftbar"><h:link value="Earn" /></li>
             <li class="leftbar"><h:link value ="Balance: #{user.wallet}"/></li>
             <li class="leftbar"><h:link value="Order History" /></li>
@@ -285,82 +297,100 @@
                 </ul>
             </div>
             <div class="results">
-            <h:form class = "bg">
-                <h3>Register an Account</h3>
-                <h:panelGrid columns="3">
+                <h:form class="bg">
+                    <h4>Search by Filters</h4>    
+                    <h:panelGrid columns="3">
+                        Price:
+                        <h:inputText class="text" value="0" />
+                        <h:selectOneMenu value="THIS">
+                            <f:selectItem itemValue="less" itemLabel="Less Than or Equal"/>
+                            <f:selectItem itemValue="greater" itemLabel="Greater Than or Equal"/>
+                        </h:selectOneMenu>
+                    </h:panelGrid>
 
-                Username:
-                <h:inputText
-                    class="text"
-                    value="#{user.username}"
-                    id="Username"
-                    validator="#{user.validateUser}"
-                    requiredMessage="Username field can not be empty"
-                    required="true">
-                    <f:passThroughAttribute name="placeholder" value="ex. Jsingh" />
-                </h:inputText>
-                <h:message for="Username" class="errorMessage"/>
+                    <h:panelGrid columns="2">
+                        Seller:
+                        <h:inputText class="text" value="Search by Seller ..." />
+                    </h:panelGrid>
 
-                Password: 
-                <h:inputText
-                    class="text"
-                    value="#{user.password}"
-                    binding="#{user.passwordUI}"
-                    id="Password"
-                    requiredMessage="Password field can not be empty"
-                    required="true">
-                    <f:passThroughAttribute name="placeholder" value="ex. Password123" />                    
-                </h:inputText>
-                <h:message for="Password" class="errorMessage"/>
+                    Categories:
+                    <h:selectOneMenu id="category_menu" value="#{listing.category}">
+                        <f:selectItems value="#{listing.categories}"/>
+                    </h:selectOneMenu>
+                    <h:commandButton value = "Go"></h:commandButton>
 
-                Re-enter Password:
-                <h:inputText
-                    class="text"
-                    id="RPassword"
-                    validator="#{user.validatePass}"
-                    requiredMessage="Re-enter Password field can not be empty"
-                    required="true">
-                    <f:passThroughAttribute name="placeholder" value="ex. Password123" />                     
-                </h:inputText>
-                <h:message for="RPassword" class="errorMessage"/>
+<!--                AUTOS-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Cars'}">
+                        <h:panelGrid columns="2">
+                        Make :
+                        <h:inputText class="text" id="carMake" value="#{car.make}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Honda" />
+                        </h:inputText>
+                        Model:
+                        <h:inputText class="text" id="carModel" value="#{car.model}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Accord" />
+                        </h:inputText>
+                        Year:
+                        <h:inputText class="text" id="carYear" value="#{car.year}">
+                            <f:passThroughAttribute name="placeholder" value="eg. 2001" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
 
-                Email:
-                <h:inputText
-                    class="text"
-                    value="#{user.email}"
-                    id="email"
-                    requiredMessage="Email field can not be empty"
-                    required="true">
-                    <f:passThroughAttribute name="placeholder" value="ex. jsingh@gmail.com" />                     
-                </h:inputText>
-                <h:message class="errorMessage" for="email"/>
+<!--                BOOKS-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Books'}">
+                        <h:panelGrid columns="2">
+                        Title:
+                        <h:inputText class="text" id="bookTitle" value="#{book.title}">
+                            <f:passThroughAttribute name="placeholder" value="eg. 1984" />
+                        </h:inputText>
+                        Author:
+                        <h:inputText class="text" id="bookAuthor" value="#{book.author}">
+                            <f:passThroughAttribute name="placeholder" value="eg. George Orwell" />
+                        </h:inputText>
+                        Genre:
+                        <h:inputText class="text" id="bookGenre" value="#{book.genre}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Sci-fi" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
 
-                First Name:
-                <h:inputText
-                    class="text"
-                    value="#{user.firstName}"
-                    id="fname"
-                    requiredMessage="First Name required"
-                    required="true">
-                    <f:passThroughAttribute name="placeholder" value="ex. Japji" />                     
-                </h:inputText>
-                <h:message for="fname" class="errorMessage"/>
+<!--                SHOES-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Shoes'}">
+                        <h:panelGrid columns="2">
+                        Brand
+                        <h:inputText class="text" id="shoeBrand" value="#{shoe.brand}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Nike" />
+                        </h:inputText>
+                        Model:
+                        <h:inputText class="text" id="shoeModel" value="#{shoe.model}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Air Jordan 1" />
+                        </h:inputText>
+                        Size:
+                        <h:inputText class="text" id="shoeSize" value="#{shoe.size}">
+                            <f:passThroughAttribute name="placeholder" value="eg 8.5" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
 
-                Last Name:
-                <h:inputText
-                    class="text"
-                    value="#{user.lastName}"
-                    id="lname"
-                    requiredMessage="Last Name required"
-                    required="true">
-                    <f:passThroughAttribute name="placeholder" value="ex. Signh" />                     
-                </h:inputText>
-                <h:message for="lname" class="errorMessage"/>
-
-                </h:panelGrid>
-                <div>
-                    <h:commandButton class="button" value="Create Account" action="#{user.registerUser}"></h:commandButton>
-                </div>
+<!--                VIDEO GAMES-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Video Games'}">
+                        <h:panelGrid columns="2">
+                        Title:
+                        <h:inputText class="text" id="videogameTitle" value="#{videogame.title}">
+                            <f:passThroughAttribute name="placeholder" value="eg. GTA V" />
+                        </h:inputText>
+                        Rating:
+                        <h:inputText class="text" id="videogameRating" value="#{videogame.rating}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Mature" />
+                        </h:inputText>
+                        Genre:
+                        <h:inputText class="text" id="videogameGenre" value="#{videogame.genre}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Action" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <h:commandButton id="adv_search_submit" value="Search" styleClass="adv_search_submit"/>
                 </h:form>
             </div>
         </div>

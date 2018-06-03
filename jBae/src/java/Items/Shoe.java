@@ -16,15 +16,14 @@ import javax.inject.Named;
  * @author Patrick
  */
 
-@Named(value = "book")
+@Named(value = "shoe")
 @ManagedBean
 @SessionScoped
-
-public class Books {
+public class Shoe {
     private int itemID;
-    private String title;
-    private String author;
-    private String genre;
+    private String brand;
+    private String model;
+    private int size;
     
     public int getItemID(){
         return itemID;
@@ -33,26 +32,24 @@ public class Books {
         this.itemID = itemID;
     }
     
-    public String getTitle(){
-        return title;
+    public String getBrand(){
+        return brand;
     }
-    public void setTitle(String title){
-        this.title = title;
-    }
-    
-    public String getAuthor(){
-        return author;
-    }
-    public void setAuthor(String author){
-        this.author = author;
+    public void setBrand(String brand){
+        this.brand = brand;
     }
     
-    public String getGenre(){
-        return genre;
+    public String getModel(){
+        return model;
     }
-    public void setGenre(String genre){
-        this.genre = genre;
+    public void setModel(String model){
+        this.model = model;
     }
     
-    
+    public int getSize(){
+        return size;
+    }
+    public void setSize(int size){
+        this.size = size;
+    }
 }

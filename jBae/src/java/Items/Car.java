@@ -19,7 +19,7 @@ import javax.inject.Named;
 @Named(value = "car")
 @ManagedBean
 @SessionScoped
-public class Cars {
+public class Car {
     private int itemID;
     private String make;
     private String model;
