@@ -1,3 +1,14 @@
+-- delete listings
+
+delete from books;
+delete from shoes;
+delete from video_games;
+delete from autos;
+delete from buy_now_listings;
+delete from auction_listings;
+delete from listings;
+delete from items;
+    
 -- quick clear
 -- change 'buy_now_listing' to 'buy_it_now_listing', I shortened the name later on
 DROP TABLE autos, books, shoes, video_games, sales, buy_now_listings, auction_listings, listings, users, items;
