@@ -281,7 +281,7 @@
         
 
             <div class="results">
-                <h:form class="bg">
+                <h:form id="form" class="bg">
                     <h3>Post a Listing</h3>
                     
                     <h:panelGroup layout="block">
@@ -289,44 +289,48 @@
                         <h:selectOneMenu id="listing_menu" value="#{listing.type}">
                             <f:selectItems value="#{listing.listingType}"/>
                         </h:selectOneMenu>
-                        <h:commandButton value = "Go"></h:commandButton>
+                        <h:commandButton id="select_type" value = "Go"></h:commandButton>
                     </h:panelGroup>
                     <h:panelGroup layout="block" rendered="#{listing.type == 'Auction'}">
                         <h:panelGroup layout="block">
-                            <h:panelGrid columns="2">
-                                Listing Title:
-                                <h:inputText class="text" id="title" value="#{auction.title}">                        
+                            <h:panelGrid columns="3">
+                                Listing Title: 
+                                <h:inputText class="text" id="title" value="#{auction.title}" required="#{param['form:select_type']==null and param['form:select_category']==null}" requiredMessage="Listing needs a title">                        
                                     <f:passThroughAttribute name="placeholder" value="Title" />
                                 </h:inputText>    
+                                <h:message for="title" style="color:red;margin:8px;"/>
                             </h:panelGrid>
-                        </h:panelGroup>                            
+                        </h:panelGroup>
+                        
                         <h:panelGroup layout="block">
                             <h:panelGrid columns="2">
                                 Starting Bid
-                                <h:inputText class="text" id="startingBid" value="#{auction.startingBid}">
+                                <h:inputText class="text" id="startingBid" value="#{auction.price}">
                                     <f:passThroughAttribute name="placeholder" value="$xx.xx" />
                                 </h:inputText> 
-                                Reserve Price:
-                                <h:inputText class="text" id="reservePrice" value="#{auction.reserve}">
-                                    <f:passThroughAttribute name="placeholder" value="$xx.xx" />
-                                </h:inputText>
                                 Auction Length:
-                                <h:inputText class="text" id="length" value="#{auction.auctionLength}">
+                                <h:inputText class="text" id="length" value="#{auction.listingLength}">
                                     <f:passThroughAttribute name="placeholder" value="# of days" />
                                 </h:inputText>
                             </h:panelGrid>
                         </h:panelGroup>
+                        
                         <h:panelGroup layout="block">
                         Listing Image:
                         <h:inputText 
                             class="text"
+                            id="img_link"
                             value ="#{auction.imgSrc}"
-                            binding="#{auction.imgUI}">
+                            binding="#{auction.imgUI}"
+                            required="#{param['form:select_type']==null and param['form:select_category']==null}"
+                            requiredMessage="Listing needs an image link">
                             <f:passThroughAttribute name="placeholder" value="img url" />
                         </h:inputText>
                         <h:commandButton class="button" value="load image" action="#{auction.loadImg}"/>
+                        <h:message for="img_link" style="color:red;margin:8px;"/>
                         <img src="#{auction.imgSrc}" height="25%" width="25%"/>
                         </h:panelGroup>
+                        
                         <h:panelGrid columns="2">
                             Description:
                             <h:inputTextarea class="text" id="description" value="#{auction.description}"
@@ -338,92 +342,106 @@
                         <h:selectOneMenu id="category_menu" value="#{auction.category}">
                             <f:selectItems value="#{auction.categories}"/>
                         </h:selectOneMenu>
-                        <h:commandButton value = "Go"></h:commandButton>
+                        <h:commandButton id="select_category" value="Go"></h:commandButton>
                         
     <!--                AUTOS-->
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Cars'}">
-                                <h:panelGrid columns="2">
+                                <h:panelGrid columns="3">
                                 Make :
-                                <h:inputText class="text" id="carMake" value="#{car.make}">
+                                <h:inputText class="text" id="carMake" value="#{car.make}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Car needs the Make">
                                     <f:passThroughAttribute name="placeholder" value="eg. Honda" />
                                 </h:inputText>
+                                <h:message for="carMake" style="color:red;margin:8px;"/>
                                 Model:
-                                <h:inputText class="text" id="carModel" value="#{car.model}">
+                                <h:inputText class="text" id="carModel" value="#{car.model}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Car needs the model of the make">
                                     <f:passThroughAttribute name="placeholder" value="eg. Accord" />
                                 </h:inputText>
+                                <h:message for="carModel" style="color:red;margin:8px;"/>
                                 Year:
-                                <h:inputText class="text" id="carYear" value="#{car.year}">
+                                <h:inputText class="text" id="carYear" value="#{car.year}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Car needs the year of the model">
                                     <f:passThroughAttribute name="placeholder" value="eg. 2001" />
                                 </h:inputText>
+                                <h:message for="carYear" style="color:red;margin:8px;"/>
                                 </h:panelGrid>
                             </h:panelGroup>
 
     <!--                BOOKS-->
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Books'}">
-                                <h:panelGrid columns="2">
+                                <h:panelGrid columns="3">
                                 Title:
-                                <h:inputText class="text" id="bookTitle" value="#{book.title}">
+                                <h:inputText class="text" id="bookTitle" value="#{book.title}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Book needs the title">
                                     <f:passThroughAttribute name="placeholder" value="eg. 1984" />
                                 </h:inputText>
+                                <h:message for="bookTitle" style="color:red;margin:8px;"/>
                                 Author:
-                                <h:inputText class="text" id="bookAuthor" value="#{book.author}">
+                                <h:inputText class="text" id="bookAuthor" value="#{book.author}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Book needs the author">
                                     <f:passThroughAttribute name="placeholder" value="eg. George Orwell" />
                                 </h:inputText>
+                                <h:message for="bookAuthor" style="color:red;margin:8px;"/>
                                 Genre:
-                                <h:inputText class="text" id="bookGenre" value="#{book.genre}">
+                                <h:inputText class="text" id="bookGenre" value="#{book.genre}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Book needs a genre">
                                     <f:passThroughAttribute name="placeholder" value="eg. Sci-fi" />
                                 </h:inputText>
+                                <h:message for="bookGenre" style="color:red;margin:8px;"/>
                                 </h:panelGrid>
                             </h:panelGroup>
 
     <!--                SHOES-->
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Shoes'}">
-                                <h:panelGrid columns="2">
+                                <h:panelGrid columns="3">
                                 Brand
-                                <h:inputText class="text" id="shoeBrand" value="#{shoe.brand}">
+                                <h:inputText class="text" id="shoeBrand" value="#{shoe.brand}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Shoes needs the brand">
                                     <f:passThroughAttribute name="placeholder" value="eg. Nike" />
                                 </h:inputText>
+                                <h:message for="shoeBrand" style="color:red;margin:8px;"/>
                                 Model:
-                                <h:inputText class="text" id="shoeModel" value="#{shoe.model}">
+                                <h:inputText class="text" id="shoeModel" value="#{shoe.model}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Shoes needs the model of the brand">
                                     <f:passThroughAttribute name="placeholder" value="eg. Air Jordan 1" />
                                 </h:inputText>
+                                <h:message for="shoeModel" style="color:red;margin:8px;"/>
                                 Size:
-                                <h:inputText class="text" id="shoeSize" value="#{shoe.size}">
+                                <h:inputText class="text" id="shoeSize" value="#{shoe.size}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Shoes needs the size">
                                     <f:passThroughAttribute name="placeholder" value="eg 8.5" />
                                 </h:inputText>
+                                <h:message for="shoeSize" style="color:red;margin:8px;"/>
                                 </h:panelGrid>
                             </h:panelGroup>
 
     <!--                VIDEO GAMES-->
                             <h:panelGroup layout="block" rendered="#{auction.category == 'Video Games'}">
-                                <h:panelGrid columns="2">
+                                <h:panelGrid columns="3">
                                 Title:
-                                <h:inputText class="text" id="videogameTitle" value="#{videogame.title}">
+                                <h:inputText class="text" id="videogameTitle" value="#{videogame.title}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Video Game needs the title">
                                     <f:passThroughAttribute name="placeholder" value="eg. GTA V" />
                                 </h:inputText>
+                                <h:message for="videogameTitle" style="color:red;margin:8px;"/>
                                 Rating:
-                                <h:inputText class="text" id="videogameRating" value="#{videogame.rating}">
+                                <h:inputText class="text" id="videogameRating" value="#{videogame.rating}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Video Game needs the rating">
                                     <f:passThroughAttribute name="placeholder" value="eg. Mature" />
                                 </h:inputText>
+                                <h:message for="videogameRating" style="color:red;margin:8px;"/>
                                 Genre:
-                                <h:inputText class="text" id="videogameGenre" value="#{videogame.genre}">
+                                <h:inputText class="text" id="videogameGenre" value="#{videogame.genre}" required="#{param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Video Game needs the genre">
                                     <f:passThroughAttribute name="placeholder" value="eg. Action" />
                                 </h:inputText>
+                                <h:message for="videogameGenre" style="color:red;margin:8px;"/>
                                 </h:panelGrid>
                             </h:panelGroup>
+                            <h:commandButton value="submit" action="#{auction.submitListing}"/>
                     </h:panelGroup>
+                    
                     <h:panelGroup layout="block" rendered="#{listing.type == 'Buy It Now'}">
                         <h:panelGroup layout="block">
                             <h:panelGrid columns="2">
                                 Listing Title:
-                                <h:inputText class="text" id="binTitle" value="#{buyItNow.title}">                        
+                                <h:inputText class="text" id="binTitle" value="#{buyItNow.title}" required="#{param['form:select_type']==null and param['form:select_category']==null}" requiredMessage="Listing needs a title">                        
                                     <f:passThroughAttribute name="placeholder" value="Title" />
                                 </h:inputText>    
                             </h:panelGrid>
                         </h:panelGroup>                            
                         <h:panelGroup layout="block">
                             <h:panelGrid columns="2">
-                                Starting Bid
+                                Price:
                                 <h:inputText class="text" id="binPrice" value="#{buyItNow.price}">
                                     <f:passThroughAttribute name="placeholder" value="$xx.xx" />
                                 </h:inputText> 
@@ -438,7 +456,9 @@
                         <h:inputText 
                             class="text"
                             value ="#{buyItNow.imgSrc}"
-                            binding="#{buyItNow.imgUI}">
+                            binding="#{buyItNow.imgUI}"
+                            required="#{param['form:select_type']==null and param['form:select_category']==null}" 
+                            requiredMessage="Listing needs an image link">
                             <f:passThroughAttribute name="placeholder" value="img url" />
                         </h:inputText>
                         <h:commandButton class="button" value="load image" action="#{buyItNow.loadImg}"/>
@@ -448,7 +468,7 @@
                             Description:
                             <h:inputTextarea class="text" id="binDescription" value="#{buyItNow.description}"
                                              cols="60" rows="5">
-                                <f:passThroughAttribute name="placeholder" value="Username" />
+                                <f:passThroughAttribute name="placeholder" value="Description..." />
                             </h:inputTextarea>       
                         </h:panelGrid>
                         Select a category: 
@@ -528,7 +548,9 @@
                                 </h:inputText>
                                 </h:panelGrid>
                             </h:panelGroup>
+                        <h:commandButton value="submit" action="#{buyItNow.submitListing}"/>
                 </h:panelGroup>
+
             </h:form>
             </div>
         </div>

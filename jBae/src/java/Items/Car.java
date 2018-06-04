@@ -1,5 +1,10 @@
 package Items;
 
+import Connection.DBConnect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
@@ -24,6 +29,7 @@ public class Car {
     private String make;
     private String model;
     private int year;
+    private DBConnect dbConnect = new DBConnect();
     
     public int getItemID(){
         return itemID;
@@ -53,5 +59,28 @@ public class Car {
         this.year = year;
     }
     
-    
+    public void createCar(int id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement car = con.prepareStatement(
+            "INSERT INTO autos VALUES (?,?,?,?)");
+        
+        car.setInt(1, id);
+        car.setString(2, make);
+        car.setString(3, model);
+        car.setInt(4, year);
+        
+        car.executeUpdate();
+        statement.close();
+        con.commit();
+        con.close();
+    }
 }

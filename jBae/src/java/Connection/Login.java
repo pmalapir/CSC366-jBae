@@ -1,8 +1,12 @@
+package Connection;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -102,6 +106,43 @@ public class Login {
             throw new ValidatorException(errorMessage);
         }
         
-        System.out.println("LOGGED INTO ACCOUNT");
+    }
+    
+    public User getUser() throws SQLException {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        User user = (User) elContext.getELResolver().getValue(elContext, null, "user");
+        return user;
+    }
+    public void login() throws SQLException {
+        User user = getUser();
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement findUser = con.prepareStatement(
+            "SELECT username, first_name, last_name, email, admin, wallet "
+                    + "FROM users WHERE username = ?");
+        
+        findUser.setString(1, username);
+        
+        ResultSet rs = findUser.executeQuery();
+        if(rs.next())
+        {
+            user.setUsername(rs.getString("username"));
+            user.setFirstName(rs.getString("first_name"));
+            user.setLastName(rs.getString("last_name"));
+            user.setEmail(rs.getString("email"));
+            user.setAdmin(rs.getBoolean("admin"));
+            user.setWallet(rs.getDouble("wallet"));
+        }
+        statement.close();
+        con.commit();
+        con.close();
     }
 }

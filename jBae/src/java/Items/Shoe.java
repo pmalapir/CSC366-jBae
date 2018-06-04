@@ -1,5 +1,10 @@
 package Items;
 
+import Connection.DBConnect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
@@ -24,7 +29,7 @@ public class Shoe {
     private String brand;
     private String model;
     private int size;
-    
+    private DBConnect dbConnect = new DBConnect();
     public int getItemID(){
         return itemID;
     }
@@ -51,5 +56,30 @@ public class Shoe {
     }
     public void setSize(int size){
         this.size = size;
+    }
+    
+    public void createShoe(int id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement shoe = con.prepareStatement(
+            "INSERT INTO shoes VALUES (?,?,?,?)");
+        
+        shoe.setInt(1, id);
+        shoe.setString(2, brand);
+        shoe.setString(3, model);
+        shoe.setInt(4, size);
+        
+        shoe.executeUpdate();
+        statement.close();
+        con.commit();
+        con.close();
     }
 }

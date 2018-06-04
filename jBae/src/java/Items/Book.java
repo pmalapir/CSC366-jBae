@@ -1,5 +1,10 @@
 package Items;
 
+import Connection.DBConnect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
@@ -21,17 +26,11 @@ import javax.inject.Named;
 @SessionScoped
 
 public class Book {
-    private int itemID;
     private String title;
     private String author;
     private String genre;
     
-    public int getItemID(){
-        return itemID;
-    }
-    public void setItemID(int itemID){
-        this.itemID = itemID;
-    }
+    private DBConnect dbConnect = new DBConnect();
     
     public String getTitle(){
         return title;
@@ -54,5 +53,28 @@ public class Book {
         this.genre = genre;
     }
     
-    
+    public void createBook(int id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement book = con.prepareStatement(
+            "INSERT INTO books VALUES (?,?,?,?)");
+        
+        book.setInt(1, id);
+        book.setString(2, title);
+        book.setString(3, author);
+        book.setString(4, genre);
+        
+        book.executeUpdate();
+        statement.close();
+        con.commit();
+        con.close();
+    }
 }

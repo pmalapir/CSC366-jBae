@@ -1,5 +1,13 @@
 package Listings;
 
+import Items.Book;
+import Items.Car;
+import Items.Shoe;
+import Items.Videogame;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
@@ -20,36 +28,56 @@ import javax.inject.Named;
 @ManagedBean
 @SessionScoped
 public class Auction extends Listing{
-    private double startingBid = 0;
-    private double auctionLength;
-    private double currentBid;
-    private double reserve;
     
-    public double getStartingBid(){
-        return startingBid;
-    }
-    public void setStartingBid(double startingBid){
-        this.startingBid = startingBid;
-    }
-    
-    public double getAuctionLength(){
-        return auctionLength;
-    }
-    public void setAuctionLength(double auctionLength){
-        this.auctionLength = auctionLength;
-    }
-    
-    public double getCurrentBid(){
-        return currentBid;
-    }
-    public void setCurrentBid(double currentBid){
-        this.currentBid = currentBid;
+    public void createAuctionListing(int listing_id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement listing = con.prepareStatement(
+                "INSERT INTO auction_listings VALUES(?)");
+                
+        listing.setInt(1, listing_id);
+
+        listing.executeUpdate();
+        statement.close();
+        con.commit();
+        con.close();
     }
     
-    public double getReserve(){
-        return reserve;
-    }
-    public void setReserve(double reserve){
-        this.reserve = reserve;
+    public void submitListing() throws SQLException {
+        int item_id = createItem();
+        
+        switch (getCategory()) 
+        {
+            case "Books" :
+                Book book = getBook();
+                book.createBook(item_id);
+                break;
+            case "Cars" :
+                Car car = getCar();
+                car.createCar(item_id);
+                break;
+            case "Shoes" :
+                Shoe shoe = getShoe();
+                shoe.createShoe(item_id);
+                break;
+            case "Video Games" :
+                Videogame videogame = getVideogame();
+                videogame.createVideogame(item_id);
+                break;
+            default:
+                System.out.println("no category selected");
+                break;
+        } 
+        
+        int listing_id = createListing(item_id);
+        createAuctionListing(listing_id);
     }
 }

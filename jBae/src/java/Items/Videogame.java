@@ -1,4 +1,9 @@
 package Items;
+import Connection.DBConnect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
@@ -23,6 +28,7 @@ public class Videogame {
     private String title;
     private int rating;
     private String genre;
+    private DBConnect dbConnect = new DBConnect();
     
     public int getItemID(){
         return itemID;
@@ -51,5 +57,28 @@ public class Videogame {
     public void setGenre(String genre){
         this.genre = genre;
     }
-    
+    public void createVideogame(int id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement videogames = con.prepareStatement(
+            "INSERT INTO video_games VALUES (?,?,?,?)");
+        
+        videogames.setInt(1, id);
+        videogames.setString(2, title);
+        videogames.setInt(3, rating);
+        videogames.setString(4, genre);
+        
+        videogames.executeUpdate();
+        statement.close();
+        con.commit();
+        con.close();
+    }
 }

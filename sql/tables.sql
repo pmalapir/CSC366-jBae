@@ -12,20 +12,20 @@ CREATE TABLE users (
    email TEXT NOT NULL,
    -- site related info
    admin BOOL NOT NULL,
-   wallet INT CHECK (wallet > 0),
+   wallet REAL CHECK (wallet > 0),
    -- definitions
    PRIMARY KEY (username)
 );
 
 CREATE TABLE items (
-   item_id INT CHECK (item_id > 0),
+   item_id SERIAL,
    image TEXT,
    -- definitions
    PRIMARY KEY (item_id)
 );
 
 CREATE TABLE autos (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    make TEXT NOT NULL,
    model TEXT NOT NULL,
    year INT NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE autos (
 );
 
 CREATE TABLE books (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    title TEXT NOT NULL,
    author TEXT NOT NULL,
    genre TEXT NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE books (
 );
 
 CREATE TABLE video_games (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    title TEXT NOT NULL,
    rating INT CHECK (rating >= 0 AND rating <= 10) NOT NULL,   -- may not work
    genre TEXT NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE video_games (
 );
 
 CREATE TABLE shoes (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    brand TEXT NOT NULL,
    model TEXT NOT NULL,
    size INT CHECK (size > 0) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE shoes (
 );
 
 CREATE TABLE listings (
-   listing_id INT CHECK (listing_id > 0),
+   listing_id SERIAL,
    price REAL CHECK (price > 0) NOT NULL, -- moved price here for simplicity, acts as both (price & current bid)
    title TEXT NOT NULL,
    description TEXT,
@@ -77,23 +77,21 @@ CREATE TABLE listings (
 );
 
 CREATE TABLE buy_now_listings (
-   listing_id INT CHECK (listing_id > 0),
+   listing_id INTEGER,
    -- definitions
    PRIMARY KEY (listing_id),
    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
 );
 
 CREATE TABLE auction_listings (
-   listing_id INT CHECK (listing_id > 0),
-   -- auction specific attributes
-   reserve REAL CHECK (reserve > 0) NOT NULL,
-   -- definitions
+   listing_id SERIAL,
+
    PRIMARY KEY (listing_id),
    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
 );
 
 CREATE TABLE sales (
-   listing INT CHECK (listing > 0),
+   listing SERIAL,
    buyer VARCHAR(25) NOT NULL,
    sale_date TIMESTAMP NOT NULL,
    PRIMARY KEY (listing),

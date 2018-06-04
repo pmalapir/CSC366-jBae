@@ -1,5 +1,16 @@
 package Listings;
 
+import Connection.DBConnect;
+import Items.Book;
+import Items.Car;
+import Items.Shoe;
+import Items.Videogame;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
@@ -19,21 +30,59 @@ import javax.inject.Named;
 @Named(value = "buyItNow")
 @ManagedBean
 @SessionScoped
+
 public class BuyItNow extends Listing{
-    private double price;
-    private double listingLength;
     
-    public double getPrice(){
-        return price;
-    }
-    public void setPrice(double price){
-        this.price = price;
-    }
+    private DBConnect dBConnect = new DBConnect();
     
-    public double getListingLength(){
-        return listingLength;
+    public void createBuyItNowListing(int listing_id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement listing = con.prepareStatement(
+                "INSERT INTO buy_now_listings VALUES(?)");
+                
+        listing.setInt(1, listing_id);
+
+        listing.executeUpdate();
+        statement.close();
+        con.commit();
+        con.close();
     }
-    public void setListingLength(double listingLength){
-        this.listingLength = listingLength;
+    public void submitListing() throws SQLException {
+        int item_id = createItem();
+        
+        switch (getCategory()) 
+        {
+            case "Books" :
+                Book book = getBook();
+                book.createBook(item_id);
+                break;
+            case "Cars" :
+                Car car = getCar();
+                car.createCar(item_id);
+                break;
+            case "Shoes" :
+                Shoe shoe = getShoe();
+                shoe.createShoe(item_id);
+                break;
+            case "Video Games" :
+                Videogame videogame = getVideogame();
+                videogame.createVideogame(item_id);
+                break;
+            default:
+                System.out.println("no category selected");
+                break;
+        } 
+        
+        int listing_id = createListing(item_id);
+        createBuyItNowListing(listing_id);
     }
 }
