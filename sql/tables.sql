@@ -22,8 +22,8 @@ CREATE TABLE users (
    last_name TEXT NOT NULL,
    email TEXT NOT NULL,
    -- site related info
+   wallet REAL CHECK (wallet > 0) NOT NULL,
    admin BOOL NOT NULL,
-   wallet REAL CHECK (wallet > 0),
    -- definitions
    PRIMARY KEY (username)
 );
@@ -87,19 +87,19 @@ CREATE TABLE listings (
    FOREIGN KEY (seller) REFERENCES users (username)
 );
 
-CREATE TABLE buy_now_listings (
-   listing_id INTEGER,
-   -- definitions
-   PRIMARY KEY (listing_id),
-   FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
-);
+-- CREATE TABLE buy_now_listings (
+--    listing_id INTEGER,
+--    -- definitions
+--    PRIMARY KEY (listing_id),
+--    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
+-- );
 
-CREATE TABLE auction_listings (
-   listing_id SERIAL,
+-- CREATE TABLE auction_listings (
+--    listing_id SERIAL,
 
-   PRIMARY KEY (listing_id),
-   FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
-);
+--    PRIMARY KEY (listing_id),
+--    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
+-- );
 
 CREATE TABLE sales (
    listing SERIAL,

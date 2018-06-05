@@ -14,16 +14,9 @@ FROM listings
 WHERE status = 'active'
    AND title LIKE '%search_input%';
 
--- buy now
-SELECT listings.*
-FROM buy_now_listings 
-   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id
-WHERE status = 'active';
-
--- auction
-SELECT listings.*
-FROM auction_listings 
-   INNER JOIN listings ON auction_listings.listing_id = listings.listing_id
+-- all listing
+SELECT *
+FROM listings
 WHERE status = 'active';
 
 -- newest -> oldest
@@ -60,139 +53,45 @@ ORDER BY price DESC;
 
 /* run an iteration for each token in search input, keep hit count in java */
 
--- all listings + best match
+-- best match
 SELECT *
-FROM listings
-WHERE status = 'active'
-   AND title LIKE '%search_input%';
-
--- buy now + best match
-SELECT listings.*
-FROM buy_now_listings
-   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%';
-
--- auction + best match
-SELECT listings.*
-FROM auction_listings
-   INNER JOIN listings ON auction_listings.listing_id = listings.listing_id
+FORM listings
 WHERE status = 'active'
    AND title LIKE '%search_input%';
 
 /* run an iteration for each token in search input, store all results with ANY hits */
 
--- all listings + newest -> oldest
+-- newest -> oldest
 SELECT *
 FROM listings
 WHERE status = 'active'
    AND title LIKE '%search_input%'
 ORDER BY post_date DESC;
 
--- buy now + newest -> oldest
-SELECT listings.*
-FROM buy_now_listings
-   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY post_date DESC;
-
--- auction + newest -> oldest
-SELECT listings.*
-FROM auction_listings
-   INNER JOIN listings ON auction_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY post_date DESC;
-
--- all listings + oldest -> newest
+-- oldest -> newest
 SELECT *
 FROM listings
 WHERE status = 'active'
    AND title LIKE '%search_input%'
 ORDER BY post_date ASC;
 
--- buy now + oldest -> newest
-SELECT listings.*
-FROM buy_now_listings
-   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY post_date ASC;
-
--- auction + oldest -> newest
-SELECT listings.*
-FROM auction_listings
-   INNER JOIN listings ON auction_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY post_date ASC;
-
--- all listings + ending soonest
+-- ending soonest
 SELECT *
 FROM listings
 WHERE status = 'active'
    AND title LIKE '%search_input%'
 ORDER BY exp_date ASC;
 
--- buy now + ending soonest
-SELECT listings.*
-FROM buy_now_listings
-   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY exp_date ASC;
-
--- auction + ending soonest
-SELECT listings.*
-FROM auction_listings
-   INNER JOIN listings ON auction_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY exp_date ASC;
-
--- all listings + lowest -> highest price
+-- lowest -> highest price
 SELECT *
 FROM listings
 WHERE status = 'active'
    AND title LIKE '%search_input%'
 ORDER BY price ASC;
 
--- buy now + lowest -> highest price
-SELECT listings.*
-FROM buy_now_listings
-   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY price ASC;
-
--- auction + lowest -> highest price
-SELECT listings.*
-FROM auction_listings
-   INNER JOIN listings ON auction_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY price ASC;
-
--- all listings + highest -> lowest price
+-- highest -> lowest price
 SELECT *
 FROM listings
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY price DESC;
-
--- buy now + highest -> lowest price
-SELECT listings.*
-FROM buy_now_listings
-   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id
-WHERE status = 'active'
-   AND title LIKE '%search_input%'
-ORDER BY price DESC;
-
--- auction + highest -> lowest price
-SELECT listings.*
-FROM auction_listings
-   INNER JOIN listings ON auction_listings.listing_id = listings.listing_id
 WHERE status = 'active'
    AND title LIKE '%search_input%'
 ORDER BY price DESC;
