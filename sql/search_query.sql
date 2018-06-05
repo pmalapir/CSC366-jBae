@@ -96,6 +96,21 @@ WHERE status = 'active'
    AND title LIKE '%search_input%'
 ORDER BY price DESC;
 
+/* search by filters */
+
+SELECT *
+FROM items
+WHERE item_id IN
+   (SELECT item_id
+   FROM FILTER_CATEGORY)
+
+-- price less than or equal
+SELECT *
+FROM listings
+WHERE status = 'active'
+   AND price <= FILTER_PRICE
+   AND 
+
 /* java query creation, just scribbles */
 String build_search_query(Search search) {
    String s;

@@ -56,7 +56,7 @@ CREATE TABLE books (
 CREATE TABLE video_games (
    item_id INTEGER,
    title TEXT NOT NULL,
-   rating INT CHECK (rating >= 0 AND rating <= 10) NOT NULL,   -- may not work
+   rating INT CHECK (rating >= 0 AND rating <= 10) NOT NULL,
    genre TEXT NOT NULL,
    PRIMARY KEY (item_id),
    FOREIGN KEY (item_id) REFERENCES items (item_id)
