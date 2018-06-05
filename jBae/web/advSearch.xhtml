@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <head>
         <title>J-Bay</title>
@@ -49,6 +50,19 @@
                 width: 15%;
                 background: #f1f1f1;
             }
+            
+            .button{
+                float: next;
+                width: 10%;
+                padding: 7px;
+                background: #2196F3;
+                color: white;
+                font-size: 11px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
+            }
+            
             header, footer {
                 padding: 1em;
                 color: white;
@@ -89,7 +103,6 @@
             li.topbar a.active {
                 background-color: #4CAF50;
             }
-
             
             ul.leftbar {
                 list-style-type: none;
@@ -127,10 +140,26 @@
                 overflow: hidden;
             }
             
+            .errorMessage{
+                color:red;
+                margin:8px;
+            }
+            
             .search_bar {
                 padding-top: 3px;
                 box-sizing: border-box;
 
+            }
+            .adv_search_submit{
+                float: next;
+                width: 15%;
+                padding: 8px;
+                background: #2196F3;
+                color: white;
+                font-size: 17px;
+                border: 1px solid grey;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
             }
              .search_submit{
                 float: left;
@@ -159,6 +188,15 @@
             
             .results {
                 padding-top: 10px;
+                height:90%
+            }
+            .bg{
+                background: #f1f1f1;
+                height: 95%;
+                border-top: 1px solid grey;
+                border-bottom: 1px solid grey;
+                padding: 10px;
+                box-sizing: border-box
             }
             
             .listing {
@@ -167,6 +205,14 @@
                 border-top: 1px solid grey;
                 padding: 10px;
                 box-sizing: border-box
+            }
+            
+            .text {
+                padding: 9px;
+                font-size: 11px;
+                border: 1px solid grey;
+                float: next;
+                background: #f9f9f9;
             }
             
             .listing_image {
@@ -219,8 +265,8 @@
                 </h:form>
 
             </li>
-            <li class="leftbar"><h:link value="Search" outcome="AdvSearch"/></li>
-            <li class="leftbar"><h:link value="Post" outcome="Post"/></li>
+            <li class="leftbar"><h:link value="Search" outcome="advSearch.xhtml"/></li>
+            <li class="leftbar"><h:link value="Post" outcome="postListing.xhtml"/></li>
             <li class="leftbar"><h:link value="Earn" /></li>
             <li class="leftbar"><h:link value ="Balance: #{user.wallet}"/></li>
             <li class="leftbar"><h:link value="Order History" /></li>
@@ -229,31 +275,6 @@
         <div style="margin-left:25%;padding:1px 16px;height:1000px;">
             <div class="account_bar">
                 <h3><h:link value="J-Bay" outcome="index.xhtml"/></h3>
-                <h:form>
-                    <h:inputText 
-                        id="username"
-                        value="#{login.username}"
-                        binding="#{login.loginUI}">
-                        <f:passThroughAttribute 
-                            name="placeholder" 
-                            value="Username" />
-                    </h:inputText>
-                    <h:inputText 
-                        id="Password"
-                        value="#{login.password}"
-                        validator="#{login.validateAcc}"
-                        validatorMessage="Login/Password incorrect">
-                        <f:passThroughAttribute 
-                            name="placeholder" 
-                            value="Password"/>
-                    </h:inputText>
-                    <h:message for="Password" style="color:red;margin:8px;"/>
-                    <h:button id="Register" value ="Register" outcome="Register" styleClass="account_bar_button"/>
-<!--                    login does not do anything PATRICK i need you to make it so
-                    depending if the user is logged in or not it show the logout button or log in button
-                    and the user that is logged in-->
-                <h:commandButton id="Login" value="Login" action="#{login.login}" styleClass="account_bar_button"/>
-                </h:form>
             </div>
             
             <div class="topNavBar">
@@ -275,59 +296,102 @@
                     </li>
                 </ul>
             </div>
-        
-
             <div class="results">
-                <div class="listing">
-                    <div class="listing_image">
-                        <img src="res/img/test_400x400.jpg" height="100%" width="100%"/>
-                    </div>
-                    <div class="listing_title">
-                        ITEM TITLE
-                    </div>
-                    <div class="listing_buy">
-                        <h:button value="Purchase" outcome="Listing"/>
-                    </div>
-                    <div class="listing_price">
-                        $169.99
-                    </div><!--
-                    --><div class="listing_type">
-                        Buy It Now
-                    </div>
-                    <div class="listing_details">
-                        Item Type: Meat Stick Supplements
-                        <p>Genre: Hentai</p> 
-                        
-                        Shipping Included: No
-                    </div>
+                <h:form class="bg">
+                    <h4>Search by Filters</h4>    
+                    <h:panelGrid columns="3">
+                        Price:
+                        <h:inputText class="text" value="0" />
+                        <h:selectOneMenu value="THIS">
+                            <f:selectItem itemValue="less" itemLabel="Less Than or Equal"/>
+                            <f:selectItem itemValue="greater" itemLabel="Greater Than or Equal"/>
+                        </h:selectOneMenu>
+                    </h:panelGrid>
 
-                </div>
-                <div class="listing">
-                                        <div class="listing_image">
-                        <img src="res/img/test_400x400.jpg" height="100%" width="100%"/>
-                    </div>
-                    <div class="listing_title">
-                        Justin Bieber's Tears
-                    </div>
-                    <div class="listing_buy">
-                        <h:button value="Purchase" outcome="Listing"/>
-                    </div>
-                    <div class="listing_price">
-                        $169.99
-                    </div><!--
-                    --><div class="listing_type">
-                        Auction
-                    </div>
-                    <div class="listing_details">
-                        Item Type: Masochist toys
-                        <p>Genre: Pop Culture</p> 
-                        Shipping Included: No
-                    </div>
-                </div>
-                <div class="listing">
-                </div>
-                <div class="listing">
-                </div>
+                    <h:panelGrid columns="2">
+                        Seller:
+                        <h:inputText class="text" value="Search by Seller ..." />
+                    </h:panelGrid>
+
+                    Categories:
+                    <h:selectOneMenu id="category_menu" value="#{listing.category}">
+                        <f:selectItems value="#{listing.categories}"/>
+                    </h:selectOneMenu>
+                    <h:commandButton value = "Go"></h:commandButton>
+
+<!--                AUTOS-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Cars'}">
+                        <h:panelGrid columns="2">
+                        Make :
+                        <h:inputText class="text" id="carMake" value="#{car.make}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Honda" />
+                        </h:inputText>
+                        Model:
+                        <h:inputText class="text" id="carModel" value="#{car.model}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Accord" />
+                        </h:inputText>
+                        Year:
+                        <h:inputText class="text" id="carYear" value="#{car.year}">
+                            <f:passThroughAttribute name="placeholder" value="eg. 2001" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+<!--                BOOKS-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Books'}">
+                        <h:panelGrid columns="2">
+                        Title:
+                        <h:inputText class="text" id="bookTitle" value="#{book.title}">
+                            <f:passThroughAttribute name="placeholder" value="eg. 1984" />
+                        </h:inputText>
+                        Author:
+                        <h:inputText class="text" id="bookAuthor" value="#{book.author}">
+                            <f:passThroughAttribute name="placeholder" value="eg. George Orwell" />
+                        </h:inputText>
+                        Genre:
+                        <h:inputText class="text" id="bookGenre" value="#{book.genre}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Sci-fi" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+<!--                SHOES-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Shoes'}">
+                        <h:panelGrid columns="2">
+                        Brand
+                        <h:inputText class="text" id="shoeBrand" value="#{shoe.brand}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Nike" />
+                        </h:inputText>
+                        Model:
+                        <h:inputText class="text" id="shoeModel" value="#{shoe.model}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Air Jordan 1" />
+                        </h:inputText>
+                        Size:
+                        <h:inputText class="text" id="shoeSize" value="#{shoe.size}">
+                            <f:passThroughAttribute name="placeholder" value="eg 8.5" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+<!--                VIDEO GAMES-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Video Games'}">
+                        <h:panelGrid columns="2">
+                        Title:
+                        <h:inputText class="text" id="videogameTitle" value="#{videogame.title}">
+                            <f:passThroughAttribute name="placeholder" value="eg. GTA V" />
+                        </h:inputText>
+                        Rating:
+                        <h:inputText class="text" id="videogameRating" value="#{videogame.rating}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Mature" />
+                        </h:inputText>
+                        Genre:
+                        <h:inputText class="text" id="videogameGenre" value="#{videogame.genre}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Action" />
+                        </h:inputText>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <h:commandButton id="adv_search_submit" value="Search" styleClass="adv_search_submit"/>
+                </h:form>
             </div>
         </div>
     </body>

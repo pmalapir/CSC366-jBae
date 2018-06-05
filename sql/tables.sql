@@ -1,3 +1,18 @@
+-- delete listings
+
+delete from books;
+delete from shoes;
+delete from video_games;
+delete from autos;
+delete from buy_now_listings;
+delete from auction_listings;
+delete from listings;
+delete from items;
+    
+-- quick clear
+-- change 'buy_now_listing' to 'buy_it_now_listing', I shortened the name later on
+DROP TABLE autos, books, shoes, video_games, sales, buy_now_listings, auction_listings, listings, users, items;
+
 CREATE TABLE users (
    -- credentials
    username VARCHAR(25),
@@ -5,28 +20,23 @@ CREATE TABLE users (
    -- personal info
    first_name TEXT NOT NULL,
    last_name TEXT NOT NULL,
-   email TEXT,
-   -- address
-   -- street_number INT CHECK (street_number > 0),
-   -- street TEXT,
-   -- city TEXT,
-   -- zip_code INT CHECK (zip_code > 0),
+   email TEXT NOT NULL,
    -- site related info
+   wallet REAL CHECK (wallet > 0) NOT NULL,
    admin BOOL NOT NULL,
-   wallet INT CHECK (wallet > 0),
    -- definitions
    PRIMARY KEY (username)
 );
 
 CREATE TABLE items (
-   item_id INT CHECK (item_id > 0),
-   description TEXT,
+   item_id SERIAL,
+   image TEXT,
    -- definitions
    PRIMARY KEY (item_id)
 );
 
 CREATE TABLE autos (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    make TEXT NOT NULL,
    model TEXT NOT NULL,
    year INT NOT NULL,
@@ -35,7 +45,7 @@ CREATE TABLE autos (
 );
 
 CREATE TABLE books (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    title TEXT NOT NULL,
    author TEXT NOT NULL,
    genre TEXT NOT NULL,
@@ -44,16 +54,16 @@ CREATE TABLE books (
 );
 
 CREATE TABLE video_games (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    title TEXT NOT NULL,
-   rating INT CHECK (rating >= 0 AND rating <= 10) NOT NULL,   -- may not work
+   rating INT CHECK (rating >= 0 AND rating <= 10) NOT NULL,
    genre TEXT NOT NULL,
    PRIMARY KEY (item_id),
    FOREIGN KEY (item_id) REFERENCES items (item_id)
 );
 
 CREATE TABLE shoes (
-   item_id INT CHECK (item_id > 0),
+   item_id INTEGER,
    brand TEXT NOT NULL,
    model TEXT NOT NULL,
    size INT CHECK (size > 0) NOT NULL,
@@ -62,46 +72,40 @@ CREATE TABLE shoes (
 );
 
 CREATE TABLE listings (
-   listing_id INT CHECK (listing_id > 0),
+   listing_id SERIAL,
+   price REAL CHECK (price > 0) NOT NULL, -- moved price here for simplicity, acts as both (price & current bid)
+   title TEXT NOT NULL,
+   description TEXT,
+   post_date TIMESTAMP NOT NULL,
+   exp_date TIMESTAMP NOT NULL,
+   status TEXT NOT NULL,  -- (active/closed)
    item INT NOT NULL,
    seller VARCHAR(25) NOT NULL,
-   post_date TIMESTAMP NOT NULL,
-   experation_date TIMESTAMP NOT NULL,
-   status TEXT NOT NULL,  -- active, closed
    -- definitions
    PRIMARY KEY (listing_id),
    FOREIGN KEY (item) REFERENCES items (item_id),
    FOREIGN KEY (seller) REFERENCES users (username)
 );
 
-CREATE TABLE buy_it_now_listings (
-   -- listing parent class attributes
-   listing_id INT CHECK (listing_id > 0),
-   -- buy it now specific attributes
-   price REAL CHECK (price > 0) NOT NULL,
-   -- definitions
-   PRIMARY KEY (listing_id),
-   FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
-);
+-- CREATE TABLE buy_now_listings (
+--    listing_id INTEGER,
+--    -- definitions
+--    PRIMARY KEY (listing_id),
+--    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
+-- );
 
-CREATE TABLE auction_listings (
-   -- listing parent class attributes
-   listing_id INT CHECK (listing_id > 0),
-   -- auction specific attributes
-   current_bid REAL CHECK (current_bid > 0) NOT NULL,
-   reserve REAL CHECK (reserve > 0) NOT NULL,
-   -- definitions
-   PRIMARY KEY (listing_id),
-   FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
-);
+-- CREATE TABLE auction_listings (
+--    listing_id SERIAL,
+
+--    PRIMARY KEY (listing_id),
+--    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
+-- );
 
 CREATE TABLE sales (
-   listing INT CHECK (listing > 0),
-   seller VARCHAR(25) NOT NULL,
+   listing SERIAL,
    buyer VARCHAR(25) NOT NULL,
-   sell_date TIMESTAMP NOT NULL,
+   sale_date TIMESTAMP NOT NULL,
    PRIMARY KEY (listing),
    FOREIGN KEY (listing) REFERENCES listings (listing_id),
-   FOREIGN KEY (seller) REFERENCES users (username),
    FOREIGN KEY (buyer) REFERENCES users (username)
 );

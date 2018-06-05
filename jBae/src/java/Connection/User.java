@@ -1,3 +1,5 @@
+package Connection;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +35,7 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private int wallet;
+    private double wallet;
     private boolean admin;
     
     private UIInput passwordUI;
@@ -85,10 +87,10 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getWallet(){
+    public double getWallet(){
         return wallet;
     }
-    public void setWallet(int wallet){
+    public void setWallet(double wallet){
         this.wallet = wallet;
     }
 
