@@ -37,4 +37,70 @@
         </navigation-case>
         
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/advSearch.xhtml</from-view-id>
+         <navigation-case>
+            <from-outcome>Register</from-outcome>
+            <to-view-id>registerAcct.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>AdvSearch</from-outcome>
+            <to-view-id>advSearch.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>Post</from-outcome>
+            <to-view-id>postListing.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>Home</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>Listing</from-outcome>
+            <to-view-id>listing.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+    </navigation-rule>
+ <navigation-rule>
+        <from-view-id>postListing.xhtml</from-view-id>
+         <navigation-case>
+            <from-outcome>Register</from-outcome>
+            <to-view-id>registerAcct.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>AdvSearch</from-outcome>
+            <to-view-id>advSearch.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>Post</from-outcome>
+            <to-view-id>postListing.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>Home</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>Listing</from-outcome>
+            <to-view-id>listing.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+    </navigation-rule>
 </faces-config>

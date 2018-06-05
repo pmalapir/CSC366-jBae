@@ -83,10 +83,15 @@ public class Login {
         
         PreparedStatement validate = con.prepareStatement(
             "SELECT username, password FROM users WHERE username = ?");
+        try {
+            username = loginUI.getValue().toString();
+            password = value.toString();
+        }
+        catch (NullPointerException e){
+            FacesMessage errorMessage = new FacesMessage("Wrong login/password");
+            throw new ValidatorException(errorMessage);
+        }
         
-        username = loginUI.getValue().toString();
-        password = value.toString();
-                
         validate.setString(1, username);
         
         ResultSet rs = validate.executeQuery();
@@ -108,7 +113,7 @@ public class Login {
         
     }
     
-    public User getUser() throws SQLException {
+    public User getUser() {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         User user = (User) elContext.getELResolver().getValue(elContext, null, "user");
         return user;
@@ -134,6 +139,7 @@ public class Login {
         ResultSet rs = findUser.executeQuery();
         if(rs.next())
         {
+            user.setLoggedIn(true);
             user.setUsername(rs.getString("username"));
             user.setFirstName(rs.getString("first_name"));
             user.setLastName(rs.getString("last_name"));
@@ -144,5 +150,15 @@ public class Login {
         statement.close();
         con.commit();
         con.close();
+    }
+    
+    public void logout() {
+        User user = getUser();
+        user.setLoggedIn(false);
+        user.setUsername("");
+        user.setPassword("");
+        user.setEmail("");
+        user.setWallet(0);
+        user.setAdmin(false);
     }
 }

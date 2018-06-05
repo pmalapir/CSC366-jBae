@@ -30,6 +30,7 @@ import javax.inject.Named;
 @SessionScoped
 
 public class User {
+    private boolean loggedIn;
     private String username;
     private String password;
     private String email;
@@ -41,6 +42,14 @@ public class User {
     private UIInput passwordUI;
     
     private DBConnect dbConnect = new DBConnect();
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
     
     public String getUsername(){
         return username;
@@ -166,8 +175,8 @@ public class User {
         registerAccount.setString(3, firstName);
         registerAccount.setString(4, lastName);
         registerAccount.setString(5, email);
-        registerAccount.setBoolean(6, false);
-        registerAccount.setInt(7, 100);
+        registerAccount.setDouble(6, 100);
+        registerAccount.setBoolean(7, false);
         
         registerAccount.executeUpdate();
         statement.close();

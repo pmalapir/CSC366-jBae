@@ -230,29 +230,34 @@
             <div class="account_bar">
                 <h3><h:link value="J-Bay" outcome="index.xhtml"/></h3>
                 <h:form>
-                    <h:inputText 
-                        id="username"
-                        value="#{login.username}"
-                        binding="#{login.loginUI}">
-                        <f:passThroughAttribute 
-                            name="placeholder" 
-                            value="Username" />
-                    </h:inputText>
-                    <h:inputText 
-                        id="Password"
-                        value="#{login.password}"
-                        validator="#{login.validateAcc}"
-                        validatorMessage="Login/Password incorrect">
-                        <f:passThroughAttribute 
-                            name="placeholder" 
-                            value="Password"/>
-                    </h:inputText>
-                    <h:message for="Password" style="color:red;margin:8px;"/>
-                    <h:button id="Register" value ="Register" outcome="Register" styleClass="account_bar_button"/>
-<!--                    login does not do anything PATRICK i need you to make it so
-                    depending if the user is logged in or not it show the logout button or log in button
-                    and the user that is logged in-->
-                <h:commandButton id="Login" value="Login" action="#{login.login}" styleClass="account_bar_button"/>
+                    <h:panelGroup id="login_panel" rendered="#{user.loggedIn == false}">
+                        <h:inputText 
+                            id="username"
+                            value="#{login.username}"
+                            binding="#{login.loginUI}">
+                            <f:passThroughAttribute 
+                                name="placeholder" 
+                                value="Username" />
+                        </h:inputText>
+                        <h:inputText 
+                            id="Password"
+                            value="#{login.password}"
+                            validator="#{login.validateAcc}"
+                            validatorMessage="Login/Password incorrect">
+                            <f:passThroughAttribute 
+                                name="placeholder" 
+                                value="Password"/>
+                        </h:inputText>
+                        <h:message for="Password" style="color:red;margin:8px;"/>
+                        <h:button id="Register" value ="Register" outcome="Register" styleClass="account_bar_button"/>
+                        <h:commandButton id="Login" value="Login" action="#{login.login}" styleClass="account_bar_button"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup id="user_panel" rendered="#{user.loggedIn == true}">
+                        #{user.username}
+                        <h:commandButton id="Logout" value="Logout" action="#{login.logout}" styleClass="account_bar_button"/>
+                    </h:panelGroup>
+                    
                 </h:form>
             </div>
             
