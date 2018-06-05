@@ -1,6 +1,14 @@
 -- use to reset SERIAL column values to 1
 ALTER SEQUENCE <table>_<column>_seq RESTART WITH 1;
 ALTER SEQUENCE items_item_id_seq RESTART WITH 1;
+ALTER SEQUENCE listings_listing_id_seq RESTART WITH 1;
+
+INSERT INTO users (username, password, first_name, last_name, email, wallet, admin)
+VALUES
+('js', 'password', 'Japji', 'Singh', 'jsingh29@calpoly.edu', 69, 'TRUE'),
+('dl', 'password', 'Derek', 'Lung', 'nastyeggrolls@hotmail.com', 100, 'FALSE'),
+('pm', 'password', 'Patrick', 'Malapira', 'pmalpir@calpoly.edu', 666, 'FALSE'),
+('nh', 'password', 'Nathan', 'Hong', 'nahong@calpoly.edu', 999, 'FALSE');
 
 INSERT INTO items (image)
 VALUES
@@ -56,3 +64,10 @@ VALUES
 (18, 'Puma', 'Thunder Spectra Black', 10),
 (19, 'Diadora', 'Titan II Extra Butter', 11),
 (20, 'Converse', 'Chuck Taylor', 9);
+
+INSERT INTO listings (price, title, description, post_date, exp_date, status, item, seller)
+VALUES
+(6000, '2001 4runner', 'ODO 240,000, excellent condition', CURRENT_DATE, '2018-07-01', 'active', 1, 'nh'),
+(25, '1st Ed. Fox in Sock', 'Rare and 1 of 100', CURRENT_DATE, '2018-08-01', 'active', 9, 'dl'),
+(700, 'Size 9 Jordan 1 Retro High Off-White', 'Flex or re-sell with this you hypebeast filth', CURRENT_DATE, '2018-09-01', 'active', 16, 'pm'),
+(2500, 'Minecraft on VHS', 'RIP', CURRENT_DATE, '2018-10-01', 'active', 14, 'js');
