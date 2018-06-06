@@ -6,6 +6,7 @@ import Items.Book;
 import Items.Car;
 import Items.Shoe;
 import Items.Videogame;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ import javax.inject.Named;
 @ManagedBean
 @SessionScoped
 
-public class Listing {
+public class Listing implements Serializable {
     private int listingID;
     private int listingLength;
     private double price;
@@ -48,11 +49,14 @@ public class Listing {
     private String description;
     private String[] categories = {"Books", "Cars", "Shoes", "Video Games"};
     private String[] listingType = {"Auction","Buy It Now"};
-
     private UIInput imgUI;
     
     DBConnect dbConnect = new DBConnect();
-
+    
+    public Listing() {
+ 
+    }
+    
     public int getListingLength() {
         return listingLength;
     }
@@ -207,8 +211,8 @@ public class Listing {
         Statement statement = con.createStatement();
                 
         PreparedStatement listing = con.prepareStatement(
-                "INSERT INTO listings (price, title, description, post_date, exp_date, status, item, seller) "
-                        + "VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                "INSERT INTO listings (price, title, description, post_date, exp_date, status, item_type, item, seller) "
+                        + "VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         
         LocalDate post_date = LocalDate.now();
         LocalDate exp_date = LocalDate.now().plusDays(listingLength);
@@ -219,8 +223,9 @@ public class Listing {
         listing.setDate(4, java.sql.Date.valueOf(post_date));
         listing.setDate(5, java.sql.Date.valueOf(exp_date));
         listing.setString(6, "active");
-        listing.setInt(7, item_id);
-        listing.setString(8, getUser());
+        listing.setString(7, category);
+        listing.setInt(8, item_id);
+        listing.setString(9, getUser());
 
         listing.executeUpdate();
         ResultSet keys = listing.getGeneratedKeys();
@@ -262,28 +267,6 @@ public class Listing {
         Videogame videogame = (Videogame) elContext.getELResolver().getValue(elContext, null, "videogame");
         return videogame;
     }
-    
-     public void createBuyItNowListing(int listing_id) throws SQLException {
-        Connection con = dbConnect.getConnection();
-        
-        if (con == null) {
-            throw new SQLException("Can't get database connection");
-        }
-        
-        con.setAutoCommit(false);
-        
-        Statement statement = con.createStatement();
-                
-        PreparedStatement listing = con.prepareStatement(
-                "INSERT INTO buy_now_listings VALUES(?)");
-                
-        listing.setInt(1, listing_id);
-
-        listing.executeUpdate();
-        statement.close();
-        con.commit();
-        con.close();
-    }
      
     public void submitSell() throws SQLException {
         int item_id = createItem();
@@ -311,7 +294,6 @@ public class Listing {
                 break;
         } 
         
-        int listing_id = createListing(item_id);
-        createBuyItNowListing(listing_id);
+        createListing(item_id);
     }
 }

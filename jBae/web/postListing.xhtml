@@ -323,20 +323,7 @@
                             </h:panelGrid>
                         </h:panelGroup>
                         
-                        <h:panelGroup layout="block" rendered="#{listing.type == 'Auction'}">
-                            <h:panelGrid columns="2">
-                                Starting Bid
-                                <h:inputText class="text" id="startingBid" value="#{listing.price}">
-                                    <f:passThroughAttribute name="placeholder" value="$xx.xx" />
-                                </h:inputText> 
-                                Auction Length:
-                                <h:inputText class="text" id="length" value="#{listing.listingLength}">
-                                    <f:passThroughAttribute name="placeholder" value="# of days" />
-                                </h:inputText>
-                            </h:panelGrid>
-                        </h:panelGroup>
-                        
-                        <h:panelGroup layout="block" rendered="#{listing.type == 'Buy It Now'}">
+                        <h:panelGroup layout="block">
                             <h:panelGrid columns="2">
                                 Price:
                                 <h:inputText class="text" id="binPrice" value="#{listing.price}">

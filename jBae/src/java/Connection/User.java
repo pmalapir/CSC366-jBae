@@ -1,6 +1,7 @@
 package Connection;
 
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ import javax.inject.Named;
 @ManagedBean
 @SessionScoped
 
-public class User {
+public class User implements Serializable {
     private boolean loggedIn;
     private String username;
     private String password;
@@ -97,6 +98,7 @@ public class User {
     }
 
     public double getWallet(){
+        System.out.println("NANI");
         return wallet;
     }
     public void setWallet(double wallet){

@@ -1,6 +1,7 @@
 package Connection;
 
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ import javax.inject.Named;
 @ManagedBean
 @SessionScoped
 
-public class Login {
+public class Login implements Serializable{
     private String username = "";
     private String password = "";
 

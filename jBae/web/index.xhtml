@@ -280,59 +280,37 @@
                     </li>
                 </ul>
             </div>
-        
 
             <div class="results">
-                <div class="listing">
-                    <div class="listing_image">
-                        <img src="res/img/test_400x400.jpg" height="100%" width="100%"/>
-                    </div>
-                    <div class="listing_title">
-                        ITEM TITLE
-                    </div>
-                    <div class="listing_buy">
-                        <h:button value="Purchase" outcome="Listing"/>
-                    </div>
-                    <div class="listing_price">
-                        $169.99
-                    </div><!--
-                    --><div class="listing_type">
-                        Buy It Now
-                    </div>
-                    <div class="listing_details">
-                        Item Type: Meat Stick Supplements
-                        <p>Genre: Hentai</p> 
-                        
-                        Shipping Included: No
-                    </div>
+                #{aListings.what}
+                <h:dataTable id="list_table" border="4" value="#{arrayListings.listings}" var="list">
+                    <h:column>
 
-                </div>
-                <div class="listing">
-                                        <div class="listing_image">
-                        <img src="res/img/test_400x400.jpg" height="100%" width="100%"/>
+
+                    <div class="listing">
+                        <div class="listing_image">
+                            <img src="#{list.imgSrc}" height="100%" width="100%"/>
+                        </div>
+                        <div class="listing_title">
+                            <h:outputText value="#{list.title}"/>
+                        </div>
+                        <div class="listing_buy">
+                            <h:button value="Purchase" outcome="Listing"/>
+                        </div>
+                        <div class="listing_price">
+                            <h:outputText value="#{list.price}"/>
+                        </div>
+                        <div class="listing_type">
+                            Buy It Now
+                        </div>
+                        <div class="listing_details">
+                            <h:outputText value="Item Type: #{list.category}"/>
+                         
+                            Shipping Included: No
+                        </div>
                     </div>
-                    <div class="listing_title">
-                        Justin Bieber's Tears
-                    </div>
-                    <div class="listing_buy">
-                        <h:button value="Purchase" outcome="Listing"/>
-                    </div>
-                    <div class="listing_price">
-                        $169.99
-                    </div><!--
-                    --><div class="listing_type">
-                        Auction
-                    </div>
-                    <div class="listing_details">
-                        Item Type: Masochist toys
-                        <p>Genre: Pop Culture</p> 
-                        Shipping Included: No
-                    </div>
-                </div>
-                <div class="listing">
-                </div>
-                <div class="listing">
-                </div>
+                    </h:column>
+                </h:dataTable>  
             </div>
         </div>
     </body>

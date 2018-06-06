@@ -8,7 +8,7 @@ delete from buy_now_listings;
 delete from auction_listings;
 delete from listings;
 delete from items;
-    
+
 -- quick clear
 -- change 'buy_now_listing' to 'buy_it_now_listing', I shortened the name later on
 DROP TABLE autos, books, shoes, video_games, sales, buy_now_listings, auction_listings, listings, users, items;
@@ -79,6 +79,7 @@ CREATE TABLE listings (
    post_date TIMESTAMP NOT NULL,
    exp_date TIMESTAMP NOT NULL,
    status TEXT NOT NULL,  -- (active/closed)
+   item_type TEXT NOT NULL,
    item INT NOT NULL,
    seller VARCHAR(25) NOT NULL,
    -- definitions
