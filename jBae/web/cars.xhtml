@@ -253,8 +253,8 @@
                 </h:form>
 
             </li>
-            <li class="leftbar"><h:link value="Search" outcome="AdvSearch"/></li>
-            <li class="leftbar"><h:link value="Post" outcome="Post"/></li>
+            <li class="leftbar"><h:link value="Search" outcome="advSearch.xhtml"/></li>
+            <li class="leftbar"><h:link value="Post" outcome="postListing.xhtml"/></li>
             <li class="leftbar"><h:link value="Earn" /></li>
             <li class="leftbar"><h:link value ="Balance: #{user.wallet}"/></li>
             <li class="leftbar"><h:link value="Order History" /></li>
@@ -283,7 +283,7 @@
                                 value="Password"/>
                         </h:inputText>
                         <h:message for="Password" style="color:red;margin:8px;"/>
-                        <h:button id="Register" value ="Register" outcome="Register" styleClass="account_bar_button"/>
+                        <h:button id="Register" value ="Register" outcome="registerAcct.xhtml" styleClass="account_bar_button"/>
                         <h:commandButton id="Login" value="Login" action="#{login.login}" styleClass="account_bar_button"/>
                     </h:panelGroup>
                     
@@ -297,11 +297,11 @@
             
             <div class="topNavBar">
                 <ul class="topbar">
-                    <li class="topbar"><a class="active" href="#Home">Home</a></li>
-                    <li class="topbar"><h:link value="Cars" outcome="cars"/></li>
-                    <li class="topbar"><h:link value="Books" outcome="books"/></li>
-                    <li class="topbar"><h:link value="Shoes" outcome="shoes"/></li>
-                    <li class="topbar"><h:link value="Video Games" outcome="videogames"/></li>
+                    <li class="topbar"><h:link value="Home" outcome="index.xhtml"/></li>
+                    <li class="topbar"><h:link class="active" value="Cars" outcome="cars.xhtml"/></li>
+                    <li class="topbar"><h:link value="Books" outcome="books.xhtml"/></li>
+                    <li class="topbar"><h:link value="Shoes" outcome="shoes.xhtml"/></li>
+                    <li class="topbar"><h:link value="Video Games" outcome="videogames.xhtml"/></li>
                     <li class="topbar-right">
                         <div class="search_bar">
                             <h:form>
@@ -316,19 +316,17 @@
             </div>
 
             <div class="results">
-                <h:dataTable styleClass="listing_table" id="list_table" value="#{arrayListings.listings}" var="list">
+                <h:dataTable styleClass="listing_table" id="list_table" value="#{arrayListings.carListings}" var="list">
                     <h:column>
-
-
                     <div class="listing">
                         <div class="listing_image">
-                            <img src="#{list.imgSrc}" height="100%" width="100%"/>  
+                            <img src="#{list.imgSrc}" height="100%" width="100%"/>
                         </div>
                         <div class="listing_title">
                             <h:outputText value="#{list.title}"/>
                         </div>
                         <div class="listing_buy">
-                            <h:button value="Purchase" outcome="Listing"/>
+                            <h:button value="Purchase" outcome="postListing.xhtml"/>
                         </div>
                         <div class="listing_price">
                             <h:outputText value="$#{list.price}"/>

@@ -38,7 +38,7 @@ import javax.inject.Named;
 public class Listing implements Serializable {
     private int listingID;
     private int listingLength;
-    private double price;
+    private int price;
     private String title;
     private String seller;
     private String postDate;
@@ -65,11 +65,11 @@ public class Listing implements Serializable {
         this.listingLength = listingLength;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
     
@@ -217,7 +217,7 @@ public class Listing implements Serializable {
         LocalDate post_date = LocalDate.now();
         LocalDate exp_date = LocalDate.now().plusDays(listingLength);
         
-        listing.setDouble(1, price);
+        listing.setInt(1, price);
         listing.setString(2, title);
         listing.setString(3, description);
         listing.setDate(4, java.sql.Date.valueOf(post_date));
