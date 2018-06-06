@@ -80,7 +80,7 @@ CREATE TABLE listings (
    exp_date TIMESTAMP NOT NULL,
    status TEXT NOT NULL,  -- (active/closed)
    item_type TEXT NOT NULL,
-   item INT NOT NULL,   -- (auto/book/video game/shoe)
+   item INT NOT NULL,   -- (autos/books/video games/shoes)
    seller VARCHAR(25) NOT NULL,
    -- definitions
    PRIMARY KEY (listing_id),
