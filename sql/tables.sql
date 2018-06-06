@@ -11,7 +11,7 @@ delete from items;
 
 -- quick clear
 -- change 'buy_now_listing' to 'buy_it_now_listing', I shortened the name later on
-DROP TABLE autos, books, shoes, video_games, sales, buy_now_listings, auction_listings, listings, users, items;
+DROP TABLE autos, books, shoes, video_games, sales, listings, users, items;
 
 CREATE TABLE users (
    -- credentials
@@ -80,12 +80,21 @@ CREATE TABLE listings (
    exp_date TIMESTAMP NOT NULL,
    status TEXT NOT NULL,  -- (active/closed)
    item_type TEXT NOT NULL,
-   item INT NOT NULL,
+   item INT NOT NULL,   -- (auto/book/video game/shoe)
    seller VARCHAR(25) NOT NULL,
    -- definitions
    PRIMARY KEY (listing_id),
    FOREIGN KEY (item) REFERENCES items (item_id),
    FOREIGN KEY (seller) REFERENCES users (username)
+);
+
+CREATE TABLE sales (
+   listing SERIAL,
+   buyer VARCHAR(25) NOT NULL,
+   sale_date TIMESTAMP NOT NULL,
+   PRIMARY KEY (listing),
+   FOREIGN KEY (listing) REFERENCES listings (listing_id),
+   FOREIGN KEY (buyer) REFERENCES users (username)
 );
 
 -- CREATE TABLE buy_now_listings (
@@ -101,12 +110,3 @@ CREATE TABLE listings (
 --    PRIMARY KEY (listing_id),
 --    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
 -- );
-
-CREATE TABLE sales (
-   listing SERIAL,
-   buyer VARCHAR(25) NOT NULL,
-   sale_date TIMESTAMP NOT NULL,
-   PRIMARY KEY (listing),
-   FOREIGN KEY (listing) REFERENCES listings (listing_id),
-   FOREIGN KEY (buyer) REFERENCES users (username)
-);
