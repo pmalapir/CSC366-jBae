@@ -98,7 +98,7 @@ ORDER BY price DESC;
 
 /* search by filters */
 
--- price less than or equal
+-- price less than or equal (both do the same thing)
 SELECT *
 FROM listings
    INNER JOIN items ON listings.item = items.item_id
@@ -107,7 +107,15 @@ WHERE status = 'active'
    AND price <= filter_price
    AND seller = filter_seller;
 
--- price greater than or equal
+SELECT *
+FROM listings
+   INNER JOIN items ON listings.item = items.item_id
+WHERE status = 'active'
+   AND price <= filter_price
+   AND seller = filter_seller
+   AND item_type = filter_item_type;
+
+-- price greater than or equal (both do the same thing)
 SELECT *
 FROM listings
    INNER JOIN items ON listings.item = items.item_id
@@ -115,6 +123,15 @@ WHERE status = 'active'
    AND item_id IN (SELECT filter_category.item_id FROM filter_category)
    AND price >= filter_price
    AND seller = filter_seller;
+
+SELECT *
+FROM listings
+   INNER JOIN items ON listings.item = items.item_id
+WHERE status = 'active'
+   AND price >= filter_price
+   AND seller = filter_seller
+   AND item_type = filter_item_type;
+
 
 /* java query creation, just scribbles */
 String build_search_query(Search search) {
