@@ -94,17 +94,3 @@ CREATE TABLE sales (
    FOREIGN KEY (listing) REFERENCES listings (listing_id),
    FOREIGN KEY (buyer) REFERENCES users (username)
 );
-
--- CREATE TABLE buy_now_listings (
---    listing_id INTEGER,
---    -- definitions
---    PRIMARY KEY (listing_id),
---    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
--- );
-
--- CREATE TABLE auction_listings (
---    listing_id SERIAL,
-
---    PRIMARY KEY (listing_id),
---    FOREIGN KEY (listing_id) REFERENCES listings (listing_id)
--- );
