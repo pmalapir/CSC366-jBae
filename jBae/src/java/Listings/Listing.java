@@ -299,7 +299,6 @@ public class Listing implements Serializable {
         category = listing.getCategory();
         imgSrc = listing.getImgSrc();
         seller = listing.getSeller();
-        System.out.println(category);
         
         switch (category) 
         {

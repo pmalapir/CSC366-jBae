@@ -12,7 +12,7 @@ It seems the result sorting complexity is as such...
 SELECT *
 FROM listings
 WHERE status = 'active'
-   AND title LIKE '%search_input%';
+   AND LOWER(title) LIKE '%search_input%';
 
 -- all listing
 SELECT *

@@ -2,362 +2,97 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <head>
         <title>J-Bay</title>
-        <style>
-            .container {
-                width: 100%;
-                border: 1px solid gray;
-            }
-            
-            .hide{
-                display:none;
-            }
-            
-            .account_bar {
-                text-align: right;
-                margin: 10px;
-                padding: 2px;
-                height: 5%;
-                box-sizing: border-box;
-            }
-            
-            .account_bar h3 {
-                float: left;
-                font-size: 24px;
-            }
-            
-            .account_bar_button{
-                float: right;
-                width: 10%;
-                padding: 7px;
-                background: #2196F3;
-                color: white;
-                font-size: 11px;
-                border: 1px solid grey;
-                border-left: none; /* Prevent double borders */
-                cursor: pointer;
-            }
-            
-            .account_bar input[type=text] {
-                padding: 9px;
-                font-size: 11px;
-                border: 1px solid grey;
-                float: next;
-                width: 15%;
-                background: #f1f1f1;
-            }
-            header, footer {
-                padding: 1em;
-                color: white;
-                background-color: grey;
-                clear: left;
-                text-align: center;
-            }
-            
-            ul.topbar {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
-        
-            
-            li.topbar {
-                float: left;
-                border-right:1px solid #bbb;
-            }
-            
-            li.topbar-right {
-                float: right;
-                border-right:1px solid #bbb;
-            }
-            
-            li.topbar a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-            
-            li.topbar a:hover:not(.active) {
-                background-color: #111;
-            }
-            
-            li.topbar a.active {
-                background-color: #4CAF50;
-            }
-
-            
-            ul.leftbar {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                width: 25%;
-                background-color: #f1f1f1;
-                position: fixed;
-                height: 100%;
-                overflow: auto;    list-style-type: none;
-            }
-            
-            li.leftbar a{
-                display: block;
-                color: #000;
-                padding: 8px 16px;
-                text-decoration: none;
-            }
-            
-            li.leftbar a.active {
-                background-color: #4CAF50;
-                color: white;
-            }
-            
-            li.leftbar a:hover:not(.active) {
-                background-color: #555;
-                color: white;
-            }
-            
-            article {
-                width: 80%;
-                float: left;
-                margin-left: 10%;
-                padding: 1em;
-                overflow: hidden;
-            }
-            
-            .search_bar {
-                padding-top: 3px;
-                box-sizing: border-box;
-
-            }
-             .search_submit{
-                float: left;
-                width: 30%;
-                padding: 8px;
-                background: #2196F3;
-                color: white;
-                font-size: 17px;
-                border: 1px solid grey;
-                border-left: none; /* Prevent double borders */
-                cursor: pointer;
-            }
-            
-            .search_bar input[type=text] {
-                padding: 11px;
-                font-size: 17px;
-                border: 1px solid grey;
-                float: left;
-                width: 60%;
-                background: #f1f1f1;
-            }
-            
-            .search_submit.button:hover {
-                background: #0b7dda;
-            }
-            
-            .results {
-                padding-top: 10px;
-               
-            }
-            
-            .bg{
-                background: #f1f1f1;
-                height: 95%;
-                border-top: 1px solid grey;
-                border-bottom: 1px solid grey;
-                padding: 10px;
-                box-sizing: border-box
-            }
-            
-            .listing {
-                background: #f1f1f1;
-                height: 200px;
-                border-top: 1px solid grey;
-                padding: 10px;
-                box-sizing: border-box
-            }
-            
-            .listing_image {
-                padding: 10px;
-                float: left;
-                height: 175px;
-                width: 175px;
-            }
-            
-            .listing_title {
-                margin-left: 200px;
-                padding-bottom: 10px;
-                font-size: 16px;
-                color: blue;
-            }
-            
-            .listing_price {
-                margin-left: 200px;
-                font-size: 20px;
-                font-weight: bold;
-
-            }
-            
-            .listing_type {
-                margin-left: 200px;
-                font-size: 12px;
-                color: gray;
-            }
-            
-            .listing_details {
-                margin-left: 200px;
-                font-size: 12px;
-                color: gray;
-            }
-            
-            .listing_buy {
-                float: right;
-            }
-            
-            .login_name{
-                float:right;
-                font-size: 16px;
-                padding: 4px;
-                font-weight: 500;
-            }
-        </style>
-
+      
     </head>
 
     <body>
-        <ul class="leftbar">
-            <li class="leftbar">
-                <h:form>
-                    <h:commandLink action="#{user.earn}">
-                        <h:graphicImage value="res/img/logo.png" height="100%" width="100%" />
-                    </h:commandLink>
-                </h:form>
+        <ui:composition template="templates/common.xhtml">
+            <ui:define name="topNavBar">
+                <div class="topNavBar">
+                    <ul class="topbar">
+                        <li class="topbar"><a href="#Home">Home</a></li>
+                        <li class="topbar"><a href="#Cars">Cars</a></li>
+                        <li class="topbar"><a href="#Books">Books</a></li>
+                        <li class="topbar"><a href="#Shoes">Shoes</a></li>
+                        <li class="topbar"><a href="#Videogames">Video Games</a></li>
+                        <li class="topbar-right">
+                            <div class="search_bar">
+                                <h:form>
+                                    <h:inputText id="search_bar">
+                                        <f:passThroughAttribute name="placeholder" value="Search"/>
+                                    </h:inputText>
+                                    <h:commandButton id="search_submit" value="Search" styleClass="search_submit"/>
+                                </h:form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </ui:define>
+               
+            <ui:define name="result">
+               <div class="bg">
+                    <h1>Best Grill</h1>
+                    <img src="#{listing.imgSrc}" height="25%" width="25%"/>
 
-            </li>
-            <li class="leftbar"><h:link value="Search" outcome="advSearch"/></li>
-            <li class="leftbar"><h:link value="Post" outcome="postListing"/></li>
-            <li class="leftbar"><h:link value="Earn" /></li>
-            <li class="leftbar"><h:link value ="Balance: #{user.wallet}"/></li>
-            <li class="leftbar"><h:link value="Order History" /></li>
-        </ul>
-        
-        <div style="margin-left:25%;padding:1px 16px;height:1000px;">
-            <div class="account_bar">
-                <h3><h:link value="J-Bay" outcome="index.xhtml"/></h3>
-                <h:form>
-                    <h:panelGroup id="login_panel" rendered="#{user.loggedIn == false}">
-                        <h:inputText 
-                            id="username"
-                            value="#{login.username}"
-                            binding="#{login.loginUI}">
-                            <f:passThroughAttribute 
-                                name="placeholder" 
-                                value="Username" />
-                        </h:inputText>
-                        <h:inputText 
-                            id="Password"
-                            value="#{login.password}"
-                            validator="#{login.validateAcc}"
-                            validatorMessage="Login/Password incorrect">
-                            <f:passThroughAttribute 
-                                name="placeholder" 
-                                value="Password"/>
-                        </h:inputText>
-                        <h:message for="Password" style="color:red;margin:8px;"/>
-                        <h:button id="Register" value ="Register" outcome="registerAcct" styleClass="account_bar_button"/>
-                        <h:commandButton id="Login" value="Login" action="#{login.login}" styleClass="account_bar_button"/>
+                    <h4>Seller: Weeaboo</h4>
+                    <h4>Price: #{listing.price}</h4>
+                    <h4>Category: #{listing.category}</h4>
+            <!--                AUTOS-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Auto'}">
+                        <h:panelGrid columns="2">
+                            Make : #{car.make}
+
+                        Model:
+
+                        Year:
+
+                        </h:panelGrid>
                     </h:panelGroup>
-                    
-                    <h:panelGroup id="user_panel" rendered="#{user.loggedIn == true}">
-                        <h:commandButton id="Logout" value="Logout" action="#{login.logout}" styleClass="account_bar_button"/>
-                        <div class='login_name'>Hello, #{user.username}! Ready to shop?</div>
+
+            <!--                BOOKS-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Book'}">
+                        <h:panelGrid columns="2">
+                            Title: <br/>
+                            Author:<br/>
+                            Genre:<br/>
+                        </h:panelGrid>
                     </h:panelGroup>
-                    
-                </h:form>
-            </div>
-            
-            <div class="topNavBar">
-                <ul class="topbar">
-                    <li class="topbar"><a class="active" href="#Home">Home</a></li>
-                    <li class="topbar"><a href="#Cars">Cars</a></li>
-                    <li class="topbar"><a href="#Books">Books</a></li>
-                    <li class="topbar"><a href="#Shoes">Shoes</a></li>
-                    <li class="topbar"><a href="#Videogames">Video Games</a></li>
-                    <li class="topbar-right">
-                        <div class="search_bar">
-                            <h:form>
-                                <h:inputText id="search_bar">
-                                    <f:passThroughAttribute name="placeholder" value="Search"/>
-                                </h:inputText>
-                                <h:commandButton id="search_submit" value="Search" styleClass="search_submit"/>
-                            </h:form>
-                        </div>
-                    </li>
-                </ul>
-            </div>
 
-            <div class="bg">
-                <h1>Best Grill</h1>
-                <img src="res/img/test_400x400.jpg" height="25%" width="25%"/>
-
-                <h4>Seller: Weeaboo</h4>
-                <h4>Price: #{listing.price}</h4>
-                <h4>Category: #{listing.category}</h4>
-        <!--                AUTOS-->
-                <h:panelGroup layout="block" rendered="#{listing.category == 'Auto'}">
-                    <h:panelGrid columns="2">
-                        Make : #{car.make}
-
-                    Model:
-
-                    Year:
-
-                    </h:panelGrid>
-                </h:panelGroup>
-
-        <!--                BOOKS-->
-                <h:panelGroup layout="block" rendered="#{listing.category == 'Book'}">
-                    <h:panelGrid columns="2">
-                        Title: <br/>
-                        Author:<br/>
-                        Genre:<br/>
-                    </h:panelGrid>
-                </h:panelGroup>
-
-        <!--                SHOES-->
-                <h:panelGroup layout="block" rendered="#{listing.category == 'Shoe'}">
-                    <h:panelGrid columns="2">
-                    Brand: Converse <br/>
-                    Model: High-Tops <br/>
-                    Size: 69 <br/>
-                    </h:panelGrid>
-                </h:panelGroup>
-
-        <!--                VIDEO GAMES-->
-                <h:panelGroup layout="block" rendered="#{listing.category == 'Video Game'}">
-                    <h:panelGrid columns="2">
-                    Title:
-                    Rating:
-                    Genre:
-
-                    </h:panelGrid>
+            <!--                SHOES-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Shoe'}">
+                        <h:panelGrid columns="2">
+                        Brand: Converse <br/>
+                        Model: High-Tops <br/>
+                        Size: 69 <br/>
+                        </h:panelGrid>
                     </h:panelGroup>
-                <h4>Description</h4>
-                <p> 
-                This is the listing of the selected item.<br/>
-                Need a way to transfer the information of the selected listing over to this page.
-                </p>
-                <h5>Date Posted: 11/12/2018</h5>
-                <h:button value="Buy" />
-            </div>
-        </div>
+
+            <!--                VIDEO GAMES-->
+                    <h:panelGroup layout="block" rendered="#{listing.category == 'Video Game'}">
+                        <h:panelGrid columns="2">
+                        Title:
+                        Rating:
+                        Genre:
+
+                        </h:panelGrid>
+                        </h:panelGroup>
+                    <h4>Description</h4>
+                    <p> 
+                    This is the listing of the selected item.<br/>
+                    Need a way to transfer the information of the selected listing over to this page.
+                    </p>
+                    <h5>Date Posted: 11/12/2018</h5>
+                    <h:button value="Buy" />
+                </div>
+            </ui:define>
+        </ui:composition>
     </body>
-    <footer>Copyrighted &copy; Japji and the Databaes</footer>
-        
+ 
 </html>
 
 

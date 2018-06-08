@@ -87,7 +87,7 @@ CREATE TABLE listings (
 );
 
 CREATE TABLE sales (
-   listing SERIAL,
+   listing INT,
    buyer VARCHAR(25) NOT NULL,
    sale_date TIMESTAMP NOT NULL,
    PRIMARY KEY (listing),

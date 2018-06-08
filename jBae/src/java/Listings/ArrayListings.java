@@ -23,6 +23,7 @@ import javax.inject.Named;
 @SessionScoped
 public class ArrayListings implements Serializable {
     
+    private ArrayList<Listing> searchListing;
     private ArrayList<Listing> listings;
     private ArrayList<Listing> shoeListings;
     private ArrayList<Listing> carListings;
@@ -30,6 +31,14 @@ public class ArrayListings implements Serializable {
     private ArrayList<Listing> bookListings;
     
     private DBConnect dbConnect = new DBConnect();
+
+    public ArrayList<Listing> getSearchListing() {
+        return searchListing;
+    }
+
+    public void setSearchListing(ArrayList<Listing> searchListing) {
+        this.searchListing = searchListing;
+    }
 
     public ArrayList<Listing> getListings() throws SQLException {
         generateAll();
@@ -201,7 +210,8 @@ public class ArrayListings implements Serializable {
         con.commit();
         con.close();
     }
-        public void generateBooks() throws SQLException {
+       
+    public void generateBooks() throws SQLException {
                 
         Connection con = dbConnect.getConnection();
         
@@ -227,5 +237,13 @@ public class ArrayListings implements Serializable {
         statement.close();
         con.commit();
         con.close();
+    }
+        
+    public void generateGeneric(ResultSet rs) throws SQLException {
+                
+        searchListing = new ArrayList<>();
+       
+        setListings(rs, searchListing); 
+
     }
 }

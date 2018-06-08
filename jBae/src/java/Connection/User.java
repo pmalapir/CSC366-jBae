@@ -98,7 +98,6 @@ public class User implements Serializable {
     }
 
     public double getWallet(){
-        System.out.println("NANI");
         return wallet;
     }
     public void setWallet(double wallet){

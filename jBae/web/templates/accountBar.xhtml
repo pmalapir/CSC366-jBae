@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    
+    <h:head>
+       
+    </h:head>
+    
+    <h:body>
+        <ui:composition>
+            <div class="account_bar">
+                <h:link class="logo" value="J-Bay" outcome="index.xhtml"/>
+                <h:form>
+                    <h:panelGroup id="login_panel" rendered="#{user.loggedIn == false}">
+                        <h:inputText 
+                            id="username"
+                            value="#{login.username}"
+                            binding="#{login.loginUI}">
+                            <f:passThroughAttribute 
+                                name="placeholder" 
+                                value="Username" />
+                        </h:inputText>
+                        <h:inputText 
+                            id="Password"
+                            value="#{login.password}"
+                            validator="#{login.validateAcc}"
+                            validatorMessage="Login/Password incorrect">
+                            <f:passThroughAttribute 
+                                name="placeholder" 
+                                value="Password"/>
+                        </h:inputText>
+                        <h:message for="Password" style="color:red;margin:8px;"/>
+                        <h:button id="Register" value ="Register" outcome="Register" styleClass="account_bar_button"/>
+                        <h:commandButton id="Login" value="Login" action="#{login.login}" styleClass="account_bar_button"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup id="user_panel" rendered="#{user.loggedIn == true}">
+                        <h:commandButton id="Logout" value="Logout" action="#{login.logout}" styleClass="account_bar_button"/>
+                        <div class='login_name'>Hello, #{user.username}! Ready to shop?</div>
+                    </h:panelGroup>
+                    
+                </h:form>
+            </div>
+        </ui:composition>
+    </h:body>
+        
+</html>
+
+
+      
+
