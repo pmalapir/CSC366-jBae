@@ -34,7 +34,7 @@ CREATE TABLE items (
 );
 
 CREATE TABLE autos (
-   item_id INTEGER,
+   item_id INT,
    make TEXT NOT NULL,
    model TEXT NOT NULL,
    year INT NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE autos (
 );
 
 CREATE TABLE books (
-   item_id INTEGER,
+   item_id INT,
    title TEXT NOT NULL,
    author TEXT NOT NULL,
    genre TEXT NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE books (
 );
 
 CREATE TABLE video_games (
-   item_id INTEGER,
+   item_id INT,
    title TEXT NOT NULL,
    rating INT CHECK (rating >= 0 AND rating <= 10) NOT NULL,
    genre TEXT NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE video_games (
 );
 
 CREATE TABLE shoes (
-   item_id INTEGER,
+   item_id INT,
    brand TEXT NOT NULL,
    model TEXT NOT NULL,
    size INT CHECK (size > 0) NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE listings (
 );
 
 CREATE TABLE sales (
-   listing SERIAL,
+   listing INT,
    buyer VARCHAR(25) NOT NULL,
    sale_date TIMESTAMP NOT NULL,
    PRIMARY KEY (listing),
