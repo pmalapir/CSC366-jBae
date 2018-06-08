@@ -305,12 +305,12 @@
                 <img src="res/img/test_400x400.jpg" height="25%" width="25%"/>
 
                 <h4>Seller: Weeaboo</h4>
-                <h4>Price: $420</h4>
-                <h4>Category: Shoes</h4>
+                <h4>Price: #{listing.price}</h4>
+                <h4>Category: #{listing.category}</h4>
         <!--                AUTOS-->
-                <h:panelGroup layout="block" rendered="false">
+                <h:panelGroup layout="block" rendered="#{listing.category == 'Auto'}">
                     <h:panelGrid columns="2">
-                    Make :
+                        Make : #{car.make}
 
                     Model:
 
@@ -320,7 +320,7 @@
                 </h:panelGroup>
 
         <!--                BOOKS-->
-                <h:panelGroup layout="block" rendered="false">
+                <h:panelGroup layout="block" rendered="#{listing.category == 'Book'}">
                     <h:panelGrid columns="2">
                         Title: <br/>
                         Author:<br/>
@@ -329,7 +329,7 @@
                 </h:panelGroup>
 
         <!--                SHOES-->
-                <h:panelGroup layout="block" rendered="true">
+                <h:panelGroup layout="block" rendered="#{listing.category == 'Shoe'}">
                     <h:panelGrid columns="2">
                     Brand: Converse <br/>
                     Model: High-Tops <br/>
@@ -338,7 +338,7 @@
                 </h:panelGroup>
 
         <!--                VIDEO GAMES-->
-                <h:panelGroup layout="block" rendered="false">
+                <h:panelGroup layout="block" rendered="#{listing.category == 'Video Game'}">
                     <h:panelGrid columns="2">
                     Title:
                     Rating:

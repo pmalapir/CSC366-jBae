@@ -76,6 +76,23 @@ public class ArrayListings implements Serializable {
         this.bookListings = bookListings;
     }
     
+    public void setListings(ResultSet rs, ArrayList<Listing> array) throws SQLException {
+        while(rs.next())
+        {
+            Listing listing = new Listing();
+            listing.setListingID(rs.getInt("listing_id"));
+            listing.setPrice(rs.getInt("price"));
+            listing.setTitle(rs.getString("title"));
+            listing.setDescription(rs.getString("description"));
+            listing.setPostDate(rs.getDate("post_date").toString());
+            listing.setExpirationDate(rs.getDate("exp_date").toString());          
+            listing.setSeller(rs.getString("seller"));
+            listing.setImgSrc(rs.getString("image"));
+            listing.setCategory(rs.getString("item_type"));
+            array.add(listing);
+        }
+    }
+    
     public void generateAll() throws SQLException {
                 
         Connection con = dbConnect.getConnection();
@@ -95,20 +112,8 @@ public class ArrayListings implements Serializable {
         
         ResultSet rs = list.executeQuery();
         listings = new ArrayList<>();
+        setListings(rs, listings); 
 
-        while(rs.next())
-        {
-            Listing listing = new Listing();
-            listing.setPrice(rs.getInt("price"));
-            listing.setTitle(rs.getString("title"));
-            listing.setDescription(rs.getString("description"));
-            listing.setPostDate(rs.getDate("post_date").toString());
-            listing.setExpirationDate(rs.getDate("exp_date").toString());          
-            listing.setSeller(rs.getString("seller"));
-            listing.setImgSrc(rs.getString("image"));
-            listing.setCategory(rs.getString("item_type"));
-            listings.add(listing);
-        }
         statement.close();
         con.commit();
         con.close();
@@ -130,24 +135,13 @@ public class ArrayListings implements Serializable {
                 "SELECT *\n" +
                 "FROM listings INNER JOIN items on item = item_id\n" +
                 "WHERE status = 'active'\n" +
-                "AND item_type = 'shoes'");
+                "AND item_type = 'Shoe'");
         
         ResultSet rs = list.executeQuery();
         shoeListings = new ArrayList<>();
 
-        while(rs.next())
-        {
-            Listing listing = new Listing();
-            listing.setPrice(rs.getInt("price"));
-            listing.setTitle(rs.getString("title"));
-            listing.setDescription(rs.getString("description"));
-            listing.setPostDate(rs.getDate("post_date").toString());
-            listing.setExpirationDate(rs.getDate("exp_date").toString());          
-            listing.setSeller(rs.getString("seller"));
-            listing.setImgSrc(rs.getString("image"));
-            listing.setCategory(rs.getString("item_type"));
-            shoeListings.add(listing);
-        }
+        setListings(rs, shoeListings); 
+        
         statement.close();
         con.commit();
         con.close();
@@ -169,24 +163,13 @@ public class ArrayListings implements Serializable {
                 "SELECT *\n" +
                 "FROM listings INNER JOIN items on item = item_id\n" +
                 "WHERE status = 'active'" +
-                "AND item_type = 'video games'");
+                "AND item_type = 'Video Game'");
         
         ResultSet rs = list.executeQuery();
         videoGameListings = new ArrayList<>();
 
-        while(rs.next())
-        {
-            Listing listing = new Listing();
-            listing.setPrice(rs.getInt("price"));
-            listing.setTitle(rs.getString("title"));
-            listing.setDescription(rs.getString("description"));
-            listing.setPostDate(rs.getDate("post_date").toString());
-            listing.setExpirationDate(rs.getDate("exp_date").toString());          
-            listing.setSeller(rs.getString("seller"));
-            listing.setImgSrc(rs.getString("image"));
-            listing.setCategory(rs.getString("item_type"));
-            videoGameListings.add(listing);
-        }
+        setListings(rs, videoGameListings); 
+        
         statement.close();
         con.commit();
         con.close();
@@ -207,24 +190,13 @@ public class ArrayListings implements Serializable {
                 "SELECT *\n" +
                 "FROM listings INNER JOIN items on item = item_id\n" +
                 "WHERE status = 'active'" +
-                "AND item_type = 'autos'");
+                "AND item_type = 'Auto'");
         
         ResultSet rs = list.executeQuery();
         carListings = new ArrayList<>();
 
-        while(rs.next())
-        {
-            Listing listing = new Listing();
-            listing.setPrice(rs.getInt("price"));
-            listing.setTitle(rs.getString("title"));
-            listing.setDescription(rs.getString("description"));
-            listing.setPostDate(rs.getDate("post_date").toString());
-            listing.setExpirationDate(rs.getDate("exp_date").toString());          
-            listing.setSeller(rs.getString("seller"));
-            listing.setImgSrc(rs.getString("image"));
-            listing.setCategory(rs.getString("item_type"));
-            carListings.add(listing);
-        }
+        setListings(rs, carListings); 
+        
         statement.close();
         con.commit();
         con.close();
@@ -245,24 +217,13 @@ public class ArrayListings implements Serializable {
                 "SELECT *\n" +
                 "FROM listings INNER JOIN items on item = item_id\n" +
                 "WHERE status = 'active'" +
-                "AND item_type = 'books'");
+                "AND item_type = 'Book'");
         
         ResultSet rs = list.executeQuery();
         bookListings = new ArrayList<>();
-
-        while(rs.next())
-        {
-            Listing listing = new Listing();
-            listing.setPrice(rs.getInt("price"));
-            listing.setTitle(rs.getString("title"));
-            listing.setDescription(rs.getString("description"));
-            listing.setPostDate(rs.getDate("post_date").toString());
-            listing.setExpirationDate(rs.getDate("exp_date").toString());          
-            listing.setSeller(rs.getString("seller"));
-            listing.setImgSrc(rs.getString("image"));
-            listing.setCategory(rs.getString("item_type"));
-            bookListings.add(listing);
-        }
+        
+        setListings(rs, bookListings); 
+        
         statement.close();
         con.commit();
         con.close();

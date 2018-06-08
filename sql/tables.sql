@@ -4,8 +4,6 @@ delete from books;
 delete from shoes;
 delete from video_games;
 delete from autos;
-delete from buy_now_listings;
-delete from auction_listings;
 delete from listings;
 delete from items;
 

@@ -1,8 +1,10 @@
 package Items;
 
 import Connection.DBConnect;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
@@ -24,7 +26,7 @@ import javax.inject.Named;
 @Named(value = "car")
 @ManagedBean
 @SessionScoped
-public class Car {
+public class Car implements Serializable {
     private int itemID;
     private String make;
     private String model;
@@ -57,6 +59,37 @@ public class Car {
     }
     public void setYear(int year){
         this.year = year;
+    }
+    
+    public void findCar(int listing_id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement car = con.prepareStatement(
+            "SELECT *\n" +
+            "FROM listings INNER JOIN items on item = items.item_id\n" +
+            "INNER JOIN autos on items.item_id = autos.item_id\n" +
+            "WHERE status = 'active' AND listing_id = ?");
+        
+        car.setInt(1, listing_id);
+        
+        ResultSet rs = car.executeQuery();
+        if(rs.next()) {
+            make = rs.getString("make");
+            model = rs.getString("model");
+            year = rs.getInt("year");
+        }
+        System.out.println("HERE");
+        statement.close();
+        con.commit();
+        con.close();
     }
     
     public void createCar(int id) throws SQLException {

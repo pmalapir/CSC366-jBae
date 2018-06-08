@@ -47,8 +47,7 @@ public class Listing implements Serializable {
     private String type;
     private String imgSrc;
     private String description;
-    private String[] categories = {"Books", "Cars", "Shoes", "Video Games"};
-    private String[] listingType = {"Auction","Buy It Now"};
+    private String[] categories = {"Book", "Auto", "Shoe", "Video Game"};
     private UIInput imgUI;
     
     DBConnect dbConnect = new DBConnect();
@@ -95,14 +94,6 @@ public class Listing implements Serializable {
     
     public void setCategories(String[] categories) {
         this.categories = categories;
-    }
-    
-    public String[] getListingType() {
-        return listingType;
-    }
-    
-    public void setListingType(String[] listingType) {
-        this.listingType = listingType;
     }
     
     public String getType() {
@@ -273,19 +264,19 @@ public class Listing implements Serializable {
         
         switch (category) 
         {
-            case "Books" :
+            case "Book" :
                 Book book = getBook();
                 book.createBook(item_id);
                 break;
-            case "Cars" :
+            case "Auto" :
                 Car car = getCar();
                 car.createCar(item_id);
                 break;
-            case "Shoes" :
+            case "Shoe" :
                 Shoe shoe = getShoe();
                 shoe.createShoe(item_id);
                 break;
-            case "Video Games" :
+            case "Video Game" :
                 Videogame videogame = getVideogame();
                 videogame.createVideogame(item_id);
                 break;
@@ -295,5 +286,43 @@ public class Listing implements Serializable {
         } 
         
         createListing(item_id);
+    }
+    
+    public String findListing(Listing listing) throws SQLException {
+        
+        listingID = listing.getListingID();
+        price = listing.getPrice();
+        title = listing.getTitle();
+        description = listing.getDescription();
+        postDate = listing.getPostDate();
+        expirationDate = listing.getExpirationDate();
+        category = listing.getCategory();
+        imgSrc = listing.getImgSrc();
+        seller = listing.getSeller();
+        System.out.println(category);
+        
+        switch (category) 
+        {
+            case "Book" :
+                Book book = getBook();
+                book.findBook(listingID);
+                break;
+            case "Auto" :
+                Car car = getCar();
+                car.findCar(listingID);
+                break;
+            case "Shoe" :
+                Shoe shoe = getShoe();
+                shoe.findShoe(listingID);
+                break;
+            case "Video Game" :
+                Videogame videogame = getVideogame();
+                videogame.findVideogame(listingID);
+                break;
+            default:
+                System.out.println("no category selected");
+                break;
+        } 
+        return "Listing";
     }
 }

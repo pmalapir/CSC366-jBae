@@ -1,8 +1,10 @@
 package Items;
 
 import Connection.DBConnect;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
@@ -25,7 +27,7 @@ import javax.inject.Named;
 @ManagedBean
 @SessionScoped
 
-public class Book {
+public class Book implements Serializable {
     private String title;
     private String author;
     private String genre;
@@ -51,6 +53,37 @@ public class Book {
     }
     public void setGenre(String genre){
         this.genre = genre;
+    }
+    
+    public void findBook(int listing_id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement book = con.prepareStatement(
+            "SELECT *\n" +
+            "FROM listings INNER JOIN items on item = items.item_id\n" +
+            "INNER JOIN books on items.item_id = books.item_id\n" +
+            "WHERE status = 'active' AND listing_id = ?");
+        
+        book.setInt(1, listing_id);
+        
+        ResultSet rs = book.executeQuery();
+        if(rs.next()) {
+            title = rs.getString("title");
+            author = rs.getString("author");
+            genre = rs.getString("genre");
+        }
+        
+        statement.close();
+        con.commit();
+        con.close();
     }
     
     public void createBook(int id) throws SQLException {

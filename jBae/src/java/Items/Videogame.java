@@ -1,7 +1,9 @@
 package Items;
 import Connection.DBConnect;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.faces.bean.ManagedBean;
@@ -23,7 +25,7 @@ import javax.inject.Named;
 @Named(value = "videogame")
 @ManagedBean
 @SessionScoped
-public class Videogame {
+public class Videogame implements Serializable {
     private int itemID;
     private String title;
     private int rating;
@@ -57,6 +59,38 @@ public class Videogame {
     public void setGenre(String genre){
         this.genre = genre;
     }
+    
+    public void findVideogame(int listing_id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement videomgame = con.prepareStatement(
+            "SELECT *\n" +
+            "FROM listings INNER JOIN items on item = items.item_id\n" +
+            "INNER JOIN video_games on items.item_id = video_games.item_id\n" +
+            "WHERE status = 'active' AND listing_id = ?");
+        
+        videomgame.setInt(1, listing_id);
+        
+        ResultSet rs = videomgame.executeQuery();
+        if(rs.next()) {
+            title = rs.getString("title");
+            rating = rs.getInt("rating");
+            genre = rs.getString("genre");
+        }
+        
+        statement.close();
+        con.commit();
+        con.close();
+    }
+        
     public void createVideogame(int id) throws SQLException {
         Connection con = dbConnect.getConnection();
         

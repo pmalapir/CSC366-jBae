@@ -328,7 +328,9 @@
                             <h:outputText value="#{list.title}"/>
                         </div>
                         <div class="listing_buy">
-                            <h:button value="Purchase" outcome="Listing"/>
+                            <h:form>                            
+                                <h:commandButton value="Purchase" immediate="true" action="#{listing.findListing(list)}"/>
+                            </h:form>
                         </div>
                         <div class="listing_price">
                             <h:outputText value="$#{list.price}"/>

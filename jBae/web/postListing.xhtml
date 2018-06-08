@@ -366,7 +366,7 @@
                         <h:commandButton id="select_category" value="Go"></h:commandButton>
                         
     <!--                AUTOS-->
-                            <h:panelGroup layout="block" rendered="#{listing.category == 'Cars'}">
+                            <h:panelGroup layout="block" rendered="#{listing.category == 'Auto'}">
                                 <h:panelGrid columns="3">
                                 Make :
                                 <h:inputText class="text" id="carMake" value="#{car.make}" required="#{param['form:select_img']==null and param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Car needs the Make">
@@ -387,7 +387,7 @@
                             </h:panelGroup>
 
     <!--                BOOKS-->
-                            <h:panelGroup layout="block" rendered="#{listing.category == 'Books'}">
+                            <h:panelGroup layout="block" rendered="#{listing.category == 'Book'}">
                                 <h:panelGrid columns="3">
                                 Title:
                                 <h:inputText class="text" id="bookTitle" value="#{book.title}" required="#{param['form:select_img']==null and param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Book needs the title">
@@ -408,7 +408,7 @@
                             </h:panelGroup>
 
     <!--                SHOES-->
-                            <h:panelGroup layout="block" rendered="#{listing.category == 'Shoes'}">
+                            <h:panelGroup layout="block" rendered="#{listing.category == 'Shoe'}">
                                 <h:panelGrid columns="3">
                                 Brand
                                 <h:inputText class="text" id="shoeBrand" value="#{shoe.brand}" required="#{param['form:select_img']==null and param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Shoes needs the brand">
@@ -429,7 +429,7 @@
                             </h:panelGroup>
 
     <!--                VIDEO GAMES-->
-                            <h:panelGroup layout="block" rendered="#{listing.category == 'Video Games'}">
+                            <h:panelGroup layout="block" rendered="#{listing.category == 'Video Game'}">
                                 <h:panelGrid columns="3">
                                 Title:
                                 <h:inputText class="text" id="videogameTitle" value="#{videogame.title}" required="#{param['form:select_img']==null and param['form:select_category']==null and param['form:select_type']==null}" requiredMessage="Video Game needs the title">
