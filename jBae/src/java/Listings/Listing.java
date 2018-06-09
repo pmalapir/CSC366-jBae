@@ -13,12 +13,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.annotation.PostConstruct;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -50,7 +52,13 @@ public class Listing implements Serializable {
     private String[] categories = {"Book", "Auto", "Shoe", "Video Game"};
     private UIInput imgUI;
     
+   
     DBConnect dbConnect = new DBConnect();
+   
+    @PostConstruct
+    public void init() {
+
+    }
     
     public Listing() {
  
@@ -323,5 +331,10 @@ public class Listing implements Serializable {
                 break;
         } 
         return "Listing";
+    }
+    
+    public String checkout() throws SQLException{
+
+        return "Checkout";
     }
 }

@@ -36,58 +36,74 @@
                
             <ui:define name="result">
                <div class="bg">
-                    <h1>Best Grill</h1>
+                    <h1>#{listing.title}</h1>
+                    <h4>Seller: #{listing.seller}</h4>
                     <img src="#{listing.imgSrc}" height="25%" width="25%"/>
 
-                    <h4>Seller: Weeaboo</h4>
+
                     <h4>Price: #{listing.price}</h4>
+                    <h4>Listing expires: #{listing.expirationDate}</h4>
                     <h4>Category: #{listing.category}</h4>
+                    <div>
+                        <p>Details:</p>
+                    </div>
             <!--                AUTOS-->
-                    <h:panelGroup layout="block" rendered="#{listing.category == 'Auto'}">
-                        <h:panelGrid columns="2">
-                            Make : #{car.make}
-
-                        Model:
-
-                        Year:
-
-                        </h:panelGrid>
+                    <h:panelGroup rendered="#{listing.category == 'Auto'}">
+                           <div>
+                                <p>Make : #{car.make}</p>
+                            </div>
+                            <div>
+                                <p>Model: #{car.model}</p>
+                            </div>
+                            <div>
+                                <p>Year: #{car.year}</p>
+                            </div>
                     </h:panelGroup>
 
             <!--                BOOKS-->
-                    <h:panelGroup layout="block" rendered="#{listing.category == 'Book'}">
-                        <h:panelGrid columns="2">
-                            Title: <br/>
-                            Author:<br/>
-                            Genre:<br/>
-                        </h:panelGrid>
+                    <h:panelGroup rendered="#{listing.category == 'Book'}">
+                        <div>
+                            <p>Title: #{book.title}</p>
+                         </div>
+                         <div>
+                             <p>Author: #{book.author}</p>
+                         </div>
+                         <div>
+                             <p>Genre: #{book.genre}</p>
+                         </div>
                     </h:panelGroup>
 
             <!--                SHOES-->
-                    <h:panelGroup layout="block" rendered="#{listing.category == 'Shoe'}">
-                        <h:panelGrid columns="2">
-                        Brand: Converse <br/>
-                        Model: High-Tops <br/>
-                        Size: 69 <br/>
-                        </h:panelGrid>
+                    <h:panelGroup rendered="#{listing.category == 'Shoe'}">
+                        <div>
+                            <p>Model #{shoe.model}</p>
+                         </div>
+                         <div>
+                             <p>Brand #{shoe.brand}</p>
+                         </div>
+                         <div>
+                             <p>Size #{shoe.size}</p>
+                         </div>
                     </h:panelGroup>
 
             <!--                VIDEO GAMES-->
-                    <h:panelGroup layout="block" rendered="#{listing.category == 'Video Game'}">
-                        <h:panelGrid columns="2">
-                        Title:
-                        Rating:
-                        Genre:
-
-                        </h:panelGrid>
-                        </h:panelGroup>
+                    <h:panelGroup rendered="#{listing.category == 'Video Game'}">
+                        <div>
+                            <p>Title: #{videogame.title}</p>
+                         </div>
+                         <div>
+                             <p>Rating: #{videogame.rating}</p>
+                         </div>
+                         <div>
+                             <p>Genre: #{videogame.genre}</p>
+                         </div>
+                    </h:panelGroup>
                     <h4>Description</h4>
-                    <p> 
-                    This is the listing of the selected item.<br/>
-                    Need a way to transfer the information of the selected listing over to this page.
-                    </p>
-                    <h5>Date Posted: 11/12/2018</h5>
-                    <h:button value="Buy" />
+                    <p> #{listing.description}</p>
+                    
+                    <h:form>                            
+                        <h:commandButton class="button" value="Buy It " immediate="true" action="#{listing.checkout}"/>
+                    </h:form>
                 </div>
             </ui:define>
         </ui:composition>
