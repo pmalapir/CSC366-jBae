@@ -54,7 +54,19 @@ footer {
     background-color: grey;
     clear: left;
     text-align: center;
-    float: end;
+    float: bottom;
+}
+
+.button{
+    float: next;
+    margin: 10px;
+    padding: 7px;
+    background: #2196F3;
+    color: white;
+    font-size: 11px;
+    border: 1px solid grey;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
 }
 
 .logo{
@@ -171,6 +183,15 @@ article {
     height: 90%
 }
 
+.bg{	
+    background: #f1f1f1;	
+    height: 95%;	
+    border-top: 1px solid grey;	
+    border-bottom: 1px solid grey;
+    padding: 10px;	
+    box-sizing: border-box	
+}
+
 .listing_table{
    width: 100%;
    height: 100%;
@@ -181,7 +202,6 @@ article {
     background: #f1f1f1;
     height: 200px;
     border-top: 1px solid grey;
-    padding: 10px;
     box-sizing: border-box
 }
 

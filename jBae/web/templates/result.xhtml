@@ -15,8 +15,6 @@
             <div class="results">
                 <h:dataTable styleClass="listing_table" id="list_table" value="#{arrayListings.listings}" var="list">
                     <h:column>
-
-
                     <div class="listing">
                         <div class="listing_image">
                             <img src="#{list.imgSrc}" width="100%" height="100%"/>  
@@ -26,7 +24,7 @@
                         </div>
                         <div class="listing_buy">
                             <h:form>                            
-                                <h:commandButton value="Purchase" immediate="true" action="#{listing.findListing(list)}"/>
+                                <h:commandButton class="button" value="Purchase" immediate="true" action="#{listing.findListing(list)}"/>
                             </h:form>
                         </div>
                         <div class="listing_price">
