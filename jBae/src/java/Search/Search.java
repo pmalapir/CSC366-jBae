@@ -134,7 +134,10 @@ public class Search implements Serializable {
         return "SearchResult";
     }
     public void build_search_query() {
-        search_input = "";
+        search_input = "SELECT listings.*\n" +
+                    "   FROM buy_now_listings\n" +
+                    "   INNER JOIN listings ON buy_now_listings.listing_id = listings.listing_id\n";
+                    
         
         if(price != 0)
         {
