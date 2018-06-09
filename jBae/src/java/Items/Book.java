@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
 import javax.inject.Named;
+import javax.annotation.PostConstruct;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -31,6 +32,13 @@ public class Book implements Serializable {
     private String title;
     private String author;
     private String genre;
+    
+    @PostConstruct
+    public void init() {
+        title = "";
+        author = "";
+        genre = "";
+    }
     
     private DBConnect dbConnect = new DBConnect();
     

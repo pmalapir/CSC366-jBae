@@ -1,12 +1,14 @@
 package Connection;
 
 
+import Listings.Listing;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -39,7 +41,7 @@ public class User implements Serializable {
     private String lastName;
     private double wallet;
     private boolean admin;
-    
+    private ArrayList<Listing> orders;
     private UIInput passwordUI;
     
     private DBConnect dbConnect = new DBConnect();
@@ -112,6 +114,15 @@ public class User implements Serializable {
         this.admin = admin;
     }   
     
+    public ArrayList<Listing> getOrders() throws SQLException {
+        generateOrders();
+        return this.orders;
+    }
+
+    public void setOrders(ArrayList<Listing> orders) {
+        this.orders = orders;
+    }
+    
     public void earn() {
         System.out.println("CASH:" + wallet + 1);
         this.wallet++;
@@ -180,6 +191,49 @@ public class User implements Serializable {
         registerAccount.setBoolean(7, false);
         
         registerAccount.executeUpdate();
+        statement.close();
+        con.commit();
+        con.close();
+    }
+    
+        public void setListings(ResultSet rs, ArrayList<Listing> array) throws SQLException {
+        while(rs.next())
+        {
+            Listing listing = new Listing();
+            listing.setListingID(rs.getInt("listing_id"));
+            listing.setPrice(rs.getInt("price"));
+            listing.setTitle(rs.getString("title"));
+            listing.setDescription(rs.getString("description"));
+            listing.setPostDate(rs.getDate("post_date").toString());
+            listing.setExpirationDate(rs.getDate("exp_date").toString());          
+            listing.setSeller(rs.getString("seller"));
+            listing.setImgSrc(rs.getString("image"));
+            listing.setCategory(rs.getString("item_type"));
+            array.add(listing);
+        }
+    }
+    
+    public void generateOrders() throws SQLException {
+                
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement list = con.prepareStatement(
+                "SELECT *\n" +
+                "FROM listings INNER JOIN items on item = item_id\n" +
+                "WHERE status = 'active'");
+        
+        ResultSet rs = list.executeQuery();
+        orders = new ArrayList<>();
+        setListings(rs, orders); 
+
         statement.close();
         con.commit();
         con.close();

@@ -86,4 +86,4 @@ VALUES
 (400, 'Yeezy 500 Blush', 'Kanye 2020', CURRENT_TIMESTAMP, '2018-09-02 00:00:00', 'active', 'Shoe', 17, 'pm'),
 (200, 'Thunder Spectra Black', 'New never worn', CURRENT_TIMESTAMP, '2018-09-03 00:00:00', 'active', 'Shoe', 18, 'pm'),
 (300, 'Titan II Extra Butter', 'Issa shoe', CURRENT_TIMESTAMP, '2018-09-04 00:00:00', 'active', 'Shoe', 19, 'pm'),
-(60, 'Blakc Chuck Taylor', 'pleb shoes', CURRENT_TIMESTAMP, '2018-09-05 00:00:00', 'active', 'Shoe', 20, 'pm');
+(60, 'Black Chuck Taylor', 'pleb shoes', CURRENT_TIMESTAMP, '2018-09-05 00:00:00', 'active', 'Shoe', 20, 'pm');
