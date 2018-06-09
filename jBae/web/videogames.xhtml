@@ -11,6 +11,7 @@
 
     <body>
         <ui:composition template="templates/common.xhtml">
+            <ui:param name="type" value="#{arrayListings.videoGameListings}"/>
             <ui:define name="topNavBar">
                 <div class="topNavBar">
                     <ul class="topbar">
@@ -31,37 +32,6 @@
                         </li>
                     </ul>
                 </div>
-            </ui:define>
-               
-            <ui:define name="result">
-                <div class="results">
-                   <h:dataTable styleClass="listing_table" id="list_table" value="#{arrayListings.videoGameListings}" var="list">
-                       <h:column>
-                       <div class="listing">
-                           <div class="listing_image">
-                               <img src="#{list.imgSrc}" height="100%" width="100%"/>
-                           </div>
-                           <div class="listing_title">
-                               <h:outputText value="#{list.title}"/>
-                           </div>
-                           <div class="listing_buy">
-                               <h:form>                            
-                                   <h:commandButton value="Purchase" immediate="true" action="#{listing.findListing(list)}"/>
-                               </h:form>
-                           </div>
-                           <div class="listing_price">
-                               <h:outputText value="$#{list.price}"/>
-                           </div>
-                           <div class="listing_details">
-                               <h:outputText value="Item Type: #{list.category}"/>
-                           </div>
-                           <div class="listing_type">
-                               <h:outputText value="Listing ends: #{list.expirationDate}"/>
-                           </div>
-                       </div>
-                       </h:column>
-                   </h:dataTable>  
-               </div>
             </ui:define>
         </ui:composition>
             

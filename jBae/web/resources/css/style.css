@@ -115,11 +115,12 @@ ul.leftbar {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 25%;
+    width: 15%;
     background-color: #f1f1f1;
     position: fixed;
     height: 100%;
-    overflow: auto;    list-style-type: none;
+    overflow: auto;    
+    list-style-type: none;
 }
 
 li.leftbar a{
@@ -241,10 +242,10 @@ article {
 }
 
 .listing_buy {
+    padding-top: 120px;
+    padding-right: 5px;
     float: right;
 }
-
-
 
 .login_name{
     float:right;
