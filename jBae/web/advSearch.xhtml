@@ -18,7 +18,7 @@
                     <h4>Search by Filters</h4>    
                     <h:panelGrid columns="3">
                         Price:
-                        <h:inputText class="text" value="0" />
+                        <h:inputText class="text" value="#{search.price}" />
                         <h:selectOneMenu value="THIS">
                             <f:selectItem itemValue="less" itemLabel="Less Than or Equal"/>
                             <f:selectItem itemValue="greater" itemLabel="Greater Than or Equal"/>
@@ -107,7 +107,7 @@
                         </h:inputText>
                         </h:panelGrid>
                     </h:panelGroup>
-                    <h:commandButton id="adv_search_submit" value="Search" styleClass="adv_search_submit"/>
+                    <h:commandButton id="adv_search_submit" value="Search" action="#{search.advance_search}" styleClass="adv_search_submit"/>
                 </h:form>
             </div>
             </ui:define>

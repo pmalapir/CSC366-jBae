@@ -24,10 +24,10 @@
                         <li class="topbar-right">
                             <div class="search_bar">
                                 <h:form>
-                                    <h:inputText id="search_bar">
+                                    <h:inputText id="search_bar" value="#{search.search_input}">
                                         <f:passThroughAttribute name="placeholder" value="Search"/>
                                     </h:inputText>
-                                    <h:commandButton id="search_submit" value="Search" action="#{search.simple_title_search}" styleClass="search_submit"/>
+                                    <h:commandButton id="search_submit" value="Search" action="#{search.simple_search()}" styleClass="search_submit"/>
                                 </h:form>
                             </div>
                         </li>

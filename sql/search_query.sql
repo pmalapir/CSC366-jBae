@@ -12,7 +12,10 @@ It seems the result sorting complexity is as such...
 SELECT *
 FROM listings
 WHERE status = 'active'
-   AND LOWER(title) LIKE '%search_input%';
+   AND (LOWER(title) LIKE '%search_input%'
+   OR LOWER(seller) LIKE '%search_input%'
+   OR LOWER(item_type) LIKE '%search_input%'
+   OR LOWER(description) LIKE '%search_input%');
 
 -- all listing
 SELECT *
