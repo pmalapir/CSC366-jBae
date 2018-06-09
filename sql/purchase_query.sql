@@ -30,3 +30,9 @@ WHERE username = INPUT_BUY_USERNAME
 INSERT INTO sales (listing, buyer, sale_date)
 VALUES
 (INPUT_LISTING_ID, INPUT_BUY_USERNAME, CURRENT_TIMESTAMP);
+
+-- generate a user purchase history
+SELECT sale_date, listings.*
+FROM sales
+   INNER JOIN listings ON listings.listing_id = sales.listing
+WHERE buyer = 'INPUT USER';
