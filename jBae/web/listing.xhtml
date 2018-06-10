@@ -37,84 +37,92 @@
             <ui:define name="result">
                <div class="bg">
                     <div class="post_title">
-                        <h:outputText value="#{listing.title}"/>
+                        <h:outputText value="#{listing.title}"  
+                                      styleClass="post_h1"/>
                     </div>
                     <div class="post_seller">
-                        <h:outputText value="Seller: #{listing.seller}"/>
+                        <h:outputText value="Seller: #{listing.seller}"
+                                      styleClass="post_h2"/>
                     </div>
                     <div class ="post_image">
-                        <h:graphicImage value ="#{listing.imgSrc}"/>
+                        <h:graphicImage value ="#{listing.imgSrc}" style="height: 200px; width: 200px"/>
                     </div>
                     <div class="post_price">
-                        <h:outputText value="Price: #{listing.price}"/>
+                        <h:outputText value="Price: #{listing.price}"
+                                      styleClass="post_h2"/>
                     </div>
                     <div class="post_date">
-                        <h:outputText value="Listing expires: #{listing.expirationDate}"/>
+                        <h:outputText value="Listing expires: #{listing.expirationDate}"
+                                      styleClass="post_h2"/>
                     </div>
                     <div class="post_category">
-                        <h:outputText value="Category: #{listing.category}"/>
+                        <h:outputText value="Category: #{listing.category}"
+                                      styleClass="post_h2"/>
                     </div>
                     <div class="post_description">
-                        <h:outputText value="Description: #{listing.description}"/>
+                        <h:outputText value="Description" styleClass="post_h3"/>
+                        
                     </div>
-                    <div class="post_details">
-                        <h:outputText value="Details:"/>
-                <!--                AUTOS-->
-                        <h:panelGroup rendered="#{listing.category == 'Auto'}">
-                            <div class="post_det_1">
-                                 <h:outputText value="Make : #{car.make}"/>
-                             </div>
-                             <div class="post_det_2">
-                                 <h:outputText value="Model: #{car.model}"/>
-                             </div>
-                             <div class="post_det_3">
-                                 <h:outputText value="Year: #{car.year}"/>
-                             </div>
-                        </h:panelGroup>
+                    <div class="post_details_box">               
+                        <div class="post_details">
+                            <h:outputText value="#{listing.description}"/><br></br>
+                    <!--                AUTOS-->
+                            <h:panelGroup rendered="#{listing.category == 'Auto'}">
+                                <div class="post_det_1">
+                                     <h:outputText value="Make : #{car.make}"/>
+                                 </div>
+                                 <div class="post_det_2">
+                                     <h:outputText value="Model: #{car.model}"/>
+                                 </div>
+                                 <div class="post_det_3">
+                                     <h:outputText value="Year: #{car.year}"/>
+                                 </div>
+                            </h:panelGroup>
 
-                <!--                BOOKS-->
-                        <h:panelGroup rendered="#{listing.category == 'Book'}">
-                                                           
-                            <div class="post_det_1">
-                                <h:outputText value="Title: #{book.title}"/>
-                            </div>
-                            <div class="post_det_2">
-                                <h:outputText value="Author: #{book.author}"/>
-                            </div>
-                            <div class="post_det_3">
-                                <h:outputText value="Genre: #{book.genre}"/>
-                            </div>
-                        </h:panelGroup>
+                    <!--                BOOKS-->
+                            <h:panelGroup rendered="#{listing.category == 'Book'}">
 
-                <!--                SHOES-->
-                        <h:panelGroup rendered="#{listing.category == 'Shoe'}">
-                            <div class="post_det_1">
-                                <h:outputText value="Model #{shoe.model}"/>
-                            </div>
-                            <div class="post_det_2">
-                                <h:outputText value="Brand #{shoe.brand}"/>
-                            </div>
-                            <div class="post_det_3">
-                                <h:outputText value="Size #{shoe.size}"/>
-                            </div>
-                        </h:panelGroup>
+                                <div class="post_det_1">
+                                    <h:outputText value="Title: #{book.title}"/>
+                                </div>
+                                <div class="post_det_2">
+                                    <h:outputText value="Author: #{book.author}"/>
+                                </div>
+                                <div class="post_det_3">
+                                    <h:outputText value="Genre: #{book.genre}"/>
+                                </div>
+                            </h:panelGroup>
 
-                <!--                VIDEO GAMES-->
-                        <h:panelGroup rendered="#{listing.category == 'Video Game'}">
-                            <div class="post_det_1">
-                                <h:outputText value="Title: #{videogame.title}"/>
-                            </div>
-                            <div class="post_det_2">
-                                <h:outputText value="Rating: #{videogame.rating}"/>
-                            </div>
-                            <div class="post_det_3">
-                                <h:outputText value="Genre: #{videogame.genre}"/>
-                            </div>
-                        </h:panelGroup>
-                    </div>  
+                    <!--                SHOES-->
+                            <h:panelGroup rendered="#{listing.category == 'Shoe'}">
+                                <div class="post_det_1">
+                                    <h:outputText value="Model #{shoe.model}"/>
+                                </div>
+                                <div class="post_det_2">
+                                    <h:outputText value="Brand #{shoe.brand}"/>
+                                </div>
+                                <div class="post_det_3">
+                                    <h:outputText value="Size #{shoe.size}"/>
+                                </div>
+                            </h:panelGroup>
+
+                    <!--                VIDEO GAMES-->
+                            <h:panelGroup rendered="#{listing.category == 'Video Game'}">
+                                <div class="post_det_1">
+                                    <h:outputText value="Title: #{videogame.title}"/>
+                                </div>
+                                <div class="post_det_2">
+                                    <h:outputText value="Rating: #{videogame.rating}"/>
+                                </div>
+                                <div class="post_det_3">
+                                    <h:outputText value="Genre: #{videogame.genre}"/>
+                                </div>
+                            </h:panelGroup>
+                        </div>  
+                    </div>
                     <div class="post_purchase">
                         <h:form>                            
-                            <h:commandButton class="button" value="Buy It " immediate="true" action="#{listing.checkout}"/>
+                            <h:commandButton class="button" value="Checkout" immediate="true" action="#{listing.checkout}"/>
                         </h:form>
                     </div>
                 </div>
