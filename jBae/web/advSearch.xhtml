@@ -19,7 +19,7 @@
                     <h:panelGrid columns="3">
                         Price:
                         <h:inputText class="text" value="#{search.price}" />
-                        <h:selectOneMenu value="THIS">
+                        <h:selectOneMenu value="#{search.price_compare}">
                             <f:selectItem itemValue="less" itemLabel="Less Than or Equal"/>
                             <f:selectItem itemValue="greater" itemLabel="Greater Than or Equal"/>
                         </h:selectOneMenu>
@@ -27,7 +27,9 @@
 
                     <h:panelGrid columns="2">
                         Seller:
-                        <h:inputText class="text" value="Search by Seller ..." />
+                        <h:inputText class="text" value="#{search.seller}">
+                            <f:passThroughAttribute name="placeholder" value="eg. Seller" />
+                        </h:inputText>
                     </h:panelGrid>
 
                     Categories:

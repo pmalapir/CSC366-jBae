@@ -74,7 +74,7 @@ public class Shoe implements Serializable {
         PreparedStatement shoe = con.prepareStatement(
             "SELECT *\n" +
             "FROM listings INNER JOIN items on item = items.item_id\n" +
-            "INNER JOIN shoe on items.item_id = shoe.item_id\n" +
+            "INNER JOIN shoes on items.item_id = shoes.item_id\n" +
             "WHERE status = 'active' AND listing_id = ?");
         
         shoe.setInt(1, listing_id);

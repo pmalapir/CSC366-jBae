@@ -89,7 +89,7 @@ VALUES
 (31, 'Kia', 9, 'adventure'),
 (32, 'Bomberman', 8, 'arcade'),
 (33, 'Mii Channel', 10, 'sandbox'),
-(34, 'Fortnite', 0, 'battle royale'),
+(34, 'Fortnite', 1, 'battle royale'),
 (35, 'Megaman', 7, 'classic');
 
 INSERT INTO shoes (item_id, brand, model, size)
