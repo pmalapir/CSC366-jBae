@@ -5,10 +5,10 @@ ALTER SEQUENCE listings_listing_id_seq RESTART WITH 1;
 
 INSERT INTO users (username, password, first_name, last_name, email, wallet, admin)
 VALUES
-('js', 'password', 'Japji', 'Singh', 'jsingh29@calpoly.edu', 69, 'TRUE'),
-('dl', 'password', 'Derek', 'Lung', 'nastyeggrolls@hotmail.com', 100, 'FALSE'),
-('pm', 'password', 'Patrick', 'Malapira', 'pmalpir@calpoly.edu', 666, 'FALSE'),
-('nh', 'password', 'Nathan', 'Hong', 'nahong@calpoly.edu', 999, 'FALSE');
+('js', 'password', 'Japji', 'Singh', 'jsingh29@calpoly.edu', 10000, 'TRUE'),
+('dl', 'password', 'Derek', 'Lung', 'nastyeggrolls@hotmail.com', 10000, 'FALSE'),
+('pm', 'password', 'Patrick', 'Malapira', 'pmalpir@calpoly.edu', 10000, 'FALSE'),
+('nh', 'password', 'Nathan', 'Hong', 'nahong@calpoly.edu', 10000, 'FALSE');
 
 INSERT INTO items (image)
 VALUES

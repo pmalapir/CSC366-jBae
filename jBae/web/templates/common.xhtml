@@ -15,6 +15,10 @@
             <ui:include src="leftBar.xhtml"/>
         </ui:insert>
         
+        <ui:insert name="rightbar">
+            <ui:include src="rightbar.xhtml"/>
+        </ui:insert>
+        
         <ui:insert name="accountBar">
             <ui:include src="accountBar.xhtml"/>
         </ui:insert>
@@ -27,11 +31,12 @@
            <ui:insert name="result">
                <ui:include src="result.xhtml"/>
            </ui:insert>
-        </div>
+        
        
-        <ui:insert name="footer">
-            <ui:include src ="footer.xhtml"/>
-        </ui:insert>
+            <ui:insert name="footer">
+                <ui:include src ="footer.xhtml"/>
+            </ui:insert>
+        </div>
     </h:body>
         
 </html>
