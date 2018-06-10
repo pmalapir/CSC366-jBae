@@ -214,6 +214,8 @@ article {
 }
 
 .listing_title {
+    position: relative;
+    top: 8px;
     margin-left: 200px;
     padding-bottom: 10px;
     font-weight: 600; 
@@ -252,4 +254,52 @@ article {
     font-size: 16px;
     padding: 4px;
     font-weight:  500;
+}
+
+.post_title{
+    
+}
+
+.post_seller{
+    
+}
+
+.post_image{
+    
+}
+
+.post_price{
+    
+}
+
+.post_date{
+    
+}
+
+.post_category{
+    
+}
+
+.post_description{
+    
+}
+
+.post_details{
+    
+}
+
+.post_det_1{
+    
+}
+
+.post_det_2{
+    
+}
+
+.post_det_3{
+    
+}
+
+.post_purchase{
+    
 }

@@ -9,10 +9,44 @@
 
           
     </head>
-    <h:body>
+<body>
         <ui:composition template="templates/common.xhtml">
-            <ui:param name="type" value="#{arrayListings.carListings}"/>
+            <ui:define name="topNavBar">
+                <div class="topNavBar">
+                    <ul class="topbar">
+                        <li class="topbar"><h:link value="Home" outcome="index.xhtml"/></li>
+                        <li class="topbar"><h:link value="Cars" outcome="cars.xhtml"/></li>
+                        <li class="topbar"><h:link value="Books" outcome="books.xhtml"/></li>
+                        <li class="topbar"><h:link value="Shoes" outcome="shoes.xhtml"/></li>
+                        <li class="topbar"><h:link value="Video Games" outcome="videogames.xhtml"/></li>
+                        <li class="topbar-right">
+                            <div class="search_bar">
+                                <h:form>
+                                    <h:inputText id="search_bar">
+                                        <f:passThroughAttribute name="placeholder" value="Search"/>
+                                    </h:inputText>
+                                    <h:commandButton id="search_submit" value="Search" styleClass="search_submit"/>
+                                </h:form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </ui:define>
+               
+            <ui:define name="result">
+               <div class="bg">
+                   <h1> Checkout</h1>
+                    <h4>#{listing.title}</h4>
+                    <h4>Seller: #{listing.seller}</h4>
+                    <h4>Price: #{listing.price}</h4>
+                    
+                    <h4>Current balance: #{user.wallet}</h4>
+                    
+                    <h:form>                            
+                        <h:commandButton class="button" value="Purchase" immediate="true" action="#{listing.checkout}"/>
+                    </h:form>
+                </div>
+            </ui:define>
         </ui:composition>
-    </h:body>
-    
+    </body>
 </html>
