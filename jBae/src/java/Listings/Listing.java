@@ -49,6 +49,7 @@ public class Listing implements Serializable {
     private String type;
     private String imgSrc;
     private String description;
+    private String message = "";
     private String[] categories = {"Book", "Auto", "Shoe", "Video Game"};
     private UIInput imgUI;
     
@@ -62,6 +63,14 @@ public class Listing implements Serializable {
     
     public Listing() {
  
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
     
     public int getListingLength() {
@@ -224,7 +233,7 @@ public class Listing implements Serializable {
         listing.setString(6, "active");
         listing.setString(7, category);
         listing.setInt(8, item_id);
-        listing.setString(9, getUser());
+        listing.setString(9, getUser().getUsername());
 
         listing.executeUpdate();
         ResultSet keys = listing.getGeneratedKeys();
@@ -237,10 +246,10 @@ public class Listing implements Serializable {
         return id;
     }
     
-    public String getUser() throws SQLException {
+    public User getUser() throws SQLException {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         User user = (User) elContext.getELResolver().getValue(elContext, null, "user");
-        return user.getUsername();
+        return user;
     }
         
     public Book getBook() throws SQLException {
@@ -334,7 +343,12 @@ public class Listing implements Serializable {
     }
     
     public String checkout() throws SQLException{
-
+        User user = getUser();
+        
+        if(user.getWallet() < price)
+        {
+            message = "Balance is too low!";
+        }
         return "Checkout";
     }
 }

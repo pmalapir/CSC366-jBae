@@ -272,7 +272,6 @@ public class Search implements Serializable {
         }
         
         fillCategories(listing);
-        System.out.println(search_input);
     }
     
     public String advance_search() throws SQLException {

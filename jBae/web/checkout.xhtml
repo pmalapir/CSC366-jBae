@@ -22,10 +22,10 @@
                         <li class="topbar-right">
                             <div class="search_bar">
                                 <h:form>
-                                    <h:inputText id="search_bar">
+                                    <h:inputText id="search_bar" value="#{search.search_input}">
                                         <f:passThroughAttribute name="placeholder" value="Search"/>
                                     </h:inputText>
-                                    <h:commandButton id="search_submit" value="Search" styleClass="search_submit"/>
+                                    <h:commandButton id="search_submit" value="Search" action="#{search.simple_search}" styleClass="search_submit"/>
                                 </h:form>
                             </div>
                         </li>
@@ -39,11 +39,13 @@
                     <h4>#{listing.title}</h4>
                     <h4>Seller: #{listing.seller}</h4>
                     <h4>Price: #{listing.price}</h4>
-                    
+
                     <h4>Current balance: #{user.wallet}</h4>
-                    
+                    <h4>#{listing.message}</h4>
                     <h:form>                            
-                        <h:commandButton class="button" value="Purchase" immediate="true" action="#{listing.checkout}"/>
+                        <h:commandButton class="button" value="Purchase" action="#{listing.checkout}">
+                           
+                        </h:commandButton>
                     </h:form>
                 </div>
             </ui:define>

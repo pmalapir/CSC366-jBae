@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/src/java/Listings/Listing.java</file>
-            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/src/java/Search/Search.java</file>
-            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/web/advSearch.xhtml</file>
+            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/web/templates/leftBar.xhtml</file>
+            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/web/WEB-INF/web.xml</file>
+            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/web/WEB-INF/faces-config.xml</file>
+            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/web/templates/footer.xhtml</file>
+            <file>file:/home/derek/NetBeansProjects/CSC366-jBae/jBae/web/templates/rightbar.xhtml</file>
         </group>
     </open-files>
 </project-private>
