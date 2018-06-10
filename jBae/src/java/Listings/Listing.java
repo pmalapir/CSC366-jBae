@@ -277,6 +277,9 @@ public class Listing implements Serializable {
     }
      
     public String submitSell() throws SQLException {
+        if(!getUser().isLoggedIn())
+            return "Post";
+        
         int item_id = createItem();
         
         switch (category) 
