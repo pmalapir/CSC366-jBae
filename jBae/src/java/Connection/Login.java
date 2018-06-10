@@ -119,6 +119,7 @@ public class Login implements Serializable{
         User user = (User) elContext.getELResolver().getValue(elContext, null, "user");
         return user;
     }
+    
     public void login() throws SQLException {
         User user = getUser();
         Connection con = dbConnect.getConnection();
@@ -140,26 +141,16 @@ public class Login implements Serializable{
         ResultSet rs = findUser.executeQuery();
         if(rs.next())
         {
-            user.setLoggedIn(true);
-            user.setUsername(rs.getString("username"));
-            user.setFirstName(rs.getString("first_name"));
-            user.setLastName(rs.getString("last_name"));
-            user.setEmail(rs.getString("email"));
-            user.setAdmin(rs.getBoolean("admin"));
-            user.setWallet(rs.getDouble("wallet"));
+            user.setData(rs);
         }
         statement.close();
         con.commit();
         con.close();
     }
     
-    public void logout() {
+    public void logout() throws SQLException {
         User user = getUser();
-        user.setLoggedIn(false);
-        user.setUsername("");
-        user.setPassword("");
-        user.setEmail("");
-        user.setWallet(0);
-        user.setAdmin(false);
+        user.setUserWallet();
+        user.unsetData();
     }
 }

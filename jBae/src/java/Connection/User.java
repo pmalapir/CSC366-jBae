@@ -41,7 +41,7 @@ public class User implements Serializable {
     private String lastName;
     private double wallet;
     private boolean admin;
-    private ArrayList<Listing> orders;
+//    private ArrayList<Listing> orders;
     private UIInput passwordUI;
     
     private DBConnect dbConnect = new DBConnect();
@@ -114,14 +114,14 @@ public class User implements Serializable {
         this.admin = admin;
     }   
     
-    public ArrayList<Listing> getOrders() throws SQLException {
-        generateOrders();
-        return this.orders;
-    }
+//    public ArrayList<Listing> getOrders() throws SQLException {
+//        generateOrders();
+//        return this.orders;
+//    }
 
-    public void setOrders(ArrayList<Listing> orders) {
-        this.orders = orders;
-    }
+//    public void setOrders(ArrayList<Listing> orders) {
+//        this.orders = orders;
+//    }
     
     public void earn() {
         System.out.println("CASH:" + wallet + 1);
@@ -196,25 +196,26 @@ public class User implements Serializable {
         con.close();
     }
     
-        public void setListings(ResultSet rs, ArrayList<Listing> array) throws SQLException {
-        while(rs.next())
-        {
-            Listing listing = new Listing();
-            listing.setListingID(rs.getInt("listing_id"));
-            listing.setPrice(rs.getInt("price"));
-            listing.setTitle(rs.getString("title"));
-            listing.setDescription(rs.getString("description"));
-            listing.setPostDate(rs.getDate("post_date").toString());
-            listing.setExpirationDate(rs.getDate("exp_date").toString());          
-            listing.setSeller(rs.getString("seller"));
-            listing.setImgSrc(rs.getString("image"));
-            listing.setCategory(rs.getString("item_type"));
-            array.add(listing);
-        }
+    public void setData(ResultSet rs) throws SQLException {
+        setLoggedIn(true);
+        setUsername(rs.getString("username"));
+        setFirstName(rs.getString("first_name"));
+        setLastName(rs.getString("last_name"));
+        setEmail(rs.getString("email"));
+        setAdmin(rs.getBoolean("admin"));
+        setWallet(rs.getDouble("wallet"));
     }
     
-    public void generateOrders() throws SQLException {
-                
+    public void unsetData() {
+        setLoggedIn(false);
+        setUsername("");
+        setPassword("");
+        setEmail("");
+        setWallet(0);
+        setAdmin(false);
+    }
+    
+    public void setUserWallet() throws SQLException {
         Connection con = dbConnect.getConnection();
         
         if (con == null) {
@@ -225,17 +226,87 @@ public class User implements Serializable {
         
         Statement statement = con.createStatement();
                 
-        PreparedStatement list = con.prepareStatement(
-                "SELECT *\n" +
-                "FROM listings INNER JOIN items on item = item_id\n" +
-                "WHERE status = 'active'");
+        PreparedStatement findUser = con.prepareStatement(
+            "UPDATE users SET wallet = ?\n"
+                    + "WHERE username = ?");
         
-        ResultSet rs = list.executeQuery();
-        orders = new ArrayList<>();
-        setListings(rs, orders); 
+        findUser.setDouble(1, wallet);
+        findUser.setString(2, username);
+        
+        findUser.executeUpdate();
 
         statement.close();
         con.commit();
         con.close();
     }
+    public void getUserUpdate() throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement findUser = con.prepareStatement(
+            "SELECT wallet "
+                    + "FROM users WHERE username = ?");
+        
+        findUser.setString(1, username);
+        
+        ResultSet rs = findUser.executeQuery();
+        if(rs.next())
+        {
+            setWallet(rs.getDouble("wallet"));
+            System.out.println("DEBUG : " + rs.getDouble("wallet"));
+        }
+        statement.close();
+        con.commit();
+        con.close();
+    }
+    
+//    public void setListings(ResultSet rs, ArrayList<Listing> array) throws SQLException {
+//        while(rs.next())
+//        {
+//            Listing listing = new Listing();
+//            listing.setListingID(rs.getInt("listing_id"));
+//            listing.setPrice(rs.getInt("price"));
+//            listing.setTitle(rs.getString("title"));
+//            listing.setDescription(rs.getString("description"));
+//            listing.setPostDate(rs.getDate("post_date").toString());
+//            listing.setExpirationDate(rs.getDate("exp_date").toString());          
+//            listing.setSeller(rs.getString("seller"));
+//            listing.setImgSrc(rs.getString("image"));
+//            listing.setCategory(rs.getString("item_type"));
+//            array.add(listing);
+//        }
+//    }
+    
+//    public void generateOrders() throws SQLException {
+//                
+//        Connection con = dbConnect.getConnection();
+//        
+//        if (con == null) {
+//            throw new SQLException("Can't get database connection");
+//        }
+//        
+//        con.setAutoCommit(false);
+//        
+//        Statement statement = con.createStatement();
+//                
+//        PreparedStatement list = con.prepareStatement(
+//                "SELECT *\n" +
+//                "FROM listings INNER JOIN items on item = item_id\n" +
+//                "WHERE status = 'active'");
+//        
+//        ResultSet rs = list.executeQuery();
+//        orders = new ArrayList<>();
+//        setListings(rs, orders); 
+//
+//        statement.close();
+//        con.commit();
+//        con.close();
+//    }
 }

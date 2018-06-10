@@ -341,14 +341,96 @@ public class Listing implements Serializable {
         } 
         return "Listing";
     }
+    public String preCheckout() throws SQLException{
+        getUser().setUserWallet();
+        message = "";
+        return "Checkout";
+    }
     
+    public void checkout_query() throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        con.setAutoCommit(false);
+
+        Statement statement = con.createStatement();
+
+        PreparedStatement update_listing = con.prepareStatement(
+                    "UPDATE listings\n" +
+                    "SET status = 'closed'\n" +
+                    "WHERE listing_id = ?\n" +
+                    "   AND price <= (\n" +
+                    "      SELECT wallet\n" +
+                    "      FROM users\n" +
+                    "      WHERE username = ?)");
+        
+        update_listing.setInt(1, listingID);
+        update_listing.setString(2, getUser().getUsername());
+        update_listing.executeUpdate();
+        
+        PreparedStatement update_buyer_wallet = con.prepareStatement(
+                    "UPDATE users\n" +
+                    "SET wallet = wallet - (\n" +
+                    "   SELECT price\n" +
+                    "   FROM listings\n" +
+                    "   WHERE listing_id = ?)\n" +
+                    "WHERE username = ?\n" +
+                    "   AND wallet >= (\n" +
+                    "      SELECT price\n" +
+                    "      FROM listings\n" +
+                    "      WHERE listing_id = ?)");
+        
+        update_buyer_wallet.setInt(1, listingID);
+        update_buyer_wallet.setString(2, getUser().getUsername());
+        update_buyer_wallet.setInt(3, listingID);
+        update_buyer_wallet.executeUpdate();
+        
+        PreparedStatement update_seller_wallet = con.prepareStatement(
+                    "UPDATE users\n" +
+                    "SET wallet = wallet + (\n" +
+                    "   SELECT price\n" +
+                    "   FROM listings\n" +
+                    "   WHERE listing_id = ?)\n" +
+                    "WHERE username = (\n" +
+                    "   SELECT seller\n" +
+                    "   FROM listings\n" +
+                    "   WHERE listing_id = ?);");
+        
+        update_seller_wallet.setInt(1, listingID);
+        update_seller_wallet.setInt(2, listingID);
+        update_seller_wallet.executeUpdate();
+        
+        PreparedStatement create_sale_record = con.prepareStatement(
+            "INSERT INTO sales (listing, buyer, sale_date)\n" +
+            "VALUES\n" +
+            "(?, ?, CURRENT_TIMESTAMP);");
+        
+        create_sale_record.setInt(1, listingID);
+        create_sale_record.setString(2, getUser().getUsername());
+        create_sale_record.executeUpdate();
+
+        statement.close();
+        con.commit();
+        con.close();
+        
+        getUser().getUserUpdate();
+    }
     public String checkout() throws SQLException{
         User user = getUser();
-        
         if(user.getWallet() < price)
         {
             message = "Balance is too low!";
+            return "Checkout";
         }
-        return "Checkout";
+        
+        else
+        {
+            checkout_query();
+            return "OrderHistory";
+        }
+
     }
 }

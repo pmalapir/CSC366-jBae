@@ -6,6 +6,7 @@
 package Listings;
 
 import Connection.DBConnect;
+import Connection.User;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,8 +15,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named(value = "arrayListings")
@@ -29,8 +32,18 @@ public class ArrayListings implements Serializable {
     private ArrayList<Listing> carListings;
     private ArrayList<Listing> videoGameListings;
     private ArrayList<Listing> bookListings;
+    private ArrayList<Listing> historyListings;
     
     private DBConnect dbConnect = new DBConnect();
+
+    public ArrayList<Listing> getHistoryListings() throws SQLException {
+        generateHistory();
+        return historyListings;
+    }
+
+    public void setHistoryListings(ArrayList<Listing> historyListings) {
+        this.historyListings = historyListings;
+    }
 
     public ArrayList<Listing> getSearchListing() {
         return searchListing;
@@ -113,7 +126,13 @@ public class ArrayListings implements Serializable {
         con.setAutoCommit(false);
         
         Statement statement = con.createStatement();
-                
+        PreparedStatement update = con.prepareStatement(
+                "UPDATE listings\n" +
+                "SET status = 'closed'\n" +
+                "WHERE exp_date <= CURRENT_TIMESTAMP;");
+        
+        update.executeUpdate();
+        
         PreparedStatement list = con.prepareStatement(
                 "SELECT *\n" +
                 "FROM listings INNER JOIN items on item = item_id\n" +
@@ -239,11 +258,46 @@ public class ArrayListings implements Serializable {
         con.close();
     }
         
+    public void generateHistory() throws SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        Statement statement = con.createStatement();
+                
+        PreparedStatement list = con.prepareStatement(
+                "SELECT * \n" +
+                "FROM sales\n" +
+                "   INNER JOIN listings ON listings.listing_id = sales.listing\n" +
+                "   INNER JOIN items on item = item_id\n" +
+                "WHERE buyer = ?");
+        
+        list.setString(1, getUser().getUsername());
+        ResultSet rs = list.executeQuery();
+        historyListings = new ArrayList<>();
+        
+        setListings(rs, historyListings); 
+        
+        statement.close();
+        con.commit();
+        con.close();
+    }
+    
     public void generateGeneric(ResultSet rs) throws SQLException {
                 
         searchListing = new ArrayList<>();
        
         setListings(rs, searchListing); 
 
+    }
+    
+    public User getUser() throws SQLException {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        User user = (User) elContext.getELResolver().getValue(elContext, null, "user");
+        return user;
     }
 }
