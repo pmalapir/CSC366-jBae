@@ -276,7 +276,7 @@ public class Listing implements Serializable {
         return videogame;
     }
      
-    public void submitSell() throws SQLException {
+    public String submitSell() throws SQLException {
         int item_id = createItem();
         
         switch (category) 
@@ -303,6 +303,8 @@ public class Listing implements Serializable {
         } 
         
         createListing(item_id);
+        
+        return "Home";
     }
     
     public String findListing(Listing listing) throws SQLException {
