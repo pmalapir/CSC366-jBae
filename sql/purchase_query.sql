@@ -26,6 +26,17 @@ WHERE username = INPUT_BUY_USERNAME
       FROM listings
       WHERE listing_id = INPUT_LISTING_ID);
 
+-- update seller wallet after purchase
+UPDATE users
+SET wallet = wallet + (
+   SELECT price
+   FROM listings
+   WHERE listing_id = INPUT_LISTING_ID)
+WHERE username = (
+   SELECT seller
+   FROM listings
+   WHERE listing_id = INPUT_LISTING_ID);
+
 -- generate sale record
 INSERT INTO sales (listing, buyer, sale_date)
 VALUES
