@@ -79,6 +79,9 @@ footer {
 }
 
 .logo{
+    text-decoration: none;
+    padding-top: 10px;
+    padding-left: 16%;
     float:left;
     font-size: 24px;
 }         
