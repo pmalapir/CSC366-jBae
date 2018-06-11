@@ -23,13 +23,14 @@
 .account_bar_button{
     float: right;
     width: 10%;
-    padding: 7px;
+    padding: 9px;
     background: #2196F3;
     color: white;
     font-size: 11px;
     border: 1px solid grey;
     border-left: none; /* Prevent double borders */
     cursor: pointer;
+    
 }
 
 .account_bar input[type=text] {
@@ -50,8 +51,8 @@ header{
 
 footer {
     position: relative;
-    left: -10px;
-    width: 74%;
+    left: 0 px;
+    width: 73.5%;
     padding: 1em;
     color: white;
     background-color: grey;
@@ -62,7 +63,7 @@ footer {
 
 .ad_bottom{
     position: relative;
-    left: -5px;
+    left: 0px;
     width: 75%;
 }
 
@@ -181,7 +182,7 @@ article {
  .search_submit{
     float: left;
     width: 30%;
-    padding: 8px;
+    padding: 9.5px;
     background: #2196F3;
     color: white;
     font-size: 17px;
@@ -210,6 +211,16 @@ article {
 }
 
 .bg{
+    width: 100%;
+    background: #f1f1f1;	
+    height: 95%;	
+    border-top: 1px solid grey;	
+    border-bottom: 1px solid grey;
+    padding: 10px;	
+    box-sizing: border-box	
+}
+
+.bg_listing{
     width: 75%;
     background: #f1f1f1;	
     height: 95%;	
