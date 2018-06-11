@@ -8,7 +8,6 @@ delete from listings;
 delete from items;
 
 -- quick clear
--- change 'buy_now_listing' to 'buy_it_now_listing', I shortened the name later on
 DROP TABLE autos, books, shoes, video_games, sales, listings, users, items;
 
 CREATE TABLE users (
@@ -71,7 +70,7 @@ CREATE TABLE shoes (
 
 CREATE TABLE listings (
    listing_id SERIAL,
-   price REAL CHECK (price > 0) NOT NULL, -- moved price here for simplicity, acts as both (price & current bid)
+   price REAL CHECK (price > 0) NOT NULL,
    title TEXT NOT NULL,
    description TEXT,
    post_date TIMESTAMP NOT NULL,
